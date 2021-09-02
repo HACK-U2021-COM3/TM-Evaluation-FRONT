@@ -1,21 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import AppHeader from './components/layouts/AppHeader';
-import AppLoginHeader from './components/layouts/AppLoginHeader';
+import AppHeader from './components/commons/layouts/AppHeader';
+import AppLoginHeader from './components/commons/layouts/AppLoginHeader';
 import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/compat/app';
 import firebaseConfig from './firebase-config';
 import { ChakraProvider } from "@chakra-ui/react"
+import {BrowserRouter} from 'react-router-dom';
 
 firebase.initializeApp(firebaseConfig)
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider>
-      <AppLoginHeader />
-      <App />
-    </ChakraProvider>
+    <BrowserRouter>
+      <ChakraProvider>
+        <AppLoginHeader />
+        <App />
+      </ChakraProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

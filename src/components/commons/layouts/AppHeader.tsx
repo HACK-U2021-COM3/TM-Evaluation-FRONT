@@ -4,11 +4,8 @@ import {
   Flex,
   HStack,
   Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
 } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import SearchInput from '../forms/SearchInput';
 
 
 const AppHeader: React.VFC = () =>  {
@@ -17,10 +14,7 @@ const AppHeader: React.VFC = () =>  {
       <Box shadow={"sm"} border="1px" borderColor="gray.200" px={4}>
         <Flex maxW="1920px" mx="auto" h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
-            <InputGroup>
-            <InputLeftElement pointerEvents="none" children={<SearchIcon color="gray.300" />} />
-            <Input rounded="3xl" bgColor="white" w="520px" type="text" placeholder="search..." />
-            </InputGroup>
+            <SearchInput />
           </HStack>
           <HStack>
               <Button colorScheme="blue">ログイン</Button>
