@@ -14,7 +14,6 @@ import {
     Center,
     UnorderedList,
     ListItem,
-    Divider
 } from "@chakra-ui/react";
 
 
@@ -32,14 +31,14 @@ const App: React.VFC = () => {
                     <LeafletMap geojson={japan} />
                 </GridItem>
                 <GridItem colSpan={2}>
-                    <Box w="100%" height="100%" shadow="lg" rounded="xl">
+                    <Box w="100%" height="100%" shadow="sm" border="1px" borderColor="gray.200" rounded="xl">
                         <Center>
                             aaaaa
                         </Center>
                     </Box>
                 </GridItem>
                 <GridItem colSpan={2} >
-                <Box w="100%" height="100%" shadow="lg" rounded="xl">
+                <Box w="100%" height="100%" shadow="sm" border="1px" borderColor="gray.200" rounded="xl">
                         <Center>
                             aaaaa
                         </Center>
@@ -63,13 +62,12 @@ const App: React.VFC = () => {
                                         <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
                                         <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
                                         <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
+                                        <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
                                         <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
                                         <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
                                         <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
                                         <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
                                         <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
-
                                     </UnorderedList>
                                     </Box>
                                 </TabPanel>

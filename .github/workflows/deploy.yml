@@ -1,0 +1,28 @@
+name: deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install Dependencies
+        run: |
+          npm ci
+      - name: Generate file
+        run: |
+          npm run generate
+      - name: deploy hosting
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting --project 
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import AppHeader from './components/layouts/AppHeader';
+import AppLoginHeader from './components/layouts/AppLoginHeader';
 import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/compat/app';
 import firebaseConfig from './firebase-config';
@@ -12,7 +13,7 @@ firebase.initializeApp(firebaseConfig)
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
-      <AppHeader />
+      <AppLoginHeader />
       <App />
     </ChakraProvider>
   </React.StrictMode>,
