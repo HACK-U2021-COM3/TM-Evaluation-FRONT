@@ -14,14 +14,16 @@ import {
     Center,
     UnorderedList,
     ListItem,
+    Text,
+    Button
 } from "@chakra-ui/react";
 
-
-
+//TODO
+const isLogin = false
 
 const App: React.VFC = () => {
     return(
-        <Box py="8" px="6">
+        <Box maxW="1920px" mx="auto" py="8" px="6">
             <Grid
                 templateRows="repeat(2, 1fr)"
                 templateColumns="repeat(5, 1fr)"
@@ -57,19 +59,30 @@ const App: React.VFC = () => {
                                 </Box>
                                 </TabPanel>
                                 <TabPanel>
-                                    <Box overflowY="scroll" h="265px">
-                                    <UnorderedList listStyleType="none" border="gray.100">
-                                        <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
-                                        <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
-                                    </UnorderedList>
-                                    </Box>
+                                        {!isLogin ? (
+                                            <Box __before={{
+                                                "content": "''",
+                                                "bgImage": "url('/images/login.svg')",
+                                                "bgRepeat": "no-repeat",
+                                            }}>
+                                                <Text fontWeight="bold" fontSize="lg">予定を保存するには<br/>ログインしよう!</Text>
+                                                <Button colorScheme="blue">ログインする</Button>
+                                            </Box>
+                                        ) : (
+                                            <Box overflowY="scroll" h="265px">
+                                                <UnorderedList listStyleType="none" border="gray.100">
+                                                    <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
+                                                    <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
+                                                    <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
+                                                    <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
+                                                    <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
+                                                    <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
+                                                    <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
+                                                    <ListItem py="4" px="6" bgColor="white">sssss</ListItem>
+                                                    <ListItem py="4" px="6" bgColor="gray.200">sssss</ListItem>
+                                                </UnorderedList>
+                                            </Box>
+                                        )}
                                 </TabPanel>
                             </TabPanels>
                     </Tabs>

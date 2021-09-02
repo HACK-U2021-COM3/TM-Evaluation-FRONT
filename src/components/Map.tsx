@@ -26,7 +26,7 @@ const LeafletMap: React.VFC<Props> = ({ geojson }) => {
     });
 
     return(
-        <MapContainer center={position} zoom={zoom} style={{ height: "720px", width: "800px" }}>
+        <MapContainer center={position} zoom={zoom} style={{ height: "720px", width: "750px", maxWidth: "900px", maxHeight: "800px" }}>
             <TileLayer
                 attribution='&amp;copy <a href="http://osm.org/copyright";>OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
