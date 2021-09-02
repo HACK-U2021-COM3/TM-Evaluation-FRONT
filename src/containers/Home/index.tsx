@@ -1,18 +1,17 @@
 import React from "react";
-import LeafletMap from "../../components/Map";
+import LeafletMap from "../../components/commons/objects/Map";
 import japan from "../../data/ja.json"
-
 import TabMenuComponent from "../../components/commons/objects/TabMenu";
-
 import { 
     Box,
     Grid,
     GridItem,
     Center,
 } from "@chakra-ui/react";
+import Loader from "../../components/commons/objects/Loader";
 
 const Home: React.VFC = () => {
-    return(
+    return !japan ? <Loader /> : (
         <Box maxW="1920px" mx="auto" py="6" px="6">
             <Grid
                 templateRows="repeat(2, 1fr)"
