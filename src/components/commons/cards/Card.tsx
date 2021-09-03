@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 const Card: React.VFC = () => {
 return (
     <Box mb="4">
-        <Link to="/hoge/1">
+        <Link to="/hoge/plans/1">
             <Box
                 minW={'330px'}
                 w={'full'}
