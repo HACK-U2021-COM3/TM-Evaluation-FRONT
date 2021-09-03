@@ -1,14 +1,15 @@
 import React from "react";
 import LeafletMap from "../../components/commons/objects/Map";
 import japan from "../../data/ja.json"
-import TabMenuComponent from "../../components/commons/objects/TabMenu";
 import { 
     Box,
     Grid,
     GridItem,
     Center,
+    Heading
 } from "@chakra-ui/react";
 import Loader from "../../components/commons/objects/Loader";
+import TimelineComponent from "../../components/commons/objects/Timeline";
 
 const Home: React.VFC = () => {
     return !japan ? <Loader /> : (
@@ -36,7 +37,12 @@ const Home: React.VFC = () => {
                     </Box>
                 </GridItem>
                 <GridItem colSpan={4} rowSpan={2}>
-                    <TabMenuComponent />
+                    < Heading fontSize={'2xl'} fontWeight={"bold"}>
+                        予定経路
+                    </Heading>
+                    <Box bgColor="gray.100" overflowY="scroll" h="358px" py="4" rounded="xl">
+                        <TimelineComponent />
+                    </Box>
                 </GridItem>
             </Grid>
         </Box>

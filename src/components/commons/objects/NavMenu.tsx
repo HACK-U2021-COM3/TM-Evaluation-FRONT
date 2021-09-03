@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import {
     Avatar,
     Button,
@@ -6,6 +7,7 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
+    Divider,
 } from '@chakra-ui/react';
 
 const NavMenu: React.VFC = () => {
@@ -25,6 +27,12 @@ const NavMenu: React.VFC = () => {
           />
         </MenuButton>
         <MenuList>
+        <MenuItem>
+        <Link to="/hoge">
+          プロフィール
+        </Link>
+        </MenuItem>
+        <Divider />
           <MenuItem>ログアウト</MenuItem>
         </MenuList>
       </Menu>

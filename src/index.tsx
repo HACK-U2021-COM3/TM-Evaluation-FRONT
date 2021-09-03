@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import AppHeader from './components/commons/layouts/AppHeader';
-import AppLoginHeader from './components/commons/layouts/AppLoginHeader';
 import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/compat/app';
 import firebaseConfig from './firebase-config';
@@ -15,7 +13,6 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider>
-        <AppLoginHeader />
         <App />
       </ChakraProvider>
     </BrowserRouter>
