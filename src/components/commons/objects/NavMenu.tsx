@@ -1,5 +1,4 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {
     Avatar,
     Button,
@@ -9,8 +8,14 @@ import {
     MenuItem,
     Divider,
 } from '@chakra-ui/react';
+import { GoogleService } from "lib/services/google/GoogleService";
 
-const NavMenu: React.VFC = () => {
+const NavMenu: React.VFC<{user: {name:  string, imageUrl: string}}> = ({user}) => {
+  const history = useHistory()
+    const handleLogout = async () => {
+      await (new GoogleService()).logoutWithGoogle()
+      history.go(0)
+    }
     return(
         <Menu>
         <MenuButton
@@ -21,9 +26,7 @@ const NavMenu: React.VFC = () => {
           minW={0}>
           <Avatar
             size={'sm'}
-            src={
-              'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-            }
+            src={user.imageUrl}
           />
         </MenuButton>
         <MenuList>
@@ -33,7 +36,7 @@ const NavMenu: React.VFC = () => {
         </Link>
         </MenuItem>
         <Divider />
-          <MenuItem>ログアウト</MenuItem>
+          <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
         </MenuList>
       </Menu>
     );

@@ -4,9 +4,21 @@ import { GoogleService } from "./google/GoogleService";
 
 export class UsersService extends ApiHeader {
     async getUser(): Promise<any> {
-        const id_token = await (new GoogleService()).loginWithGoogle()
-        const {data} = await axios.get(`${this.url}/`,{id_token, ...this.config})
-        localStorage.setItem("token", data.token)
-        return data
+        try {
+            // const {data} = await axios.get(`${this.url}/`,tokenId)
+            const token = "aaaaaaaaa"
+            return {token}
+        }catch(e) {
+            localStorage.clear()
+            throw e;
+        }
+    }
+
+    async logout(): Promise<any> {
+        try {
+            localStorage.clear()
+        }catch(e) {
+            throw e
+        }
     }
 }

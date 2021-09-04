@@ -2,15 +2,18 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import HomeLoginComponent from "components/Home/HomeLogin";
 import HomeGuestComponent from "components/Home/HomeGuest";
-import ProfileComponent from "./components/Profile";
+import ProfileComponent from "components/Profile";
+import { useContext } from "react";
+import { UserContext } from "lib/contexts/AuthContext";
 
 const App: React.VFC = () => {
-    const isLogin = true
-    const user_id = "aaaaaa"
+    const {user} = useContext(UserContext)
+    console.log(user)
+    const user_id = "aaaa"
     return(
        <div>
            <Switch>
-               {!isLogin ? (
+               {!user ? (
                 <>
                     <Route path="/" component={HomeGuestComponent} exact  />
                     <Redirect to="/" />

@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useContext} from "react";
+import { UserContext } from "lib/contexts/AuthContext";
 import ProfileHeaderComponent from "components/Profile/headers/ProfileHeader";
 import PlanComponent from "components/Plan";
 import ProfileContentComponent from "components/Profile/ProfileContent";
@@ -6,11 +7,12 @@ import ProfileContentComponent from "components/Profile/ProfileContent";
 
 const ProfileContent: React.VFC = () => {
     // ここで処理書く
+    const {user} = useContext(UserContext)
     return(
         <>
-            <ProfileHeaderComponent />
+            <ProfileHeaderComponent user={user} />
             <>
-                <ProfileContentComponent />
+                <ProfileContentComponent user={user} />
                 <PlanComponent />
             </>
         </>

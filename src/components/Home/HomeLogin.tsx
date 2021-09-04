@@ -1,12 +1,10 @@
 import React from "react";
-import HomeLoginHeaderComponent from "components/Home/headers/HomeLoginHeader";
-import HomeContentComponent from "components/Home/HomeContent";
+import HomeLoginContent from "containers/Home/HomeLoginContent";
 
 const HomeLoginComponent: React.VFC = () => {
     return(
         <>
-        <HomeLoginHeaderComponent />
-        <HomeContentComponent />
+            <HomeLoginContent />
         </>
     );
 }

@@ -1,23 +1,21 @@
-import axios from "axios";
-
 export class GoogleService {
-    async loginWithGoogle(): Promise<any> {
+    async loginWithGoogle(res: any): Promise<any> {
         try {
-            // TODO ここの処理書く
-            const id_token = await "aaaa"
-            return id_token
+            const {tokenId, profileObj} =  res
+            const token = "aaaaaaaaa"
+            const user = {
+                name: profileObj.name,
+                imageUrl: profileObj.imageUrl
+            }
+            localStorage.setItem("token", token)
+            localStorage.setItem("current_user", JSON.stringify(user))      
+            return {tokenId, profileObj}    
         } catch(e) {
-            throw e
+            console.error(e)
         }
     }
 
-    async logoutWithGoogle(): Promise<any> {
-        try {
-            // TODO ここの処理書く
-            const id_token = await "aaaa"
-            return id_token
-        } catch(e) {
-            throw e
-        }
+    async logoutWithGoogle(): Promise<void> {
+        localStorage.clear()
     }
 }

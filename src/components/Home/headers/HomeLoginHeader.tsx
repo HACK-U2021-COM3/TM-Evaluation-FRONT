@@ -10,7 +10,7 @@ import TitleInputComponent from 'components/commons/forms/TitleInput';
 import NavMenuComponent from 'components/commons/objects/NavMenu';
 import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer';
 
-const HomeLoginHeaderComponent: React.VFC = () =>  {
+const HomeLoginHeaderComponent: React.VFC<{user: {name:  string, imageUrl: string}}> = ({user}) =>  {
   const toast = useToast()
   return (
     <>
@@ -32,7 +32,7 @@ const HomeLoginHeaderComponent: React.VFC = () =>  {
                 >
                 保存する
                 </Button>
-                <NavMenuComponent />
+                <NavMenuComponent user={user} />
             </Flex>
         </HeaderContainerComponent>
     </>

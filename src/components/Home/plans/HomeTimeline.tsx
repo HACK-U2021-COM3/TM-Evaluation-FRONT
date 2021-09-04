@@ -1,20 +1,9 @@
 import React from "react";
-import { Box } from "@chakra-ui/layout";
+import { Flex, Box, Text, ModalProps } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
+import StayTimeModalComponent from "components/commons/objects/StayTimeModal";
 
-const HomeTimelineComponent: React.VFC = () => {
-    const planList = [
-        {result_id: "ヤフーオフィス", place_id: "11111", stay_time: 60, order_id: 1},
-        {result_id: "新宿", place_id: "22222", stay_time: 60, order_id: 2},
-        {result_id: "新宿", place_id: "33333", stay_time: 60, order_id: 3},
-        {result_id: "新宿", place_id: "44444", stay_time: 60, order_id: 4},
-        {result_id: "東京都", place_id: "44444", stay_time: 60, order_id: 5},
-        {result_id: "東京都", place_id: "22222", stay_time: 60, order_id: 6},
-        {result_id: "東京都", place_id: "33333", stay_time: 60, order_id: 7},
-        {result_id: "東京都", place_id: "44444", stay_time: 60, order_id: 8},
-        {result_id: "東京都", place_id: "44444", stay_time: 60, order_id: 9},
-
-    ]
-
+const HomeTimelineComponent: React.VFC<{planList: any, modal: any, onOpen: () => void}> = ({planList, modal, onOpen}) => {
     const timelineItemStyle = {
         pl: "70px",
         pr: "25px",
@@ -57,13 +46,24 @@ const HomeTimelineComponent: React.VFC = () => {
         borderRadius: "6px"
     }
 
+
     return(
         <Box width="90%" mx="auto">
             <Box position="relative" _after={{...timelineAfterStyle}}>
-            {planList.map(plan => (
+            {planList.map((plan: any) => (
                 <Box key={plan.order_id} position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
                     <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
-                        {plan.result_id}
+                        <Flex justify="space-between">
+                            <Text>
+                            {plan.result_id}
+                            </Text>
+                            <Flex alignItems="center">
+                                <Text as="span" mx="4" >滞在時間: {plan.stay_time}分</Text>
+                                <StayTimeModalComponent isOpen={modal.isOpen} onClose={modal.onClose}>
+                                    <EditIcon onClick={onOpen} />
+                                </StayTimeModalComponent>
+                            </Flex>
+                        </Flex>
                     </Box>
                 </Box>            
             ))}
