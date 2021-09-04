@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     Box,
     Heading,
@@ -6,10 +7,8 @@ import {
     Tag,
     TagLabel
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-  
 
-const Card: React.VFC = () => {
+const PranCard: React.VFC = () => {
 return (
     <Box mb="4">
         <Link to="/hoge/plans/1">
@@ -52,4 +51,4 @@ return (
     </Box>
 );
 }
-export default Card;
+export default PranCard;

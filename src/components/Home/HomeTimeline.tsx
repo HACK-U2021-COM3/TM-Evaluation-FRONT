@@ -1,12 +1,18 @@
 import React from "react";
 import { Box } from "@chakra-ui/layout";
 
-const Timeline: React.VFC = () => {
+const HomeTimelineComponent: React.VFC = () => {
     const planList = [
-        {result_id: "東京都", place_id: "11111", stay_time: 60, order_id: 1},
-        {result_id: "東京都", place_id: "22222", stay_time: 60, order_id: 2},
-        {result_id: "東京都", place_id: "33333", stay_time: 60, order_id: 3},
-        {result_id: "東京都", place_id: "44444", stay_time: 60, order_id: 4},
+        {result_id: "ヤフーオフィス", place_id: "11111", stay_time: 60, order_id: 1},
+        {result_id: "新宿", place_id: "22222", stay_time: 60, order_id: 2},
+        {result_id: "新宿", place_id: "33333", stay_time: 60, order_id: 3},
+        {result_id: "新宿", place_id: "44444", stay_time: 60, order_id: 4},
+        {result_id: "東京都", place_id: "44444", stay_time: 60, order_id: 5},
+        {result_id: "東京都", place_id: "22222", stay_time: 60, order_id: 6},
+        {result_id: "東京都", place_id: "33333", stay_time: 60, order_id: 7},
+        {result_id: "東京都", place_id: "44444", stay_time: 60, order_id: 8},
+        {result_id: "東京都", place_id: "44444", stay_time: 60, order_id: 9},
+
     ]
 
     const timelineItemStyle = {
@@ -24,7 +30,7 @@ const Timeline: React.VFC = () => {
         width: "24px",
         height: "24px",
         left: "19px",
-        bgColor: "#9eb9ff",
+        bgColor: "#3182ce",
         border: "2px",
         borderColor: "white",
         top: "22px",
@@ -36,7 +42,7 @@ const Timeline: React.VFC = () => {
         content: "''",
         position: "absolute",
         width: "3px",
-        bgColor: "#9eb9ff",
+        bgColor: "#3182ce",
         top: "0",
         bottom: "0",
         left: "31px",
@@ -57,7 +63,7 @@ const Timeline: React.VFC = () => {
             {planList.map(plan => (
                 <Box key={plan.order_id} position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
                     <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
-                        aaa
+                        {plan.result_id}
                     </Box>
                 </Box>            
             ))}
@@ -66,4 +72,4 @@ const Timeline: React.VFC = () => {
     )
 }
 
-export default Timeline;
+export default HomeTimelineComponent;

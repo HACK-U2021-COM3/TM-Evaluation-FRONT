@@ -1,8 +1,8 @@
 import { Wrap, WrapItem } from '@chakra-ui/react';
 import React from 'react';
-import CardComponent from './Card';
+import CardComponent from './PlanCard';
 
-const Cards: React.VFC = () => {
+const PlanCards: React.VFC = () => {
     const planList = [
         { id: 1, title: "渋谷デート", user_id: "aaa", sum_time: 60, created_at: "2021/09/11", round_trip_flag: 1},
         { id: 2, title: "渋谷デート", user_id: "bbb", sum_time: 60, created_at: "2021/09/11", round_trip_flag: 1},
@@ -22,4 +22,4 @@ const Cards: React.VFC = () => {
     );
 }
 
-export default Cards;
+export default PlanCards;
