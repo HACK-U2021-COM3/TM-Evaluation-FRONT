@@ -4,7 +4,7 @@ import PlanComponent from "components/Plan";
 import ProfileContentComponent from "components/Profile/ProfileContent";
 
 
-const Profile: React.VFC = () => {
+const ProfileContent: React.VFC = () => {
     // ここで処理書く
     return(
         <>
@@ -17,4 +17,4 @@ const Profile: React.VFC = () => {
     );
 }
 
-export default Profile;
+export default ProfileContent;

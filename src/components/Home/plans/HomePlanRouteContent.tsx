@@ -3,11 +3,8 @@ import {
     Box,
     Heading,
 } from "@chakra-ui/react";
-import HomeTimelineComponent from "./HomeTimeline";
 
-
-
-const HomePlanRouteComponent: React.VFC = () => {
+const HomePlanRouteComponent: React.FC = ({children}) => {
     return(
         <>
             <Box bgColor="gray.100" pb="4" rounded="xl">
@@ -17,7 +14,7 @@ const HomePlanRouteComponent: React.VFC = () => {
                     </Heading>
                 </Box>
                 <Box overflowY="scroll" h="650px" py="4">
-                    <HomeTimelineComponent />
+                    {children}
                 </Box>
             </Box>
         </>

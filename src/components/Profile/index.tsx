@@ -1,10 +1,10 @@
 import React from "react";
-import Profile from "containers/Profile";
+import ProfileContent from "containers/Profile/ProfuleContent";
 
 const ProfileComponent: React.VFC = () => {
     return(
         <>
-            <Profile />
+            <ProfileContent />
         </>
     )
 }

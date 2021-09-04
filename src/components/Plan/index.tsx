@@ -1,11 +1,11 @@
 import React from "react";
-import Plan  from "containers/Plan"
+import PlanContent  from "containers/Plan/PlanContent"
 
 
 const PlanComponent: React.VFC = () => {
     return(
         <>
-            <Plan />
+            <PlanContent />
         </>
     )
 }

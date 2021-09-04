@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Flex,} from "@chakra-ui/react";
 import HomeResultsCardsComponent from "components/Home/cards/HomeResultsCards";
-import HomePlanRouteComponent from "components/Home/HomePlanRoute";
-import HomeMap from "containers/Home/HomeMap";
+import HomePlansComponent from "./plans";
+import HomeMapComponent from "./map";
 
 const HomeContentComponent: React.VFC = () => {
     
@@ -12,10 +12,10 @@ const HomeContentComponent: React.VFC = () => {
                 <Flex>
                     <Box w="50%" px="6">
                         <HomeResultsCardsComponent />
-                        <HomeMap />
+                        <HomeMapComponent />
                     </Box>
                     <Box w="50%" px="6">
-                        <HomePlanRouteComponent />
+                        <HomePlansComponent />
                     </Box>
                 </Flex>
                 

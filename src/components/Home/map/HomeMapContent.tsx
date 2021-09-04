@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import Leaflet from "leaflet";
@@ -13,7 +13,7 @@ let DefaultIcon = Leaflet.icon({
 });
 Leaflet.Marker.prototype.options.icon = DefaultIcon;
 
-const HomeMapComponent: React.VFC = () => {
+const HomeMapContentComponent: React.VFC = () => {
     return(
         <MapContainer center={{lat: 35.7010141,lng: 139.7042647,}} zoom={13} style={{ height: "calc(100% - 112px)", borderRadius: "10px"}}>
         <TileLayer
@@ -32,4 +32,4 @@ const HomeMapComponent: React.VFC = () => {
     )
 }
 
-export default HomeMapComponent
+export default HomeMapContentComponent
