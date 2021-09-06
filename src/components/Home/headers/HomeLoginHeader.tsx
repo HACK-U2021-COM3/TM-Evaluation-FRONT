@@ -5,6 +5,7 @@ import {
   Button,
   useToast
 } from '@chakra-ui/react';
+import { CheckIcon } from '@chakra-ui/icons';
 import SearchInputComponent from 'components/commons/forms/SearchInput';
 import TitleInputComponent from 'components/commons/forms/TitleInput';
 import NavMenuComponent from 'components/commons/objects/NavMenu';
@@ -21,6 +22,8 @@ const HomeLoginHeaderComponent: React.VFC<{user: {name:  string, imageUrl: strin
             </HStack>
             <Flex alignItems={'center'}>
                 <Button
+                leftIcon={<CheckIcon />} 
+                variant="outline"
                 colorScheme="blue"
                 mx="5"
                 onClick={() => toast({

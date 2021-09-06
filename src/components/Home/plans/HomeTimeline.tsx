@@ -1,7 +1,6 @@
-import React from "react";
-import { Flex, Box, Text, ModalProps } from "@chakra-ui/react";
+import React, {useState, useRef, useEffect} from "react";
+import { Flex, Box, Text, Input } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
-import StayTimeModalComponent from "components/commons/objects/StayTimeModal";
 
 const HomeTimelineComponent: React.VFC<{planList: any, modal: any, onOpen: () => void}> = ({planList, modal, onOpen}) => {
     const timelineItemStyle = {
@@ -43,25 +42,77 @@ const HomeTimelineComponent: React.VFC<{planList: any, modal: any, onOpen: () =>
         px: "20px",
         py: "30px",
         bgColor: "white",
-        borderRadius: "6px"
+        borderRadius: "6px",
     }
+
+    const [time, setTime] = useState<number>(0)
+    const [item, setItem] = useState<any>(null)
+  
+    const unForcusInput = () => {
+        setItem(null)
+    }
+
+    const bodyClick = useRef<any>()
+    const inputRefs = useRef<any>([])
+    const iconsRef = useRef<any>([])
+
+    planList.forEach((_: any, i: number) => {
+        inputRefs.current[i] = React.createRef()
+        iconsRef.current[i] = React.createRef()
+    });
+    useEffect(() => {
+        bodyClick.current = (e: any) => {
+            console.log('documentClickHandler')
+            console.log('target', e.target)
+            if (!!iconsRef.current?.find((item: any) => item.current?.contains(e.target))) return
+            if (!!inputRefs.current?.find((item: any) => item.current?.contains(e.target))) return
+            setItem(null)
+            removeDocumentClickHandler()
+        }
+    }, [])
+    
+    const removeDocumentClickHandler = () => {
+        console.log('removeDocumentClickHandler')
+        document.removeEventListener('click', bodyClick.current)
+    }
+
+    const editHandler = (i: number) => {
+        setItem(planList[i])
+        console.log('handleToggleButtonClick')
+        document.addEventListener('click', bodyClick.current)
+    }
+
 
 
     return(
         <Box width="90%" mx="auto">
             <Box position="relative" _after={{...timelineAfterStyle}}>
-            {planList.map((plan: any) => (
+            {planList.map((plan: any, i: number) => (
                 <Box key={plan.order_id} position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
                     <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
-                        <Flex justify="space-between">
+                        <Flex justify="space-between" alignItems="center" h="40px">
                             <Text>
                             {plan.result_id}
                             </Text>
                             <Flex alignItems="center">
-                                <Text as="span" mx="4" >滞在時間: {plan.stay_time}分</Text>
-                                <StayTimeModalComponent isOpen={modal.isOpen} onClose={modal.onClose}>
-                                    <EditIcon onClick={onOpen} />
-                                </StayTimeModalComponent>
+                                <Text mr="3">滞在時間:</Text>
+                                    {item !== planList[i] ? (
+                                <Text as="span" >{time}</Text>
+                                ) : (
+                                        <Input
+                                        ref={inputRefs.current[i]}
+                                        type="number"
+                                        defaultValue={time}
+                                        onBlur={unForcusInput}
+                                        onChange={(e) => setTime(+e.target.value)}
+                                        w="50px"
+                                        _focus={{
+                                        border: "none"
+                                        }}
+                                        />
+                                    )}
+                                    分
+                                    <EditIcon ref={iconsRef.current[i]} color="gray.300" ml="3" onClick={() => editHandler(i)} />
                             </Flex>
                         </Flex>
                     </Box>
@@ -71,5 +122,4 @@ const HomeTimelineComponent: React.VFC<{planList: any, modal: any, onOpen: () =>
         </Box>
     )
 }
-
 export default HomeTimelineComponent;

@@ -1,10 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import HomePlanRouteComponent from "components/Home/plans/HomePlanRouteContent";
 import HomeTimelineComponent from "components/Home/plans/HomeTimeline";
 import { useDisclosure } from "@chakra-ui/react";
+import { LatLngExpression } from "leaflet";
+
 
 const HomePlansContent: React.VFC = () => {
     const { isOpen, onClose, onOpen } = useDisclosure()
+    const [routes, setRoutes] = useState<LatLngExpression[]>([
+        {
+            lat: 35.02664,
+            lng: 136.622259,
+          },
+          {
+            lat: 35.032062,
+            lng: 136.562559,
+          },
+        ])
 
     const planList = [
         {result_id: "ヤフーオフィス", place_id: "11111", stay_time: 0, order_id: 1},
