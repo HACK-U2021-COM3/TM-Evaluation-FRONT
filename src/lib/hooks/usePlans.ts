@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react"
 import { PlansService } from "lib/services/PlansService"
+import { planResponseType } from "lib/models/plan"
 
-const usePlans = (user_id: string, plan_id: string) => {
-    const [plans, setPlans] = useState(null)
+const usePlans = () => {
+    const [plans, setPlans] = useState<planResponseType[] | []>([])
     const [error, setError] = useState<Error | null>(null)
 
     useEffect(() => {
         const load = async (): Promise<void> => {
             try {
-                const res = await (new PlansService()).getPlans(user_id)
+                const res = await (new PlansService()).getPastPlans()
                 setPlans(res)
                 setError(null)
             } catch(e) {
@@ -16,7 +17,7 @@ const usePlans = (user_id: string, plan_id: string) => {
             }
         }
         void load()
-    }, [user_id, plan_id])
+    }, [])
     return { plans, error }
 }
 

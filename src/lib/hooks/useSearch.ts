@@ -1,14 +1,15 @@
-import { SearchService } from "lib/services/SearchService"
 import { useState, useEffect } from "react"
+import { SearchService } from "lib/services/SearchService"
+import { searchResponseType } from "lib/models/search"
 
-const useSearch = (input: string) => {
-    const [resultLocations, setResultLocations] = useState(null)
+const useSearch = (search_input: string) => {
+    const [resultLocations, setResultLocations] = useState<searchResponseType[] | null>(null)
     const [error, setError] = useState<Error | null>(null)
 
     useEffect(() => {
         const load = async (): Promise<void> => {
             try {
-                const res = await (new SearchService()).getSearchResultLocations(input)
+                const res = await (new SearchService()).getSearchResultLocations(search_input)
                 setResultLocations(res)
                 setError(null)
             } catch(e) {
@@ -16,7 +17,7 @@ const useSearch = (input: string) => {
             }
         }
         void load()
-    }, [input])
+    }, [search_input])
 
     return {resultLocations, error}
 }
