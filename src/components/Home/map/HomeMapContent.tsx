@@ -51,7 +51,7 @@ const HomeMapContentComponent: React.VFC = () => {
     }
     
     return(
-        <MapContainer center={defaultPosition} zoom={10} style={{ height: "calc(100% - 112px)", borderRadius: "10px"}}>
+        <MapContainer center={defaultPosition} zoom={8} style={{ height: "calc(100% - 112px)", borderRadius: "10px"}}>
         <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright";>OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -64,14 +64,14 @@ const HomeMapContentComponent: React.VFC = () => {
                 </Popup>
             </Marker>        
         ))}
-        {japan && (
+        {/* {japan && (
             <GeoJSON key="map" style={() => ( {
                 fillColor: "#4a83ec",
                 fillOpacity: 0.5,
                 color: "1a1d62",
                 weight: 1
             })} data={japan.features as any} />
-        )}
+        )} */}
         {/* <Polyline positions={routes} /> */}
     </MapContainer>
     )

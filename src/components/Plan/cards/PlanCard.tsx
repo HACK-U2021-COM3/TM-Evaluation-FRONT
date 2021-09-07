@@ -7,11 +7,12 @@ import {
     Tag,
     TagLabel
 } from '@chakra-ui/react';
+import { planResponseType } from 'lib/models/plan';
 
-const PranCard: React.VFC = () => {
+const PranCard: React.VFC<{plan: planResponseType}> = ({plan}) => {
 return (
     <Box mb="4">
-        <Link to="/hoge/plans/1">
+        <Link to={`/aaaa/plans/${plan.id}`}>
             <Box
                 minW={'330px'}
                 w={'full'}
@@ -37,13 +38,13 @@ return (
                     variant="solid"
                     colorScheme="green"
                     >
-                        <TagLabel>Green</TagLabel>
+                        <TagLabel>{plan.sum_time} 分</TagLabel>
                      </Tag>
                 </Box>
                 <Box px="6" pt="2" pb="6">
-                    <Text display="inline-block" as="small" textColor="gray.400" mb="1">2021/09/11</Text>
+                    <Text display="inline-block" as="small" textColor="gray.400" mb="1">{plan.updated_at}</Text>
                     <Heading fontSize={'xl'} fontWeight="bold">
-                        渋谷デート
+                        {plan.title}
                     </Heading>
                 </Box>
             </Box>

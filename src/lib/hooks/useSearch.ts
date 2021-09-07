@@ -2,24 +2,31 @@ import { useState, useEffect } from "react"
 import { SearchService } from "lib/services/SearchService"
 import { searchResponseType } from "lib/models/search"
 
-const useSearch = (search_input: string) => {
-    const [resultLocations, setResultLocations] = useState<searchResponseType[] | null>(null)
+const useSearch = (q: string) => {
+    const [resultLocations, setResultLocations] = useState<searchResponseType[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<Error | null>(null)
 
     useEffect(() => {
         const load = async (): Promise<void> => {
-            try {
-                const res = await (new SearchService()).getSearchResultLocations(search_input)
-                setResultLocations(res)
-                setError(null)
-            } catch(e) {
-                setError(e as Error)
+            if(q.length >= 1) {
+                setLoading(true)
+                try {
+                    const res = await (new SearchService()).getSearchResultLocations(q)
+                    setResultLocations(res)
+                    setError(null)
+                } catch(e) {
+                    setError(e as Error)
+                }
+                setLoading(false)    
+            } else {
+                setResultLocations([])
             }
         }
         void load()
-    }, [search_input])
+    }, [q])
 
-    return {resultLocations, error}
+    return {resultLocations, loading, error}
 }
 
 export default useSearch;

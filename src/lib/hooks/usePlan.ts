@@ -2,23 +2,26 @@ import { useState, useEffect } from "react"
 import { PlansService } from "lib/services/PlansService"
 import { planDetailResponseType } from "lib/models/plan"
 
-const usePlan = (user_id: string, plan_id: string) => {
-    const [plan, setPlan] = useState<planDetailResponseType | null>(null)
+const usePlan = (plan_id: string) => {
+    const [plan, setPlan] = useState<planDetailResponseType[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<Error | null>(null)
 
     useEffect(() => {
         const load = async (): Promise<void> => {
+            setLoading(true)
             try {
-                const res = await (new PlansService()).getPlanById(user_id)
+                const res = await (new PlansService()).getPlanById(plan_id)
                 setPlan(res)
                 setError(null)
             } catch(e) {
                 setError(e as Error)
             }
+            setLoading(false)
         }
         void load()
-    }, [user_id, plan_id])
-    return { plan, error }
+    }, [plan_id])
+    return { plan, loading, error }
 }
 
 export default usePlan;

@@ -1,10 +1,12 @@
 import React from "react";
 import { Box, Button, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import PlanCards from "./cards/PlanCards";
 
 
-const PlanContentComponent: React.VFC<{createPlan: () => void}> = ({createPlan}) => {
+
+const PlanContentComponent: React.FC<{
+    createPlan: () => void
+}> = ({children,createPlan}) => {
     return(
         <>
             <Box w="100%" minH="60vh" py="10">
@@ -21,7 +23,7 @@ const PlanContentComponent: React.VFC<{createPlan: () => void}> = ({createPlan})
                         </Flex>
                         <Divider />
                     </Box>
-                    <PlanCards />
+                    {children}
                 </Box>
             </Box>
         </>

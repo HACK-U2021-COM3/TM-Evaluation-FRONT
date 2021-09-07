@@ -7,7 +7,10 @@ import { GoogleService } from 'lib/services/google/GoogleService';
 import { useHistory } from 'react-router-dom';
 
 
-const HomeGuestHeaderComponent: React.VFC = () =>  {
+const HomeGuestHeaderComponent: React.VFC<{
+  searchQuery: string,
+  handleSearch: (e: any) => void
+}> = ({searchQuery, handleSearch}) =>  {
   const history = useHistory()
   const handleLogin = async (res: any) => {
     await (new GoogleService()).loginWithGoogle(res)
@@ -17,7 +20,7 @@ const HomeGuestHeaderComponent: React.VFC = () =>  {
     <>
         <HeaderContainerComponent>
             <HStack spacing={8} alignItems={'center'}>
-                <SearchInput />
+                <SearchInput searchQuery={searchQuery} handleSearch={handleSearch} />
             </HStack>
             <HStack>
                 <GoogleLogin

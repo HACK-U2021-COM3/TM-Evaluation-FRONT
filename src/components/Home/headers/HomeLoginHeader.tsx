@@ -11,14 +11,18 @@ import TitleInputComponent from 'components/commons/forms/TitleInput';
 import NavMenuComponent from 'components/commons/objects/NavMenu';
 import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer';
 
-const HomeLoginHeaderComponent: React.VFC<{user: {name:  string, imageUrl: string}}> = ({user}) =>  {
+const HomeLoginHeaderComponent: React.VFC<{
+  user: {name:  string, imageUrl: string},
+  searchQuery: string,
+  handleSearch: (e: any) => void
+}> = ({user, searchQuery, handleSearch}) =>  {
   const toast = useToast()
   return (
     <>
         <HeaderContainerComponent>
             <HStack spacing={12} alignItems={'center'}>
                 <TitleInputComponent />
-                <SearchInputComponent />
+                <SearchInputComponent searchQuery={searchQuery} handleSearch={handleSearch} />
             </HStack>
             <Flex alignItems={'center'}>
                 <Button

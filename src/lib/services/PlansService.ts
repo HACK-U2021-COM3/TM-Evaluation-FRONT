@@ -1,21 +1,23 @@
 import axios from "axios";
 import { ApiHeader } from "./api/ApiHeader";
-import {planResponseType, planDetailResponseType} from "lib/models/plan"
+import {planResponseType, planDetailResponseType, mockPlans, mockPlansDetail} from "lib/models/plan"
 
 export class PlansService extends ApiHeader {
     async getPastPlans(): Promise<planResponseType[]> {
         try {
-            const { data } = await axios.get(`${this.url}/past-plans`,this.config)
-            return data    
+            // const { data } = await axios.get(`${this.url}/past-plans`,this.config)
+            // return data
+            return mockPlans
         } catch(e) {
             throw e
         }
     }
 
-    async getPlanById(plans_id: string): Promise<planDetailResponseType> {
+    async getPlanById(plans_id: string): Promise<planDetailResponseType[]> {
         try {
-            const { data } = await axios.get(`${this.url}/past-plans/${plans_id}`,{params: {"plans-id": plans_id}, ...this.config})
-            return data    
+            // const { data } = await axios.get(`${this.url}/past-plans/${plans_id}`,{params: {"plans-id": plans_id}, ...this.config})
+            // return data
+            return mockPlansDetail
         } catch(e) {
             throw e
         }

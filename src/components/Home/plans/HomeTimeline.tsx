@@ -1,8 +1,11 @@
 import React, {useState, useRef, useEffect} from "react";
 import { Flex, Box, Text, Input } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
+import { planDetailResponseType } from "lib/models/plan";
 
-const HomeTimelineComponent: React.VFC<{planList: any, modal: any, onOpen: () => void}> = ({planList, modal, onOpen}) => {
+const HomeTimelineComponent: React.VFC<{
+    planRoutes: planDetailResponseType[], 
+}> = ({planRoutes}) => {
     const timelineItemStyle = {
         pl: "70px",
         pr: "25px",
@@ -56,7 +59,7 @@ const HomeTimelineComponent: React.VFC<{planList: any, modal: any, onOpen: () =>
     const inputRefs = useRef<any>([])
     const iconsRef = useRef<any>([])
 
-    planList.forEach((_: any, i: number) => {
+    planRoutes.forEach((_: any, i: number) => {
         inputRefs.current[i] = React.createRef()
         iconsRef.current[i] = React.createRef()
     });
@@ -77,7 +80,7 @@ const HomeTimelineComponent: React.VFC<{planList: any, modal: any, onOpen: () =>
     }
 
     const editHandler = (i: number) => {
-        setItem(planList[i])
+        setItem(planRoutes[i])
         console.log('handleToggleButtonClick')
         document.addEventListener('click', bodyClick.current)
     }
@@ -87,25 +90,26 @@ const HomeTimelineComponent: React.VFC<{planList: any, modal: any, onOpen: () =>
     return(
         <Box width="90%" mx="auto">
             <Box position="relative" _after={{...timelineAfterStyle}}>
-            {planList.map((plan: any, i: number) => (
-                <Box key={plan.order_id} position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
+            {planRoutes.map((planRoute: planDetailResponseType, i: number) => (
+                <Box key={i} position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
                     <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
                         <Flex justify="space-between" alignItems="center" h="40px">
-                            <Text>
-                            {plan.result_id}
+                            <Text overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" w="400px">
+                            {planRoute.start_address}
                             </Text>
                             <Flex alignItems="center">
                                 <Text mr="3">滞在時間:</Text>
-                                    {item !== planList[i] ? (
-                                <Text as="span" >{time}</Text>
+                                    {item !== planRoutes[i] ? (
+                                <Text as="span" >{planRoutes[i].start_stay_time}</Text>
                                 ) : (
                                         <Input
                                         ref={inputRefs.current[i]}
                                         type="number"
-                                        defaultValue={time}
+                                        defaultValue={planRoutes[i].start_stay_time}
                                         onBlur={unForcusInput}
                                         onChange={(e) => setTime(+e.target.value)}
-                                        w="50px"
+                                        w="90px"
+                                        textAlign="center"
                                         _focus={{
                                         border: "none"
                                         }}

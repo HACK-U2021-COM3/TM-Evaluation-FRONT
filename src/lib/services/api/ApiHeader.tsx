@@ -5,7 +5,7 @@ export class ApiHeader {
         this.url = process.env.REACT_APP_API_URL ?? ""
         this.config = {
             header: {
-                Authorization: `Bearer ${localStorage.getItem("TOKEN")?? ""}`
+                Authorization: `Bearer ${localStorage.getItem("token")?? ""}`
             }
         }
 

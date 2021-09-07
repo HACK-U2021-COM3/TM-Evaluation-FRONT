@@ -2,17 +2,11 @@ import React, {useState} from "react";
 import {InputGroup, InputLeftElement, Input} from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
-const SearchInput: React.VFC = () => {
-    const [searchInput, setSearchInput] = useState<string>("")
-
-    const handleSearch = (e: any) => {
-        if(e.key === "Enter") {
-          e.preventDefault()
-          console.log(e.target.value)
-          setSearchInput(e.target.value)
-        }
-      }
-    
+const SearchInput: React.VFC<{
+    searchQuery: string,
+    handleSearch: (e: any) => void
+}> = ({searchQuery, handleSearch}) => {
+ 
     return(
         <InputGroup>
             <InputLeftElement pointerEvents="none" children={<SearchIcon color="gray.300" />} />
@@ -22,9 +16,8 @@ const SearchInput: React.VFC = () => {
                     w="520px" 
                     type="text" 
                     placeholder="search..." 
-                    defaultValue={searchInput} 
+                    defaultValue={searchQuery} 
                     onKeyPress={handleSearch} 
-                    onChange={(e) => setSearchInput(e.target.value)} 
                 />
         </InputGroup>
 
