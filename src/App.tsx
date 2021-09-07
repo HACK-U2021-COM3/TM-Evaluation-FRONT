@@ -1,10 +1,9 @@
-import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import HomeLoginComponent from "components/Home/HomeLogin";
-import HomeGuestComponent from "components/Home/HomeGuest";
-import ProfileComponent from "components/Profile";
-import { useContext } from "react";
+import React, {useContext} from "react";
 import { UserContext } from "lib/contexts/AuthContext";
+import { Redirect, Route, Switch } from "react-router-dom";
+import ProfileComponent from "components/Profile";
+import HomeContentComponent from "components/Home/HomeContent";
+
 
 const App: React.VFC = () => {
     const {user} = useContext(UserContext)
@@ -15,7 +14,7 @@ const App: React.VFC = () => {
            <Switch>
                {!user ? (
                 <>
-                    <Route path="/" component={HomeGuestComponent} exact  />
+                    <Route path="/" component={HomeContentComponent} exact  />
                     <Redirect to="/" />
                 </>
                ): (
@@ -24,7 +23,7 @@ const App: React.VFC = () => {
                         <Redirect to={`/${user_id}`} />
                     </Route>
                     <Route path="/:user_id" component={ProfileComponent} exact />
-                    <Route path="/:user_id/plans/:plan_id" component={HomeLoginComponent} exact />
+                    <Route path="/:user_id/plans/:plan_id" component={HomeContentComponent} exact />
                 </>
                )}
                

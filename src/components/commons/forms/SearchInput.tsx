@@ -17,7 +17,7 @@ const SearchInput: React.VFC = () => {
         <InputGroup>
             <InputLeftElement pointerEvents="none" children={<SearchIcon color="gray.300" />} />
                 <Input
-                    rounded="3xl" 
+                    rounded="lg" 
                     bgColor="white" 
                     w="520px" 
                     type="text" 
