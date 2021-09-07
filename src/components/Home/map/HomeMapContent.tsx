@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup, Polyline } from "react-leaflet";
 import Leaflet, { LatLngExpression } from "leaflet";
@@ -7,6 +7,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { Button, Text } from "@chakra-ui/react";
 
 import japan from "lib/data/ja.json"
+import { searchResponseType } from "lib/models/search";
 
 let DefaultIcon = Leaflet.icon({
     iconUrl: icon,
@@ -15,40 +16,12 @@ let DefaultIcon = Leaflet.icon({
 Leaflet.Marker.prototype.options.icon = DefaultIcon;
 
 
-const HomeMapContentComponent: React.VFC = () => {
+const HomeMapContentComponent: React.VFC<{
+    resultLocations: searchResponseType[]
+}> = ({resultLocations}) => {
     const defaultPosition = {lat: 35.02664,lng: 136.622259}
 
-    const [searchResult, SetsearchResult] = useState(
-        [{
-            "location": {
-                "lat": 34.7050271,
-                "lng": 135.4984269
-            },
-            "address": "日本、〒530-0012 大阪府大阪市北区芝田１丁目１",
-            "name": "大阪梅田駅"
-        },
-        {
-            "location": {
-                "lat": 34.7032152,
-                "lng": 135.4976426
-            },
-            "address": "日本、〒530-0017 大阪府大阪市北区角田町８−６",
-            "name": "梅田駅"
-        },
-        {
-            "location": {
-                "lat": 34.7013283,
-                "lng": 135.497135
-            },
-            "address": "日本、〒530-0031 大阪府大阪市北区梅田３丁目１",
-            "name": "大阪梅田駅"
-        }]
-    )
-    const [routes, setRoutes] = useState<LatLngExpression[]>([])
     
-    const set = (location: LatLngExpression) => {
-        setRoutes([...routes, location])
-    }
     
     return(
         <MapContainer center={defaultPosition} zoom={8} style={{ height: "calc(100% - 112px)", borderRadius: "10px"}}>
@@ -56,11 +29,10 @@ const HomeMapContentComponent: React.VFC = () => {
             attribution='&amp;copy <a href="http://osm.org/copyright";>OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {searchResult.map(marker => (
+        {resultLocations.map((marker: searchResponseType) => (
             <Marker key={marker.address} position={marker.location}>
                 <Popup>
-                    <Text>{marker.address}</Text>
-                    <Button onClick={() => set(marker.location)}>予定経路の追加</Button>
+                    <Text>{marker.name}</Text>
                 </Popup>
             </Marker>        
         ))}

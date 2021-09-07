@@ -3,7 +3,7 @@ import { MeasureService } from "lib/services/MeasureService"
 import { measureResponseType, measuseRequestType} from "lib/models/measure"
 
 const useMeasure = (form: measuseRequestType) => {
-    const [measure, setMeasure] = useState<measureResponseType[] | null>(null)
+    const [measureResults, setMeasureResults] = useState<measureResponseType[] | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<Error | null>(null)
 
@@ -12,7 +12,7 @@ const useMeasure = (form: measuseRequestType) => {
             setLoading(true)
             try {
                 const res = await (new MeasureService()).getMeasureLocations(form)
-                setMeasure(res)
+                setMeasureResults(res)
                 setError(null)
             } catch(e) {
                 setError(e as Error)
@@ -21,7 +21,7 @@ const useMeasure = (form: measuseRequestType) => {
         }
         void load()
     }, [form])
-    return { measure, loading, error }
+    return { measureResults, loading, error }
 }
 
 export default useMeasure;

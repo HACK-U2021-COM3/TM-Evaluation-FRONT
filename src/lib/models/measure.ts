@@ -28,6 +28,21 @@ export type measureResponseType = {
     "routes_points": Array<string>
 }
 
+export const mockMeasureRequest: measuseRequestType = {
+    "from": "ナゴヤドーム", // string　出発地点
+    "to": "テレビ塔", // string　到着地点
+    "waypoints": [
+        {
+            "point": "久屋大通駅", // string　経由地点
+            "order": 2 // int　経由地点の順序
+        },
+        {
+            "point": "今池駅", // string　経由地点
+            "order": 1 // int　経由地点の順序
+        }
+    ]
+}
+
 export const mockMeasureResult: measureResponseType[] = [
     {
         "start_location": {
