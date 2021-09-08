@@ -9,7 +9,7 @@ import HomeMapContentComponent from "components/Home/map/HomeMapContent";
 
 import usePlan from "lib/hooks/usePlan";
 import { searchResponseType } from "lib/models/search";
-import { measureResponseType, measuseRequestType, mockMeasureRequest } from "lib/models/measure";
+import { measureResponseType, measuseRequestType } from "lib/models/measure";
 import { useEffect } from "react";
 import usePlans from "lib/hooks/usePlans";
 
@@ -38,10 +38,45 @@ const HomeLoginContent: React.VFC<{
     const {plan_id} = useParams<{plan_id: string}>()
     const {plan} = usePlan(plan_id)
 
+
+    
     useEffect(() => {
-        initPlanDetailRequest(mockMeasureRequest)
-    }, [])
-    console.log(measureResults)
+        const firstOrder = Math.min(...plan.map((p) => p.order_number))
+        const lastOrder = Math.max(...plan.map((p) => p.order_number))
+        const startPoint = plan.find(p => p.order_number === firstOrder)
+        const endPoint = plan.find(p => p.order_number === lastOrder)
+        const waypoints = plan.filter(p => p.order_number !== firstOrder || p.order_number !== lastOrder)
+    
+        const convertLocationObjectToString = (location: {lat: number, lng: number} | undefined): string => {
+            if(!location) return ""
+            return `${location.lat},${location.lng}`
+        }
+    
+        const convertWaipointsToRequestWaipoint = waypoints.map(point => {
+            return {
+                point: convertLocationObjectToString(point.place_location),
+                point_stay_time: point.stay_time,
+                order: point.order_number
+            }
+        })
+        const initRequestForm = {
+            from: {
+                from_name: convertLocationObjectToString(startPoint?.place_location),
+                from_stay_time: startPoint?.stay_time ?? 0
+            },
+            to: {
+                to_name: convertLocationObjectToString(endPoint?.place_location),
+                to_stay_time: endPoint?.stay_time ?? 0
+            },
+            waypoints: [
+                ...convertWaipointsToRequestWaipoint
+            ]
+        }
+        console.log("init", initRequestForm)
+        initPlanDetailRequest(initRequestForm)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [plan]) 
+
 
     const {plans} = usePlans()
     const [title, setTitle] = useState<string>("")

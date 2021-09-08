@@ -1,8 +1,11 @@
-import React, {useState} from "react";
-import { GoogleMap, LoadScript, InfoWindow, Marker} from "@react-google-maps/api";
+import React, {useState, Fragment} from "react";
+import { GoogleMap, LoadScript, InfoWindow, Marker, Polyline} from "@react-google-maps/api";
 import { Button, Text, Stack, Checkbox, Box } from "@chakra-ui/react";
-import japan from "lib/data/ja.json"
+// import japan from "lib/data/ja.json"
 import { searchResponseType } from "lib/models/search";
+import { measureResponseType } from "lib/models/measure";
+import { decordMap } from "lib/util/map-decode";
+
 
 const center = {lat: 35.02664,lng: 136.622259}
 
@@ -10,8 +13,9 @@ const center = {lat: 35.02664,lng: 136.622259}
 const HomeMapGuestContentComponent: React.VFC<{
     addRoutesPoint: (address: string)=> Promise<void>,
     settingLocation: (e: any, address: string) => void,
-    resultLocations: searchResponseType[]
-}> = ({addRoutesPoint, settingLocation, resultLocations}) => {
+    resultLocations: searchResponseType[],
+    routes: measureResponseType[]
+}> = ({addRoutesPoint, settingLocation, resultLocations, routes}) => {
     const [selected, setSelected] = useState<searchResponseType | null>(null)
     
     return(
@@ -27,6 +31,14 @@ const HomeMapGuestContentComponent: React.VFC<{
                 onClick={() => setSelected(marker)}
                 />
             ))}
+            {routes.map((marker: measureResponseType, i: number) => (
+                <Fragment key={i}>
+                <Marker 
+                    position={marker.start_location}
+                />
+                <Polyline path={decordMap(marker.routes_points, 5)} />
+                </Fragment>
+             ))}
             {!!selected && (
                 <InfoWindow
                 position={selected.location}

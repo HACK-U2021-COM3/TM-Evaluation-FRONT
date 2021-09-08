@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "lib/contexts/AuthContext";
 import HomeGuestContent from "./HomeGuestContent";
 import HomeLoginContent from "./HomeLoginContent";
-import { measuseRequestType, measureResponseType, mockMeasureRequest } from "lib/models/measure";
+import { measuseRequestType, measureResponseType } from "lib/models/measure";
 
 import useSearch from "lib/hooks/useSearch";
 import useMeasure from "lib/hooks/useMeasure";
@@ -23,7 +23,19 @@ const HomeContent: React.VFC = () => {
     }
 
     // 経路計算リクエスト
-    const [measureRequest, setMeasureRequest] = useState<measuseRequestType>(mockMeasureRequest)
+    const [measureRequest, setMeasureRequest] = useState<measuseRequestType>(
+        {
+            "from": {
+                "from_name": "",
+                "from_stay_time": 0
+              },
+              "to": {
+                "to_name": "",
+                "to_stay_time": 0
+              },
+              "waypoints": []
+        }
+    )
 
     // 出発地点と到着地点の設定
     const settingLocation = (e: any, address: string) => {
@@ -42,13 +54,13 @@ const HomeContent: React.VFC = () => {
     const addRoutesPoint = async (address: string) => {
         setMeasureRequest({...measureRequest, waypoints: [
             {
-                "point": "aaaa",
+                "point": "大阪",
                 "point_stay_time": 12,
-                "order": 1
+                "order": 0
               }
         ]})
     }
-    console.log(measureRequest)
+    console.log("measureRequest", measureRequest)
 
     const {measureResults} = useMeasure(measureRequest)
     console.log(measureResults)

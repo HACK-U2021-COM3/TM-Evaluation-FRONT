@@ -1,7 +1,6 @@
 import React, {useState, useRef, useEffect} from "react";
 import { Flex, Box, Text, Input, Image } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
-import { planDetailResponseType } from "lib/models/plan";
 import { measureResponseType } from "lib/models/measure"
 
 const HomeTimelineComponent: React.VFC<{
@@ -92,12 +91,12 @@ const HomeTimelineComponent: React.VFC<{
     return(
         <Box width="90%" mx="auto">
             <Box position="relative" _after={{...timelineAfterStyle}}>
-            {routes.map((planRoute: planDetailResponseType, i: number) => (
+            {routes.map((route: measureResponseType, i: number) => (
                 <Box key={i} position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
                     <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
                         <Flex justify="space-between" alignItems="center" h="40px">
                             <Text overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" w="400px">
-                            {planRoute.start_address}
+                            {route.start_address}
                             </Text>
                             <Flex alignItems="center">
                                 <Text mr="3">滞在時間:</Text>
@@ -121,13 +120,13 @@ const HomeTimelineComponent: React.VFC<{
                             </Flex>
                         </Flex>
                     </Box>
-                    {planRoute !== routes[routes.length - 1] && (
+                    {route !== routes[routes.length - 1] && (
                         <>
                         <Flex alignItems="center" w="100px" justify="space-between" color="gray.500" position="absolute" right="72px" bottom="-10px">
                             <Image mx="2" src="/images/icons/walking.svg"/>
-                            <Text as="span">{Math.floor(planRoute.duration / 60)}分</Text>
+                            <Text as="span">{Math.floor(route.duration / 60)}分</Text>
                         </Flex>
-                        <Text as="span" color="gray.500" position="absolute" left="-38px" top="64px">{Math.floor(planRoute.distance / 1000)}km</Text>
+                        <Text as="span" color="gray.500" position="absolute" left="-38px" top="64px">{Math.floor(route.distance / 1000)}km</Text>
                         </>
                     )}
 

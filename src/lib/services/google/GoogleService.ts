@@ -2,7 +2,6 @@ export class GoogleService {
     async loginWithGoogle(res: any): Promise<any> {
         try {
             const {tokenId, profileObj} =  res
-            const token = "aaaaaaaaa"
             const user = {
                 name: profileObj.name,
                 imageUrl: profileObj.imageUrl
@@ -12,6 +11,7 @@ export class GoogleService {
             return {tokenId, profileObj}    
         } catch(e) {
             console.error(e)
+            localStorage.clear()
         }
     }
 

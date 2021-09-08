@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import { Button, Text, Stack, Checkbox, Box } from "@chakra-ui/react";
 import { GoogleMap, LoadScript, InfoWindow, Marker, Polyline} from "@react-google-maps/api";
 import { searchResponseType } from "lib/models/search";
@@ -14,9 +14,9 @@ const HomeMapContentComponent: React.VFC<{
     plan: planDetailResponseType[]
 }> = ({addRoutesPoint, settingLocation, resultLocations, routes, plan}) => {
 
-    const center = plan.find(_ => _)?.start_location
+    const center = plan.find(_ => _)?.place_location
     const [selected, setSelected] = useState<searchResponseType | null>(null)
-    const [selectedPlan, setSelectedPlan] = useState<planDetailResponseType | null>(null)
+
     return (
         plan.length > 0 ? (
             <>
@@ -32,14 +32,13 @@ const HomeMapContentComponent: React.VFC<{
                         onClick={() => setSelected(marker)}
                         />
                     ))}
-                    {plan.map((marker: planDetailResponseType, i: number) => (
-                        <>
+                    {routes.map((marker: measureResponseType, i: number) => (
+                        <Fragment key={i}>
                         <Marker 
-                        key={i} position={marker.start_location}
-                        onClick={() => setSelectedPlan(marker)}
+                            position={marker.start_location}
                         />
                         <Polyline path={decordMap(marker.routes_points, 5)} />
-                        </>
+                        </Fragment>
 
                     ))}
                     {!!selected && (
@@ -58,25 +57,6 @@ const HomeMapContentComponent: React.VFC<{
                                     </Checkbox>
                                 </Stack>
                                 <Button colorScheme="blue" onClick={() => addRoutesPoint(selected.address)}>途中経路として追加</Button>
-                            </Box>
-                        </InfoWindow>
-                        )}
-                    {!!selectedPlan && (
-                        <InfoWindow
-                        position={selectedPlan.start_location}
-                        onCloseClick={() => setSelectedPlan(null)}
-                        >
-                            <Box p="4">
-                                <Text>{selectedPlan.start_address}</Text>
-                                <Stack spacing={5} direction="row" mb="6">
-                                    <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocation(e, selectedPlan.start_address)}>
-                                        出発地点へ設定
-                                    </Checkbox>
-                                    <Checkbox colorScheme="green" value="end" onChange={(e) => settingLocation(e, selectedPlan.start_address)}>
-                                        到着地点へ設定
-                                    </Checkbox>
-                                </Stack>
-                                <Button colorScheme="blue" onClick={() => addRoutesPoint(selectedPlan.start_address)}>途中経路として追加</Button>
                             </Box>
                         </InfoWindow>
                         )}

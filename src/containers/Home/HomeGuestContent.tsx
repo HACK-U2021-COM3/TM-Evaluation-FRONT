@@ -37,6 +37,7 @@ const HomeGuestContent: React.VFC<{
                         results={measureResults}
                     />
                     <HomeGuestMapContentComponent
+                    routes={measureResults}
                     addRoutesPoint={addRoutesPoint}
                     settingLocation={settingLocation}
                     resultLocations={resultLocations} 

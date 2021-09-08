@@ -4,28 +4,30 @@ import { measureResponseType, measuseRequestType} from "lib/models/measure"
 
 const useMeasure = (form: measuseRequestType) => {
     const [measureResults, setMeasureResults] = useState<measureResponseType[]>([])
-    const [loading, setLoading] = useState<boolean>(false)
+    const [measureLoading, setMeasureLoading] = useState<boolean>(false)
     const [error, setError] = useState<Error | null>(null)
-
     useEffect(() => {
         const load = async (): Promise<void> => {
             if(form.from.from_name.length >= 1 && form.to.to_name.length >= 1 && form.waypoints.length >= 1) {
-                setLoading(true)
+                console.log("measure hooks")
                 try {
+                    setMeasureLoading(true)
                     const res = await (new MeasureService()).getMeasureLocations(form)
+                    console.log("measure response",res)
                     setMeasureResults(res)
                     setError(null)
                 } catch(e) {
                     setError(e as Error)
                 }
-                setLoading(false)    
+                setMeasureLoading(false)    
             } else {
                 setMeasureResults([])
             }
         }
         void load()
     }, [form])
-    return { measureResults, loading, error }
+    console.log(measureLoading)
+    return { measureResults, measureLoading, error }
 }
 
 export default useMeasure;
