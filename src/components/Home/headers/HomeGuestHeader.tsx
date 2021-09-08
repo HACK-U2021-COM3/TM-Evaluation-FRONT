@@ -1,5 +1,5 @@
 import React from 'react';
-import { HStack } from '@chakra-ui/react';
+import { HStack, Image } from '@chakra-ui/react';
 import SearchInput from 'components/commons/forms/SearchInput';
 import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer';
 import { GoogleLogin } from 'react-google-login';
@@ -20,6 +20,7 @@ const HomeGuestHeaderComponent: React.VFC<{
     <>
         <HeaderContainerComponent>
             <HStack spacing={8} alignItems={'center'}>
+                <Image src="/images/logo.png" w="50px" h="50px" />
                 <SearchInput searchQuery={searchQuery} handleSearch={handleSearch} />
             </HStack>
             <HStack>

@@ -22,7 +22,7 @@ const HomeContent: React.VFC = () => {
           }
     }
 
-    // 経路計算結果
+    // 経路計算リクエスト
     const [measureRequest, setMeasureRequest] = useState<measuseRequestType>({from: "",to: "",waypoints: []})
 
     // 出発地点と到着地点の設定
@@ -51,6 +51,9 @@ const HomeContent: React.VFC = () => {
     const changeResultsHandler = (time: number, index: number) => {
         results[index].start_stay_time = time
         setResults([...results])
+    }
+    const initPlanDetailRequest = (form: measuseRequestType) => {
+        setMeasureRequest({...form})
     }
     useEffect(() => {
         setResults([...measureResults])
@@ -81,6 +84,7 @@ const HomeContent: React.VFC = () => {
                     settingLocation={settingLocation}
                     measureResults={results}
                     changeResultsHandler={changeResultsHandler}
+                    initPlanDetailRequest={initPlanDetailRequest}
                      />
                 </>
                 )}
