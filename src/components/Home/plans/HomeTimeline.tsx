@@ -125,9 +125,9 @@ const HomeTimelineComponent: React.VFC<{
                         <>
                         <Flex alignItems="center" w="100px" justify="space-between" color="gray.500" position="absolute" right="72px" bottom="-10px">
                             <Image mx="2" src="/images/icons/walking.svg"/>
-                            <Text as="span">{planRoute.duration}分</Text>
+                            <Text as="span">{Math.floor(planRoute.duration / 60)}分</Text>
                         </Flex>
-                        <Text as="span" color="gray.500" position="absolute" left="-38px" top="64px">{planRoute.duration}km</Text>
+                        <Text as="span" color="gray.500" position="absolute" left="-38px" top="64px">{Math.floor(planRoute.distance / 1000)}km</Text>
                         </>
                     )}
 

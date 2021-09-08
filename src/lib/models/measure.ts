@@ -1,7 +1,17 @@
 export type measuseRequestType = {
-    "from": string, // string　出発地点
-    "to": string, // string　到着地点
-    "waypoints": Array<{"point": string, "order": number }>
+  "from": {
+    "from_name": string,
+    "from_stay_time": number
+  },
+  "to": {
+    "to_name": string,
+    "to_stay_time": number
+  },
+  "waypoints": Array<{
+    "point": string,
+    "point_stay_time": number,
+    "order": number
+  }>
 }
 export type measureResponseType = {
     "start_location": {
@@ -22,18 +32,21 @@ export type measureResponseType = {
 }
 
 export const mockMeasureRequest: measuseRequestType = {
-    "from": "ナゴヤドーム", // string　出発地点
-    "to": "テレビ塔", // string　到着地点
-    "waypoints": [
+    "from": {
+        "from_name": "string",
+        "from_stay_time": 0
+      },
+      "to": {
+        "to_name": "string",
+        "to_stay_time": 0
+      },
+      "waypoints": [
         {
-            "point": "久屋大通駅", // string　経由地点
-            "order": 2 // int　経由地点の順序
-        },
-        {
-            "point": "今池駅", // string　経由地点
-            "order": 1 // int　経由地点の順序
+          "point": "string",
+          "point_stay_time": 0,
+          "order": 0
         }
-    ]
+      ]
 }
 
 export const mockMeasureResult: measureResponseType[] = [

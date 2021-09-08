@@ -9,7 +9,7 @@ import HomeMapContentComponent from "components/Home/map/HomeMapContent";
 
 import usePlan from "lib/hooks/usePlan";
 import { searchResponseType } from "lib/models/search";
-import { measureResponseType, measuseRequestType } from "lib/models/measure";
+import { measureResponseType, measuseRequestType, mockMeasureRequest } from "lib/models/measure";
 import { useEffect } from "react";
 import usePlans from "lib/hooks/usePlans";
 
@@ -39,20 +39,7 @@ const HomeLoginContent: React.VFC<{
     const {plan} = usePlan(plan_id)
 
     useEffect(() => {
-        initPlanDetailRequest({
-            "from": "ナゴヤドーム", // string　出発地点
-            "to": "テレビ塔", // string　到着地点
-            "waypoints": [
-                {
-                    "point": "久屋大通駅", // string　経由地点
-                    "order": 2 // int　経由地点の順序
-                },
-                {
-                    "point": "今池駅", // string　経由地点
-                    "order": 1 // int　経由地点の順序
-                }
-            ]
-        })
+        initPlanDetailRequest(mockMeasureRequest)
     }, [])
     console.log(measureResults)
 

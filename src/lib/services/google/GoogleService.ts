@@ -7,7 +7,7 @@ export class GoogleService {
                 name: profileObj.name,
                 imageUrl: profileObj.imageUrl
             }
-            localStorage.setItem("token", token)
+            localStorage.setItem("token", tokenId)
             localStorage.setItem("current_user", JSON.stringify(user))      
             return {tokenId, profileObj}    
         } catch(e) {

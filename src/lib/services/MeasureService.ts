@@ -5,8 +5,7 @@ import { measureResponseType, measuseRequestType, mockMeasureResult } from "lib/
 export class MeasureService extends ApiHeader {
     async getMeasureLocations(form: measuseRequestType): Promise<measureResponseType[]> {
         try {
-            // const {data} = await axios.post(`${this.url}/measure`, {body: form, ...this.config})
-            // return data.results
+            // const {data} = await axios.post(`${this.url}/measure`, form, ...this.config)
             return mockMeasureResult
         } catch(e) {
             throw e;  
