@@ -4,7 +4,7 @@ export class ApiHeader {
     constructor() {
         this.url = process.env.REACT_APP_API_URL ?? ""
         this.config = {
-            header: {
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")?? ""}`
             }
         }

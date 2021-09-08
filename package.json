@@ -7,6 +7,7 @@
     "@chakra-ui/react": "^1.6.7",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@googlemaps/polyline-codec": "^1.0.1",
     "@react-google-maps/api": "^2.2.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -19,11 +20,9 @@
     "axios": "^0.21.1",
     "firebase": "^9.0.1",
     "framer-motion": "^4.1.17",
-    "leaflet": "^1.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
-    "react-leaflet": "^3.2.1",
     "react-router-dom": "^5.2.1",
     "react-scripts": "4.0.3",
     "typescript": "^4.4.2",
@@ -34,7 +33,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && firebase deploy --only hosting"
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "preinstall": "typesync"
   },
   "eslintConfig": {
     "extends": [
@@ -48,7 +48,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@types/leaflet": "^1.7.5",
     "@types/testing-library__jest-dom": "^5.14.1",
     "typesync": "^0.8.0"
   }

@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import { Button, Text, Stack, Checkbox, Box } from "@chakra-ui/react";
-import { GoogleMap, LoadScript, InfoWindow, Marker} from "@react-google-maps/api";
+import { GoogleMap, LoadScript, InfoWindow, Marker, Polyline} from "@react-google-maps/api";
 import { searchResponseType } from "lib/models/search";
 import { measureResponseType } from "lib/models/measure";
 import { planDetailResponseType } from "lib/models/plan";
-
+import { decordMap } from "lib/util/map-decode";
 
 const HomeMapContentComponent: React.VFC<{
     addRoutesPoint: (address: string)=> Promise<void>,
@@ -17,7 +17,6 @@ const HomeMapContentComponent: React.VFC<{
     const center = plan.find(_ => _)?.start_location
     const [selected, setSelected] = useState<searchResponseType | null>(null)
     const [selectedPlan, setSelectedPlan] = useState<planDetailResponseType | null>(null)
-
     return (
         plan.length > 0 ? (
             <>
@@ -30,14 +29,18 @@ const HomeMapContentComponent: React.VFC<{
                     {resultLocations.map((marker: searchResponseType, i: number) => (
                         <Marker 
                         key={i} position={marker.location}
-                        onMouseOver={() => setSelected(marker)}
+                        onClick={() => setSelected(marker)}
                         />
                     ))}
                     {plan.map((marker: planDetailResponseType, i: number) => (
+                        <>
                         <Marker 
                         key={i} position={marker.start_location}
-                        onMouseOver={() => setSelectedPlan(marker)}
+                        onClick={() => setSelectedPlan(marker)}
                         />
+                        <Polyline path={decordMap(marker.routes_points, 5)} />
+                        </>
+
                     ))}
                     {!!selected && (
                         <InfoWindow

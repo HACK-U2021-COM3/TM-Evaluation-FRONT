@@ -10,14 +10,14 @@ const HomeResultsCardsCmponent: React.VFC<{
     const sumDistance = () => {
         let res = 0
         for (const {distance} of results) {
-            res+= distance
+            res+= Math.floor(distance / 1000)
         }
         return res
     }
     const sumRouteTime = () => {
         let res = 0
         for (const {duration} of results) {
-            res+= duration
+            res+= Math.floor(duration / 60)
         }
         return res
     }

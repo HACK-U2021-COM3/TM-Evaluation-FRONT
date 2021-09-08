@@ -24,7 +24,7 @@ const HomeMapGuestContentComponent: React.VFC<{
             {resultLocations.map((marker: searchResponseType, i: number) => (
                 <Marker 
                 key={i} position={marker.location}
-                onMouseOver={() => setSelected(marker)}
+                onClick={() => setSelected(marker)}
                 />
             ))}
             {!!selected && (

@@ -5,9 +5,9 @@ import {planResponseType, planDetailResponseType, mockPlans, mockPlansDetail} fr
 export class PlansService extends ApiHeader {
     async getPastPlans(): Promise<planResponseType[]> {
         try {
-            // const { data } = await axios.get(`${this.url}/past-plans`,this.config)
-            // return data
-            return mockPlans
+            const { data } = await axios.get(`${this.url}/past_plans`,this.config)
+            return data
+            // return mockPlans
         } catch(e) {
             throw e
         }
