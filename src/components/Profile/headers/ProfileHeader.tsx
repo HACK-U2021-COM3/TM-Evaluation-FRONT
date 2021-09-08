@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Image } from '@chakra-ui/react';
 import NavMenuComponent from 'components/commons/objects/NavMenu';
 import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer';
 
@@ -8,9 +8,8 @@ const ProfileHeaderComponent: React.VFC<{user: {name:  string, imageUrl: string}
   return (
     <>
         <HeaderContainerComponent>
-            <Flex alignItems={'center'} justify="end">
-                <NavMenuComponent user={user} />
-            </Flex>
+          <Image src="/images/logo.png" w="50px" h="50px" />
+          <NavMenuComponent user={user} />
         </HeaderContainerComponent>
     </>
   );

@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from "react";
-import { Flex, Box, Text, Input } from "@chakra-ui/react";
+import { Flex, Box, Text, Input, Image } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { planDetailResponseType } from "lib/models/plan";
 import { measureResponseType } from "lib/models/measure"
@@ -121,6 +121,16 @@ const HomeTimelineComponent: React.VFC<{
                             </Flex>
                         </Flex>
                     </Box>
+                    {planRoute !== routes[routes.length - 1] && (
+                        <>
+                        <Flex alignItems="center" w="100px" justify="space-between" color="gray.500" position="absolute" right="72px" bottom="-10px">
+                            <Image mx="2" src="/images/icons/walking.svg"/>
+                            <Text as="span">{planRoute.duration}分</Text>
+                        </Flex>
+                        <Text as="span" color="gray.500" position="absolute" left="-38px" top="64px">{planRoute.duration}km</Text>
+                        </>
+                    )}
+
                 </Box>            
             ))}
         </Box>

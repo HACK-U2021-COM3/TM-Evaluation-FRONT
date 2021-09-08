@@ -13,7 +13,7 @@ const HomePlanRouteComponent: React.FC = ({children}) => {
                         予定経路
                     </Heading>
                 </Box>
-                <Box overflowY="scroll" h="650px" py="4">
+                <Box overflowY="scroll" h="650px" py="4" px="4">
                     {children}
                 </Box>
             </Box>
