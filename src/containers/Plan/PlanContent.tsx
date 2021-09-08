@@ -5,20 +5,31 @@ import PlanContentComponent from "components/Plan/PlanContent";
 import usePlans from "lib/hooks/usePlans";
 import Loader from "components/commons/objects/Loader";
 import CardComponent from 'components/Plan/cards/PlanCard';
-
+import { PlansService } from "lib/services/PlansService";
 
 const PlanContent: React.VFC = () => {
     const history = useHistory()
     const {plans, loading} = usePlans()
-    const createPlan = async () => {
-        // ここで新しい奴が戻ってくる
-        await true
-        const plan_id = 1
-        history.push(`/plans/${plan_id}`)
+    const createAndSavePlan = async () => {
+        await (new PlansService()).savePlans({
+            title: "untitled",
+            sum_time: 0,
+            details: [
+                {
+                    place_location: {
+                        lat: 0,
+                        lng: 0
+                    },
+                    stay_time: 0,
+                    order_number: 0
+                }
+            ]
+        })
+        history.go(0)
     }
     return(
         loading ? <Loader /> : (
-        <PlanContentComponent createPlan={createPlan}>
+        <PlanContentComponent createPlan={createAndSavePlan}>
             <Wrap spacing="20px">
                 {plans.map(plan => (
                     <WrapItem key={plan.id}>

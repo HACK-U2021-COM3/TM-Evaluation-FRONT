@@ -46,7 +46,7 @@ const TitleInput: React.VFC<{
     return(
         <Flex alignItems={"center"}>
             {!isEditMode ? (
-                <Text color="white" fontSize={"2xl"} px={"3"}>
+                <Text color="white" w="150px" fontSize={"2xl"} px={"3"}>
                 {title}
                 </Text>
             ) : (

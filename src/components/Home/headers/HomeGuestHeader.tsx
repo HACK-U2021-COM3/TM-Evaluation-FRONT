@@ -15,6 +15,7 @@ const HomeGuestHeaderComponent: React.VFC<{
   const handleLogin = async (res: any) => {
     await (new GoogleService()).loginWithGoogle(res)
     console.log(res)
+    history.go(0)
   }
   return (
     <>
