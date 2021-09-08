@@ -5,6 +5,7 @@ import HomeGuestHeaderComponent from "components/Home/headers/HomeGuestHeader";
 import HomePlanRouteComponent from "components/Home/plans/HomePlanRouteContent";
 import HomeTimelineComponent from "components/Home/plans/HomeTimeline";
 import HomeGuestMapContentComponent from "components/Home/map/HomeGuestMapContent";
+
 import { measureResponseType } from "lib/models/measure";
 import { searchResponseType } from "lib/models/search";
 

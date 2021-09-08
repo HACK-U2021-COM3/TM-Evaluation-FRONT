@@ -1,22 +1,9 @@
-import React from "react";
-import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup, Polyline } from "react-leaflet";
-import Leaflet from "leaflet";
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import { Button, Text, Stack, Checkbox } from "@chakra-ui/react";
-
-import japan from "lib/data/ja.json"
+import React, {useState} from "react";
+import { Button, Text, Stack, Checkbox, Box } from "@chakra-ui/react";
+import { GoogleMap, LoadScript, InfoWindow, Marker} from "@react-google-maps/api";
 import { searchResponseType } from "lib/models/search";
 import { measureResponseType } from "lib/models/measure";
 import { planDetailResponseType } from "lib/models/plan";
-
-let DefaultIcon = Leaflet.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow,
-});
-Leaflet.Marker.prototype.options.icon = DefaultIcon;
-
 
 
 const HomeMapContentComponent: React.VFC<{
@@ -27,60 +14,74 @@ const HomeMapContentComponent: React.VFC<{
     plan: planDetailResponseType[]
 }> = ({addRoutesPoint, settingLocation, resultLocations, routes, plan}) => {
 
-    const defaultPosition = plan.find(_ => _)?.start_location
-    
-    return(
-        plan.length > 0 ? (
-            <MapContainer center={defaultPosition} zoom={13} style={{ height: "calc(100% - 112px)", borderRadius: "10px"}}>
-        <TileLayer
-            attribution='&amp;copy <a href="http://osm.org/copyright";>OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {resultLocations.map((marker: searchResponseType) => (
-            <Marker key={marker.address} position={marker.location}>
-                <Popup>
-                    <Text>{marker.address}</Text>
-                        <Stack spacing={5} direction="row">
-                            <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocation(e, marker.address)}>
-                                出発地点へ設定
-                            </Checkbox>
-                            <Checkbox colorScheme="green" value="end" onChange={(e) => settingLocation(e, marker.address)}>
-                                到着地点へ設定
-                            </Checkbox>
-                        </Stack>
-                        <Button colorScheme="blue" onClick={() => addRoutesPoint(marker.address)}>経路を追加</Button>
-                </Popup>
-            </Marker>        
-        ))}
-        {plan.map((marker: planDetailResponseType) => (
-            <Marker key={marker.start_address} position={marker.start_location}>
-                <Popup>
-                    <Text>{marker.start_address}</Text>
-                        <Stack spacing={5} direction="row">
-                            <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocation(e, marker.start_address)}>
-                                出発地点へ設定
-                            </Checkbox>
-                            <Checkbox colorScheme="green" value="end" onChange={(e) => settingLocation(e, marker.start_address)}>
-                                到着地点へ設定
-                            </Checkbox>
-                        </Stack>
-                        <Button colorScheme="blue" onClick={() => addRoutesPoint(marker.start_address)}>経路を追加</Button>
-                </Popup>
-            </Marker>        
-        ))}
+    const center = plan.find(_ => _)?.start_location
+    const [selected, setSelected] = useState<searchResponseType | null>(null)
+    const [selectedPlan, setSelectedPlan] = useState<planDetailResponseType | null>(null)
 
-        {/* {japan && (
-            <GeoJSON key="map" style={() => ( {
-                fillColor: "#4a83ec",
-                fillOpacity: 0.5,
-                color: "1a1d62",
-                weight: 1
-            })} data={japan.features as any} />
-        )} */}
-        {/* <Polyline positions={routes} /> */}
-    </MapContainer>
-        ) :  <div />
+    return (
+        plan.length > 0 ? (
+            <>
+                <LoadScript googleMapsApiKey={`${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`}>
+                    <GoogleMap
+                    mapContainerStyle={{ height: "calc(100% - 112px)", borderRadius: "10px"}}
+                    center={center}
+                    zoom={12}
+                    >
+                    {resultLocations.map((marker: searchResponseType, i: number) => (
+                        <Marker 
+                        key={i} position={marker.location}
+                        onMouseOver={() => setSelected(marker)}
+                        />
+                    ))}
+                    {plan.map((marker: planDetailResponseType, i: number) => (
+                        <Marker 
+                        key={i} position={marker.start_location}
+                        onMouseOver={() => setSelectedPlan(marker)}
+                        />
+                    ))}
+                    {!!selected && (
+                        <InfoWindow
+                        position={selected.location}
+                        onCloseClick={() => setSelected(null)}
+                        >
+                            <Box p="4">
+                                <Text>{selected.name}</Text>
+                                <Stack spacing={5} direction="row" mb="6">
+                                    <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocation(e, selected.address)}>
+                                        出発地点へ設定
+                                    </Checkbox>
+                                    <Checkbox colorScheme="green" value="end" onChange={(e) => settingLocation(e, selected.address)}>
+                                        到着地点へ設定
+                                    </Checkbox>
+                                </Stack>
+                                <Button colorScheme="blue" onClick={() => addRoutesPoint(selected.address)}>途中経路として追加</Button>
+                            </Box>
+                        </InfoWindow>
+                        )}
+                    {!!selectedPlan && (
+                        <InfoWindow
+                        position={selectedPlan.start_location}
+                        onCloseClick={() => setSelectedPlan(null)}
+                        >
+                            <Box p="4">
+                                <Text>{selectedPlan.start_address}</Text>
+                                <Stack spacing={5} direction="row" mb="6">
+                                    <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocation(e, selectedPlan.start_address)}>
+                                        出発地点へ設定
+                                    </Checkbox>
+                                    <Checkbox colorScheme="green" value="end" onChange={(e) => settingLocation(e, selectedPlan.start_address)}>
+                                        到着地点へ設定
+                                    </Checkbox>
+                                </Stack>
+                                <Button colorScheme="blue" onClick={() => addRoutesPoint(selectedPlan.start_address)}>途中経路として追加</Button>
+                            </Box>
+                        </InfoWindow>
+                        )}
+                    </GoogleMap>
+            </LoadScript>
+            </>
+        ) : <div /> 
     )
 }
 
-export default HomeMapContentComponent
+export default HomeMapContentComponent;
