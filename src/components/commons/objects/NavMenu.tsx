@@ -31,7 +31,7 @@ const NavMenu: React.VFC<{user: {name:  string, imageUrl: string}}> = ({user}) =
         </MenuButton>
         <MenuList>
         <MenuItem>
-        <Link to="/hoge">
+        <Link to="/profile">
           プロフィール
         </Link>
         </MenuItem>

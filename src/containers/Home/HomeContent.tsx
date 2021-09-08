@@ -1,23 +1,17 @@
-import React, { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "lib/contexts/AuthContext";
-import { Box, Flex} from "@chakra-ui/react";
-import HomeResultsCardsComponent from "components/Home/cards/HomeResultsCards";
-import HomeGuestHeaderComponent from "components/Home/headers/HomeGuestHeader";
-import HomeLoginHeaderComponent from "components/Home/headers/HomeLoginHeader";
-import HomePlanRouteComponent from "components/Home/plans/HomePlanRouteContent";
-import HomeTimelineComponent from "components/Home/plans/HomeTimeline";
-import HomeMapContentComponent from "components/Home/map/HomeMapContent";
-import HomeGuestTimelineComponent from "components/Home/plans/HomeGuestTimeline";
+import HomeGuestContent from "./HomeGuestContent";
+import HomeLoginContent from "./HomeLoginContent";
+import { measuseRequestType, measureResponseType } from "lib/models/measure";
 
-import usePlan from "lib/hooks/usePlan";
 import useSearch from "lib/hooks/useSearch";
 import useMeasure from "lib/hooks/useMeasure";
 
-import { measuseRequestType, mockMeasureRequest } from "lib/models/measure";
-
 
 const HomeContent: React.VFC = () => {
+    const {user} = useContext(UserContext)
+
+    // 経路検索
     const [searchQuery, setSearchQuery] = useState<string>("")
     const {resultLocations} = useSearch(searchQuery)
     const handleSearch = (e: any) :void => {
@@ -27,51 +21,67 @@ const HomeContent: React.VFC = () => {
             setSearchQuery(e.target.value)
           }
     }
-    console.log(resultLocations)
 
-    const {user} = useContext(UserContext)
-    const {plan_id} = useParams<{plan_id: string}>()
-    const {plan} = usePlan(plan_id)
+    // 経路計算結果
+    const [measureRequest, setMeasureRequest] = useState<measuseRequestType>({from: "",to: "",waypoints: []})
 
-    const form: measuseRequestType = mockMeasureRequest
-    const {measureResults} = useMeasure(form)
+    // 出発地点と到着地点の設定
+    const settingLocation = (e: any, address: string) => {
+        if(e.target.value === "start") {
+            setMeasureRequest({...measureRequest, from: address})
+        }else if(e.target.value === "end") {
+            setMeasureRequest({...measureRequest, to: address})
+        }
+    }
 
+    // 経路の追加
+    const addRoutesPoint = async (address: string) => {
+        setMeasureRequest({...measureRequest, waypoints: [{
+            "point": "久屋大通駅", // string　経由地点
+            "order": 2 // int　経由地点の順序
+        },
+        {
+            "point": "今池駅", // string　経由地点
+            "order": 1 // int　経由地点の順序
+        }]})
+    }
+
+    const {measureResults} = useMeasure(measureRequest)
+    const [results, setResults] = useState<measureResponseType[]>([])
+    const changeResultsHandler = (time: number, index: number) => {
+        results[index].start_stay_time = time
+        setResults([...results])
+    }
+    useEffect(() => {
+        setResults([...measureResults])
+    }, [measureResults])
     return (
         <>
             {!user ? (
              <>
-                <HomeGuestHeaderComponent searchQuery={searchQuery} handleSearch={handleSearch}  />
-                <Box maxW="1920px" mx="auto" py="6" px="6">
-                <Flex>
-                    <Box w="50%" px="6">
-                        <HomeResultsCardsComponent />
-                        <HomeMapContentComponent resultLocations={resultLocations} />
-                    </Box>
-                    <Box w="50%" px="6">
-                        <HomePlanRouteComponent>
-                            <HomeTimelineComponent planRoutes={plan} />
-                        </HomePlanRouteComponent>
-                    </Box>
-                </Flex>
-                </Box>
+               <HomeGuestContent
+               searchQuery={searchQuery}
+               handleSearch={handleSearch}
+               resultLocations={resultLocations}
+               addRoutesPoint={addRoutesPoint}
+               settingLocation={settingLocation}
+               measureResults={results}
+               changeResultsHandler={changeResultsHandler}
+                />
              </>
 
             ): (
                 <>
-                    <HomeLoginHeaderComponent user={user} searchQuery={searchQuery} handleSearch={handleSearch}  />
-                    <Box maxW="1920px" mx="auto" py="6" px="6">
-                        <Flex>
-                            <Box w="50%" px="6">
-                                <HomeResultsCardsComponent />
-                                <HomeMapContentComponent resultLocations={resultLocations} />
-                            </Box>
-                            <Box w="50%" px="6">
-                                <HomePlanRouteComponent>
-                                    <HomeGuestTimelineComponent measureRoutes={plan} />
-                                </HomePlanRouteComponent>
-                            </Box>
-                        </Flex>
-                    </Box>
+                    <HomeLoginContent 
+                    user={user}
+                    searchQuery={searchQuery}
+                    handleSearch={handleSearch}
+                    resultLocations={resultLocations}
+                    addRoutesPoint={addRoutesPoint}
+                    settingLocation={settingLocation}
+                    measureResults={results}
+                    changeResultsHandler={changeResultsHandler}
+                     />
                 </>
                 )}
         </>

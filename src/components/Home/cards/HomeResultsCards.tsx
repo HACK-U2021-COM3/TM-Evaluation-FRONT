@@ -1,17 +1,38 @@
 import React from "react";
 import { Wrap } from "@chakra-ui/react";
 import HomeResultCardsComponent from "./HomeResultsCard";
+import { measureResponseType } from "lib/models/measure";
 
 
-const HomeResultsCardsCmponent: React.VFC = () => {
-    const sum_time = 60
-    const stay_time = 20
-    const sum_distance = 20
+const HomeResultsCardsCmponent: React.VFC<{
+    results: measureResponseType[],
+}> = ({results}) => {
+    const sumDistance = () => {
+        let res = 0
+        for (const {distance} of results) {
+            res+= distance
+        }
+        return res
+    }
+    const sumRouteTime = () => {
+        let res = 0
+        for (const {duration} of results) {
+            res+= duration
+        }
+        return res
+    }
+    const sumStayTime = () => {
+        let res = 0
+        for (const {start_stay_time} of results) {
+            res+= start_stay_time
+        }
+        return res
+    }
     return(
         <Wrap justify="center" spacing="20px" mb="6">
-            <HomeResultCardsComponent title="総距離" text={`${sum_distance}km`} />
-            <HomeResultCardsComponent title="総徒歩時間" text={`${sum_time}分`}  />
-            <HomeResultCardsComponent title="総合計時間" text={`${stay_time+sum_time}分`}/>
+            <HomeResultCardsComponent title="総距離" text={`${sumDistance()}km`} />
+            <HomeResultCardsComponent title="総徒歩時間" text={`${sumRouteTime()}分`}  />
+            <HomeResultCardsComponent title="総合計時間" text={`${sumStayTime()}分`}/>
         </Wrap>
     )
 }

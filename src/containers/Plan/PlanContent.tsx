@@ -14,7 +14,7 @@ const PlanContent: React.VFC = () => {
         // ここで新しい奴が戻ってくる
         await true
         const plan_id = 1
-        history.push(`/aaaa/plans/${plan_id}`)
+        history.push(`/plans/${plan_id}`)
     }
     return(
         loading ? <Loader /> : (

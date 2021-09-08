@@ -4,12 +4,10 @@ import { MapContainer, TileLayer, GeoJSON, Marker, Popup, Polyline } from "react
 import Leaflet from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import { Button, Text, Stack, Checkbox } from "@chakra-ui/react";
+import { Button, Text, RadioGroup, Stack, Radio, Checkbox } from "@chakra-ui/react";
 
 import japan from "lib/data/ja.json"
 import { searchResponseType } from "lib/models/search";
-import { measureResponseType } from "lib/models/measure";
-import { planDetailResponseType } from "lib/models/plan";
 
 let DefaultIcon = Leaflet.icon({
     iconUrl: icon,
@@ -19,19 +17,17 @@ Leaflet.Marker.prototype.options.icon = DefaultIcon;
 
 
 
-const HomeMapContentComponent: React.VFC<{
+const HomeMapGuestContentComponent: React.VFC<{
     addRoutesPoint: (address: string)=> Promise<void>,
     settingLocation: (e: any, address: string) => void,
-    resultLocations: searchResponseType[],
-    routes: measureResponseType[],
-    plan: planDetailResponseType[]
-}> = ({addRoutesPoint, settingLocation, resultLocations, routes, plan}) => {
+    resultLocations: searchResponseType[]
+}> = ({addRoutesPoint, settingLocation, resultLocations}) => {
+    const defaultPosition = {lat: 35.02664,lng: 136.622259}
 
-    const defaultPosition = plan.find(_ => _)?.start_location
+    
     
     return(
-        plan.length > 0 ? (
-            <MapContainer center={defaultPosition} zoom={13} style={{ height: "calc(100% - 112px)", borderRadius: "10px"}}>
+        <MapContainer center={defaultPosition} zoom={8} style={{ height: "calc(100% - 112px)", borderRadius: "10px"}}>
         <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright";>OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -39,7 +35,7 @@ const HomeMapContentComponent: React.VFC<{
         {resultLocations.map((marker: searchResponseType) => (
             <Marker key={marker.address} position={marker.location}>
                 <Popup>
-                    <Text>{marker.address}</Text>
+                    <Text>{marker.name}</Text>
                         <Stack spacing={5} direction="row">
                             <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocation(e, marker.address)}>
                                 出発地点へ設定
@@ -52,23 +48,6 @@ const HomeMapContentComponent: React.VFC<{
                 </Popup>
             </Marker>        
         ))}
-        {plan.map((marker: planDetailResponseType) => (
-            <Marker key={marker.start_address} position={marker.start_location}>
-                <Popup>
-                    <Text>{marker.start_address}</Text>
-                        <Stack spacing={5} direction="row">
-                            <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocation(e, marker.start_address)}>
-                                出発地点へ設定
-                            </Checkbox>
-                            <Checkbox colorScheme="green" value="end" onChange={(e) => settingLocation(e, marker.start_address)}>
-                                到着地点へ設定
-                            </Checkbox>
-                        </Stack>
-                        <Button colorScheme="blue" onClick={() => addRoutesPoint(marker.start_address)}>経路を追加</Button>
-                </Popup>
-            </Marker>        
-        ))}
-
         {/* {japan && (
             <GeoJSON key="map" style={() => ( {
                 fillColor: "#4a83ec",
@@ -79,8 +58,7 @@ const HomeMapContentComponent: React.VFC<{
         )} */}
         {/* <Polyline positions={routes} /> */}
     </MapContainer>
-        ) :  <div />
     )
 }
 
-export default HomeMapContentComponent
+export default HomeMapGuestContentComponent

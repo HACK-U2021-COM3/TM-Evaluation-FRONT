@@ -1,28 +1,21 @@
 export type measuseRequestType = {
     "from": string, // string　出発地点
     "to": string, // string　到着地点
-    "waypoints": [
-        {
-            "point": string, // string　経由地点
-            "order": number // int　経由地点の順序
-        },
-        {
-            "point": string, // string　経由地点
-            "order": number // int　経由地点の順序
-        }
-    ]
+    "waypoints": Array<{"point": string, "order": number }>
 }
 export type measureResponseType = {
     "start_location": {
-        lat: number,
-        lng: number
+        "lat": number,
+        "lng": number
     },
     "end_location": {
-        lat: number,
-        lng: number
+        "lat": number,
+        "lng": number
     },
     "start_address": string,
+    "start_stay_time": number, //追加点　出発前に居た時間 = 待機時間なのでこういう書き方なら...,
     "end_address": string,
+    "end_stay_time": number, //追加点　ついた状態なので0分　この値はなくてもいい
     "distance": number,
     "duration": number,
     "routes_points": Array<string>
@@ -54,6 +47,8 @@ export const mockMeasureResult: measureResponseType[] = [
             "lng": 136.9386247
         },
         "start_address": "日本、〒461-0047 愛知県名古屋市東区大幸南１丁目１−１",
+        "start_stay_time": 10, //追加点　出発前に居た時間 = 待機時間なのでこういう書き方なら...,
+        "end_stay_time": 10, //追加点　ついた状態なので0分　この値はなくてもいい
         "end_address": "日本、愛知県名古屋市千種区１０ 今池駅",
         "distance": 2610,
         "duration": 2028,
@@ -83,6 +78,8 @@ export const mockMeasureResult: measureResponseType[] = [
         },
         "start_address": "日本、愛知県名古屋市千種区１０ 今池駅",
         "end_address": "日本、〒460-0003 愛知県名古屋市中区丸の内３丁目１９ 愛知県名古屋市中区錦3丁目48 久屋大通駅",
+        "start_stay_time": 10, //追加点　出発前に居た時間 = 待機時間なのでこういう書き方なら...,
+        "end_stay_time": 10, //追加点　ついた状態なので0分　この値はなくてもいい
         "distance": 3031,
         "duration": 2431,
         "routes_points": [
@@ -117,6 +114,8 @@ export const mockMeasureResult: measureResponseType[] = [
         "end_address": "日本、〒460-0003 愛知県名古屋市中区錦３丁目６−１５先",
         "distance": 125,
         "duration": 104,
+        "start_stay_time": 10, //追加点　出発前に居た時間 = 待機時間なのでこういう書き方なら...,
+        "end_stay_time": 10, //追加点　ついた状態なので0分　この値はなくてもいい
         "routes_points": [
             "}wtuEixrbY?BB?",
             "ywtuEexrbYPATIXCNAJ?DAASD?`@CH?",

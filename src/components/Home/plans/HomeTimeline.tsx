@@ -2,10 +2,12 @@ import React, {useState, useRef, useEffect} from "react";
 import { Flex, Box, Text, Input } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { planDetailResponseType } from "lib/models/plan";
+import { measureResponseType } from "lib/models/measure"
 
 const HomeTimelineComponent: React.VFC<{
-    planRoutes: planDetailResponseType[], 
-}> = ({planRoutes}) => {
+    routes: measureResponseType[],
+    changeResultsHandler: (time: number, index: number) => void
+}> = ({routes, changeResultsHandler}) => {
     const timelineItemStyle = {
         pl: "70px",
         pr: "25px",
@@ -48,18 +50,18 @@ const HomeTimelineComponent: React.VFC<{
         borderRadius: "6px",
     }
 
-    const [time, setTime] = useState<number>(0)
     const [item, setItem] = useState<any>(null)
   
-    const unForcusInput = () => {
+    const unForcusInput = (time: number, index: number) => {
         setItem(null)
+        changeResultsHandler(time, index)
     }
 
     const bodyClick = useRef<any>()
     const inputRefs = useRef<any>([])
     const iconsRef = useRef<any>([])
 
-    planRoutes.forEach((_: any, i: number) => {
+    routes.forEach((_: any, i: number) => {
         inputRefs.current[i] = React.createRef()
         iconsRef.current[i] = React.createRef()
     });
@@ -80,7 +82,7 @@ const HomeTimelineComponent: React.VFC<{
     }
 
     const editHandler = (i: number) => {
-        setItem(planRoutes[i])
+        setItem(routes[i])
         console.log('handleToggleButtonClick')
         document.addEventListener('click', bodyClick.current)
     }
@@ -90,7 +92,7 @@ const HomeTimelineComponent: React.VFC<{
     return(
         <Box width="90%" mx="auto">
             <Box position="relative" _after={{...timelineAfterStyle}}>
-            {planRoutes.map((planRoute: planDetailResponseType, i: number) => (
+            {routes.map((planRoute: planDetailResponseType, i: number) => (
                 <Box key={i} position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
                     <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
                         <Flex justify="space-between" alignItems="center" h="40px">
@@ -99,15 +101,14 @@ const HomeTimelineComponent: React.VFC<{
                             </Text>
                             <Flex alignItems="center">
                                 <Text mr="3">滞在時間:</Text>
-                                    {item !== planRoutes[i] ? (
-                                <Text as="span" >{planRoutes[i].start_stay_time}</Text>
+                                    {item !== routes[i] ? (
+                                <Text as="span" >{routes[i].start_stay_time}</Text>
                                 ) : (
                                         <Input
                                         ref={inputRefs.current[i]}
                                         type="number"
-                                        defaultValue={planRoutes[i].start_stay_time}
-                                        onBlur={unForcusInput}
-                                        onChange={(e) => setTime(+e.target.value)}
+                                        defaultValue={routes[i].start_stay_time}
+                                        onBlur={(e) => unForcusInput(+e.target.value, i)}
                                         w="90px"
                                         textAlign="center"
                                         _focus={{

@@ -7,8 +7,6 @@ import HomeContentComponent from "components/Home/HomeContent";
 
 const App: React.VFC = () => {
     const {user} = useContext(UserContext)
-    console.log(user)
-    const user_id = "aaaa"
     return(
        <div>
            <Switch>
@@ -20,10 +18,10 @@ const App: React.VFC = () => {
                ): (
                 <>
                     <Route path="/" exact>
-                        <Redirect to={`/${user_id}`} />
+                        <Redirect to={`/profile`} />
                     </Route>
-                    <Route path="/:user_id" component={ProfileComponent} exact />
-                    <Route path="/:user_id/plans/:plan_id" component={HomeContentComponent} exact />
+                    <Route path="/profile" component={ProfileComponent} exact />
+                    <Route path="/plans/:plan_id" component={HomeContentComponent} exact />
                 </>
                )}
                

@@ -12,7 +12,7 @@ import { planResponseType } from 'lib/models/plan';
 const PranCard: React.VFC<{plan: planResponseType}> = ({plan}) => {
 return (
     <Box mb="4">
-        <Link to={`/aaaa/plans/${plan.id}`}>
+        <Link to={`/plans/${plan.id}`}>
             <Box
                 minW={'330px'}
                 w={'full'}

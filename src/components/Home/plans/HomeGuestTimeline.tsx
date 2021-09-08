@@ -100,12 +100,12 @@ const HomeGuestTimelineComponent: React.VFC<{
                             <Flex alignItems="center">
                                 <Text mr="3">滞在時間:</Text>
                                     {item !== measureRoutes[i] ? (
-                                <Text as="span" >0</Text>
+                                <Text as="span">{time}</Text>
                                 ) : (
                                         <Input
                                         ref={inputRefs.current[i]}
                                         type="number"
-                                        defaultValue={0}
+                                        defaultValue={measureRoutes[i].start_stay_time}
                                         onBlur={unForcusInput}
                                         onChange={(e) => setTime(+e.target.value)}
                                         w="90px"
