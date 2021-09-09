@@ -14,7 +14,6 @@ const HomeGuestHeaderComponent: React.VFC<{
   const history = useHistory()
   const handleLogin = async (res: any) => {
     await (new GoogleService()).loginWithGoogle(res)
-    console.log(res)
     history.go(0)
   }
   return (
