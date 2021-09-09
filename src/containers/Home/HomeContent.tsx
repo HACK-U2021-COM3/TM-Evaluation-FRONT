@@ -39,25 +39,18 @@ const HomeContent: React.VFC = () => {
     )
 
     // 出発地点と到着地点の設定
-    const settingLocation = (e: any, address: string) => {
-
+    const settingLocation = (e: any, point: searchResponseType | null) => {
+        console.log(point)
+        if(!point) return
         if(e.target.value === "start") {
-            if(measureRequest.to.to_name === address) {
-                window.alert("すでに到着地点として登録されています")
-                return
-            }
             setMeasureRequest({...measureRequest, from: {
-                from_name: address,
+                from_name: point.address,
                 from_stay_time: 0
             }
             })
         }else if(e.target.value === "end") {
-            if(measureRequest.from.from_name === address) {
-                window.alert("すでに出発地点として登録されています")
-                return
-            }
             setMeasureRequest({...measureRequest, to: {
-                to_name: address, 
+                to_name: point.address, 
                 to_stay_time: 0
             }
             })
