@@ -7,7 +7,7 @@ import { planDetailResponseType } from "lib/models/plan";
 import { decordMap } from "lib/util/map-decode";
 
 const HomeMapContentComponent: React.VFC<{
-    addRoutesPoint: (address: string)=> Promise<void>,
+    addRoutesPoint: (point: searchResponseType)=> void,
     settingLocation: (e: any, address: string) => void,
     resultLocations: searchResponseType[],
     routes: measureResponseType[],
@@ -67,7 +67,7 @@ const HomeMapContentComponent: React.VFC<{
                                         到着地点へ設定
                                     </Checkbox>
                                 </Stack>
-                                <Button colorScheme="blue" onClick={() => addRoutesPoint(selected.address)}>途中経路として追加</Button>
+                                <Button colorScheme="blue" onClick={() => addRoutesPoint(selected)}>途中経路として追加</Button>
                             </Box>
                         </InfoWindow>
                         )}
