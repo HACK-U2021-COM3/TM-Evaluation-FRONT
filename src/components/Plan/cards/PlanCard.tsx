@@ -4,14 +4,35 @@ import {
     Box,
     Heading,
     Text,
-    Tag,
-    TagLabel
+    IconButton,
+    useDisclosure
 } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 import { planResponseType } from 'lib/models/plan';
+import DeleteModalComponent from 'components/commons/objects/DeleteModal';
+
 
 const PranCard: React.VFC<{plan: planResponseType}> = ({plan}) => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
 return (
-    <Box mb="4">
+    <Box mb="4" position="relative">
+        <DeleteModalComponent
+        planId={plan.id.toString()}
+        isOpen={isOpen}
+        onClose={onClose}
+        >
+        <IconButton 
+        position="absolute"
+        zIndex="100"
+        right="10px"
+        top="10px" 
+        rounded="full"
+        colorScheme="red"
+        aria-label="delete past plan"
+        icon={<DeleteIcon />}
+        onClick={onOpen}
+        />
+        </DeleteModalComponent>
         <Link to={`/plans/${plan.id}`}>
             <Box
                 minW={'330px'}
@@ -29,17 +50,6 @@ return (
                         🎉
                     </Text>
                     </Box>
-                    <Tag
-                    position="absolute"
-                    top="10px"
-                    right="10px"
-                    size="lg"
-                    borderRadius="full"
-                    variant="solid"
-                    colorScheme="green"
-                    >
-                        <TagLabel>{plan.sum_time} 分</TagLabel>
-                     </Tag>
                 </Box>
                 <Box px="6" pt="2" pb="6">
                     <Text display="inline-block" as="small" textColor="gray.400" mb="1">{plan.updated_at}</Text>

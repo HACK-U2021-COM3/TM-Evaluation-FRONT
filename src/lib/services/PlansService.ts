@@ -31,11 +31,18 @@ export class PlansService extends ApiHeader {
         }
     }
 
-    // TODO
     async editAndSavePlan(payload: savePlanRequestType, plans_id: string): Promise<void> {
         try {
             await axios.put(`${this.url}/past_plans/${plans_id}`, payload, this.config)
         } catch(e) {
+            throw e
+        }
+    }
+
+    async deletePlan(plan_id: string): Promise<void> {
+        try {
+            await axios.delete(`${this.url}/past_plans/${plan_id}`, this.config)
+        }catch(e) {
             throw e
         }
     }
