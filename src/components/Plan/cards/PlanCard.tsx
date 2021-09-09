@@ -10,6 +10,7 @@ import {
 import { DeleteIcon } from '@chakra-ui/icons';
 import { planResponseType } from 'lib/models/plan';
 import DeleteModalComponent from 'components/commons/objects/DeleteModal';
+import { dateConvert } from 'lib/util/data-convert';
 
 
 const PranCard: React.VFC<{plan: planResponseType}> = ({plan}) => {
@@ -52,7 +53,7 @@ return (
                     </Box>
                 </Box>
                 <Box px="6" pt="2" pb="6">
-                    <Text display="inline-block" as="small" textColor="gray.400" mb="1">{plan.updated_at}</Text>
+                    <Text display="inline-block" as="small" textColor="gray.400" mb="1">{dateConvert.convertToDatetime(plan.updated_at)}</Text>
                     <Heading fontSize={'xl'} fontWeight="bold">
                         {plan.title}
                     </Heading>
