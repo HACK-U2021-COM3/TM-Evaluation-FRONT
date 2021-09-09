@@ -11,7 +11,7 @@ const PlanContent: React.VFC = () => {
     const history = useHistory()
     const {plans, loading} = usePlans()
     const createAndSavePlan = async () => {
-        await (new PlansService()).savePlans({
+        await (new PlansService()).createAndSavePlans({
             title: "untitled",
             sum_time: 0,
             details: [

@@ -8,16 +8,14 @@ export type planResponseType = {
 export type savePlanRequestType = {
    title: string,
   sum_time: number,
-  details: [
-    {
-      place_location: {
-        lat: number,
-        lng: number
-      },
-      stay_time: number,
-      order_number: number
-    }
-  ]
+  details: Array<{
+    place_location: {
+      lat: number,
+      lng: number
+    },
+    stay_time: number,
+    order_number: number
+  }>
 }
 
 export const mockPlans: planResponseType[] = [

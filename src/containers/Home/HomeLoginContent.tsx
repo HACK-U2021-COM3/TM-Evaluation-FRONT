@@ -97,6 +97,7 @@ const HomeLoginContent: React.VFC<{
             handleSearch={handleSearch}
             title={title}
             editTitleHandler={editTitleHandler}
+            routes={measureResults}
             />
             <Box maxW="1920px" mx="auto" py="6" px="6">
                 <Flex>
