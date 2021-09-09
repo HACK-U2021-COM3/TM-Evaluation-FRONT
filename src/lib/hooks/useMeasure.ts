@@ -8,7 +8,7 @@ const useMeasure = (form: measuseRequestType) => {
     const [error, setError] = useState<Error | null>(null)
     useEffect(() => {
         const load = async (): Promise<void> => {
-            if(form.from.from_name.length >= 1 && form.to.to_name.length >= 1 && form.waypoints.length >= 1) {
+            if(form.from.from_name.length >= 1 && form.to.to_name.length >= 1) {
                 try {
                     setMeasureLoading(true)
                     const res = await (new MeasureService()).getMeasureLocations(form)
