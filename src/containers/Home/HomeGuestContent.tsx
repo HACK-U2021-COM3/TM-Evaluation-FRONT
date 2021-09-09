@@ -4,7 +4,7 @@ import HomeResultsCardsComponent from "components/Home/cards/HomeResultsCards";
 import HomeGuestHeaderComponent from "components/Home/headers/HomeGuestHeader";
 import HomePlanRouteComponent from "components/Home/plans/HomePlanRouteContent";
 import HomeTimelineComponent from "components/Home/plans/HomeTimeline";
-import HomeGuestMapContentComponent from "components/Home/map/HomeGuestMapContent";
+import HomeMapContentComponent from "components/Home/map/HomeMapContent";
 
 import { measureResponseType } from "lib/models/measure";
 import { searchResponseType } from "lib/models/search";
@@ -15,7 +15,7 @@ const HomeGuestContent: React.VFC<{
     handleSearch: (e: any) => void,
     resultLocations: searchResponseType[],
     addRoutesPoint: (point: searchResponseType)=> void,
-    settingLocation: (e: any, address: string) => void,
+    settingLocation: (e: any, point: searchResponseType | null) => void,
     measureResults: measureResponseType[],
     changeResultsHandler: (time: number, index: number) => void
 }> = ({
@@ -36,7 +36,7 @@ const HomeGuestContent: React.VFC<{
                     <HomeResultsCardsComponent
                         results={measureResults}
                     />
-                    <HomeGuestMapContentComponent
+                    <HomeMapContentComponent
                     routes={measureResults}
                     addRoutesPoint={addRoutesPoint}
                     settingLocation={settingLocation}

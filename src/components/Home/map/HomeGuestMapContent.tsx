@@ -5,23 +5,75 @@ import { Button, Text, Stack, Checkbox, Box } from "@chakra-ui/react";
 import { searchResponseType } from "lib/models/search";
 import { measureResponseType } from "lib/models/measure";
 import { decordMap } from "lib/util/map-decode";
+import { useEffect } from "react";
+import { planDetailResponseType } from "lib/models/plan";
 
 
 
 
 const HomeMapGuestContentComponent: React.VFC<{
     addRoutesPoint: (point: searchResponseType)=> void,
-    settingLocation: (e: any, address: string) => void,
+    settingLocation: (e: any, point: searchResponseType | null) => void,
     resultLocations: searchResponseType[],
-    routes: measureResponseType[]
-}> = ({addRoutesPoint, settingLocation, resultLocations, routes}) => {
-    const [selected, setSelected] = useState<searchResponseType | null>(null)
+    routes: measureResponseType[],
+    plan?:  planDetailResponseType[]
+}> = ({addRoutesPoint, settingLocation, resultLocations, routes, plan}) => {
     let center = {lat: 35.02664,lng: 136.622259}
     let zoom = 8
+
+    if(plan?.length !== 0) {
+        center = plan?.find(_ => _)?.place_location ?? {lat: 35.02664,lng: 136.622259}
+    }
+
+    const [selectedPoint, setSelectedPoint] = useState<searchResponseType | null>(null)
+    const [fromTo, setFromto] = useState<[boolean, boolean][]>([[false, false]])
+
+    useEffect(() => {
+        let checkManage: [boolean, boolean][] = resultLocations.map(_ => [false, false])
+        setFromto(checkManage)
+    }, [resultLocations])
+
     const hitLocation = resultLocations.find(_=>_)?.location
     if(!!hitLocation) {
         center = hitLocation
         zoom = 13
+    }
+
+    const settingLocationHandler = (e: any, point: searchResponseType, i: number) => {
+        const alreadyChecked = fromTo.findIndex(i => i.find(j => i))
+        if (alreadyChecked !== -1) {
+            const alreadyCheckedhandler = (num: number) => {
+                if(fromTo[alreadyChecked][num]) {
+                    setFromto((item) => {
+                        item[alreadyChecked][num] = false
+                        return item
+                    })
+                }
+            }
+            alreadyCheckedhandler(0)
+            alreadyCheckedhandler(1)
+        }
+        if(e.target.value === "start") {
+            if(e.target.checked) {
+                setFromto((item) => {
+                    item[i][0] = true
+                    return item
+                })
+                settingLocation(e, point)
+            } else {
+                settingLocation(e, null)
+            }
+        }else if(e.target.value === "end") {
+            if(e.target.checked) {
+                setFromto((item) => {
+                    item[i][1] = true
+                    return item
+                })
+                settingLocation(e, point)
+            } else {
+                settingLocation(e, null)
+            }
+        }
     }
 
     return(
@@ -34,7 +86,7 @@ const HomeMapGuestContentComponent: React.VFC<{
             {resultLocations.map((marker: searchResponseType, i: number) => (
                 <Marker 
                 key={i} position={marker.location}
-                onClick={() => setSelected(marker)}
+                onClick={() => setSelectedPoint(marker)}
                 />
             ))}
             {routes.map((marker: measureResponseType, i: number) => (
@@ -51,25 +103,29 @@ const HomeMapGuestContentComponent: React.VFC<{
                 />
                 </Fragment>
              ))}
-            {!!selected && (
-                <InfoWindow
-                position={selected.location}
-                onCloseClick={() => setSelected(null)}
-                >
-                    <Box p="4">
-                        <Text>{selected.name}</Text>
-                        <Stack spacing={5} direction="row" mb="6">
-                            <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocation(e, selected.address)}>
-                                出発地点へ設定
-                            </Checkbox>
-                            <Checkbox colorScheme="green" value="end" onChange={(e) => settingLocation(e, selected.address)}>
-                                到着地点へ設定
-                            </Checkbox>
-                        </Stack>
-                        <Button colorScheme="blue" onClick={() => addRoutesPoint(selected)}>途中経路として追加</Button>
-                    </Box>
-                </InfoWindow>
-                )}
+            {resultLocations.map((location: searchResponseType, i: number) => (
+                <Fragment key={i}>
+                    {selectedPoint?.address === location.address && (
+                        <InfoWindow
+                        position={location.location}
+                        onCloseClick={() => setSelectedPoint(null)}
+                        >
+                            <Box p="4">
+                            <Text>{location.name}</Text>
+                            <Stack spacing={5} direction="row" mb="6">
+                                <Checkbox colorScheme="red" value="start" onChange={(e) => settingLocationHandler(e, location, i)} defaultIsChecked={fromTo[i][0]} isDisabled={fromTo[i][1]}>
+                                    出発地点へ設定
+                                </Checkbox>
+                                <Checkbox colorScheme="green" value="end" onChange={(e) => settingLocationHandler(e, location, i)} defaultIsChecked={fromTo[i][1]} isDisabled={fromTo[i][0]}>
+                                    到着地点へ設定
+                                </Checkbox>
+                            </Stack>
+                            <Button colorScheme="blue" onClick={() => addRoutesPoint(location)}>途中経路として追加</Button>
+                            </Box>
+                    </InfoWindow>
+                    )}
+                </Fragment>
+            ))}
             </GoogleMap>
     </LoadScript>
     )

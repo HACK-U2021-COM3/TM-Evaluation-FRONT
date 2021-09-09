@@ -20,7 +20,7 @@ const HomeLoginContent: React.VFC<{
     handleSearch: (e: any) => void,
     resultLocations: searchResponseType[],
     addRoutesPoint: (point: searchResponseType)=> void,
-    settingLocation: (e: any, address: string) => void,
+    settingLocation: (e: any, point: searchResponseType | null) => void,
     measureResults: measureResponseType[],
     changeResultsHandler: (time: number, index: number) => void,
     initPlanDetailRequest: (form: measuseRequestType) => void
