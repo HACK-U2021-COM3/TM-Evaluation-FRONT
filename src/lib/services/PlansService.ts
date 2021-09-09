@@ -23,25 +23,18 @@ export class PlansService extends ApiHeader {
         }
     }
 
-    async savePlans(payload: savePlanRequestType): Promise<void> {
-        await axios.post(`${this.url}/past_plans/`, payload, this.config)
-    }
-
-    // TODO
-    async createPlan(): Promise<any> {
+    async createAndSavePlans(payload: savePlanRequestType): Promise<void> {
         try {
-            const {data} = await axios.post(`${this.url}/`, this.config)
-            return data
-        } catch(e) {
+            await axios.post(`${this.url}/past_plans`, payload, this.config)
+        }catch(e) {
             throw e
         }
     }
 
     // TODO
-    async editPlan(payload: any): Promise<any> {
+    async editAndSavePlan(payload: savePlanRequestType, plans_id: string): Promise<void> {
         try {
-            const {data} = await axios.post(`${this.url}/`, {params: {...payload}, ...this.config})
-            return data
+            await axios.put(`${this.url}/past_plans/${plans_id}`, payload, this.config)
         } catch(e) {
             throw e
         }
