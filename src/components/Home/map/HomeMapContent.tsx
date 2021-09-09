@@ -14,8 +14,13 @@ const HomeMapContentComponent: React.VFC<{
     plan: planDetailResponseType[]
 }> = ({addRoutesPoint, settingLocation, resultLocations, routes, plan}) => {
 
-    const center = plan.find(_ => _)?.place_location
+    let center = plan.find(_ => _)?.place_location
     const [selected, setSelected] = useState<searchResponseType | null>(null)
+
+    const hitLocation = resultLocations.find(_=>_)?.location
+    if(!!hitLocation) {
+        center = hitLocation
+    }
 
     return (
         plan.length > 0 ? (
@@ -24,7 +29,7 @@ const HomeMapContentComponent: React.VFC<{
                     <GoogleMap
                     mapContainerStyle={{ height: "calc(100% - 112px)", borderRadius: "10px"}}
                     center={center}
-                    zoom={12}
+                    zoom={13}
                     >
                     {resultLocations.map((marker: searchResponseType, i: number) => (
                         <Marker 
@@ -37,7 +42,13 @@ const HomeMapContentComponent: React.VFC<{
                         <Marker 
                             position={marker.start_location}
                         />
-                        <Polyline path={decordMap(marker.routes_points, 5)} />
+                        <Polyline
+                        options={{
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 0.8,
+                        }}
+                        path={decordMap(marker.routes_points, 5)}
+                         />
                         </Fragment>
 
                     ))}
