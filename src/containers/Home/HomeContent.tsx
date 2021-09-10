@@ -18,11 +18,15 @@ const HomeContent: React.VFC = () => {
     // 経路検索
     const [searchQuery, setSearchQuery] = useState<string>("")
     const {resultLocations} = useSearch(searchQuery)
+    const [keyword, setKeyword] = useState<string>("")
+    const setKeywordHandler = (text: string) => {
+        setKeyword(text)
+    }
     const handleSearch = (e: any) :void => {
         if(e.key === "Enter") {
             e.preventDefault()
             console.log(e.target.value)
-            setSearchQuery(e.target.value)
+            setSearchQuery(`${keyword} ${e.target.value}`)
           }
     }
 
@@ -125,6 +129,7 @@ const HomeContent: React.VFC = () => {
                     {!user ? (
                         <>
                             <HomeGuestContent
+                                keyword={keyword}
                                 searchQuery={searchQuery}
                                 handleSearch={handleSearch}
                                 resultLocations={resultLocations}
@@ -133,6 +138,7 @@ const HomeContent: React.VFC = () => {
                                 measureResults={measures}
                                 pointResults={points}
                                 changeResultsHandler={changeResultsHandler}
+                                setKeywordHandler={setKeywordHandler}
                             />
                         </>
 
@@ -140,6 +146,7 @@ const HomeContent: React.VFC = () => {
                         <>
                             <HomeLoginContent
                                 user={user}
+                                keyword={keyword}
                                 searchQuery={searchQuery}
                                 handleSearch={handleSearch}
                                 resultLocations={resultLocations}
@@ -149,11 +156,11 @@ const HomeContent: React.VFC = () => {
                                 pointResults={points}
                                 changeResultsHandler={changeResultsHandler}
                                 initPlanDetailRequest={initPlanDetailRequest}
+                                setKeywordHandler={setKeywordHandler}
                             />
                         </>
                     )}
                 </>
-                ): <div />
             </>
     )
 }
