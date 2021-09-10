@@ -43,7 +43,6 @@ const HomeContent: React.VFC = () => {
 
     // 出発地点と到着地点の設定
     const settingLocation = (e: any, point: searchResponseType | null) => {
-        // onsole.log(point)
         if(!point) return
         if(e.target.value === "start") {
             setMeasureRequest({...measureRequest, from: {
@@ -80,7 +79,7 @@ const HomeContent: React.VFC = () => {
         }
 
         const orders: Array<number> = waypoints.map(routePoint => routePoint.order)
-        const newOrder: number = orders.length === 0 ? 0 : Math.max(...orders) + 1
+        const newOrder: number = orders.length === 0 ? 1 : Math.max(...orders) + 1
         waypoints.push({
             point: point.address,
             point_stay_time: 0,
@@ -89,9 +88,35 @@ const HomeContent: React.VFC = () => {
         setMeasureRequest({...measureRequest, waypoints: [...waypoints]})
     }
 
+    // 途中地点削除
+    const deleteRoutesPoint = (point: number) => {
+        const waypoints = [...measureRequest.waypoints]
+        // 始点は0
+        const START_NUMBER: number = 0;
+        // 終点は中間地点の合計個数+1
+        const END_NUMBER: number = waypoints.length + 1;
+        if(point === START_NUMBER){
+            window.alert("出発地点を変更する際は検索して変更をお願いします")
+            return
+        }
+        if(point === END_NUMBER) {
+            window.alert("到着地点を変更する際は検索して変更をお願いします")
+            return
+        }
+
+        // filterにて削除
+        let new_waypoints = waypoints.filter(n => n.order !== point);
+
+        // 消された部分のorderを振りなおす
+        for(let idx = 0; idx < new_waypoints.length; ++idx){
+            new_waypoints[idx].order = idx + 1;
+        }
+
+        setMeasureRequest({...measureRequest, waypoints: [...new_waypoints]})
+    }
+
     // 経路計算結果
     const {measureResults, pointResults} = useMeasure(measureRequest);
-    console.log(measureRequest)
     // 経路だけの管理
     const [measures, setMeasures] = useState<measureFixResponseType[]>(measureResults);
 
@@ -133,6 +158,7 @@ const HomeContent: React.VFC = () => {
                                 measureResults={measures}
                                 pointResults={points}
                                 changeResultsHandler={changeResultsHandler}
+                                deleteRoutesPoint={deleteRoutesPoint}
                             />
                         </>
 
@@ -149,6 +175,7 @@ const HomeContent: React.VFC = () => {
                                 pointResults={points}
                                 changeResultsHandler={changeResultsHandler}
                                 initPlanDetailRequest={initPlanDetailRequest}
+                                deleteRoutesPoint={deleteRoutesPoint}
                             />
                         </>
                     )}

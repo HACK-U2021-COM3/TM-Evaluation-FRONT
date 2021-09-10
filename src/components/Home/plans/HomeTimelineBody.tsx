@@ -1,7 +1,7 @@
 
 import React from "react"
 import { Box, Flex, Text, NumberInput, NumberInputField } from "@chakra-ui/react"
-import { EditIcon } from "@chakra-ui/icons"
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons"
 import HomeTimelineCardComponent from "./HomeTimelineCard"
 import {pointResponseType} from "../../../lib/models/measure_point";
 
@@ -18,8 +18,9 @@ const HomeTimelineBodyComponent: React.VFC<{
     inputRef: any,
     iconRef: any,
     unForcusInput: (time: number, index: number) => void,
-    editHandler: (index: number) => void
-}> = ({ index, item, point,distance, duration,  address, stayTime, inputRef, iconRef, unForcusInput, editHandler }) => {
+    editHandler: (index: number) => void,
+    deleteRoutesPoint: (point: number)=> void
+}> = ({ index, item, point,distance, duration,  address, stayTime, inputRef, iconRef, unForcusInput, editHandler, deleteRoutesPoint }) => {
     const timelineContentStyle = {
         display: "block",
         px: "20px",
@@ -54,7 +55,7 @@ const HomeTimelineBodyComponent: React.VFC<{
     return(
         <Box position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
             <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
-                <Flex justify="space-between" alignItems="center" h="40px">
+                <Flex justify="space-between" alignItems="center" h="40px" position="relative">
                     <Text overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" w="400px">
                     {address}
                     </Text>
@@ -68,7 +69,7 @@ const HomeTimelineBodyComponent: React.VFC<{
                                 min={ 0 }
                                 defaultValue={stayTime}
                                 onBlur={(e) => unForcusInput(+e.target.value, index)}
-                                w="90px"
+                                w="80px"
                                 textAlign="center"
                                 _focus={{
                                 border: "none"
@@ -80,6 +81,7 @@ const HomeTimelineBodyComponent: React.VFC<{
                             分
                             <EditIcon ref={iconRef} color="gray.300" ml="3" onClick={() => editHandler(index)} />
                     </Flex>
+                    <DeleteIcon right="-55" position="absolute" color="red" ml="3" onClick={() => deleteRoutesPoint(index)}/>
                 </Flex>
             </Box>
             <HomeTimelineCardComponent distance={distance} duration={duration} />

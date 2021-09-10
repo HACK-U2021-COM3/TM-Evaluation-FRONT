@@ -18,7 +18,8 @@ const HomeGuestContent: React.VFC<{
     settingLocation: (e: any, point: searchResponseType | null) => void,
     measureResults: measureFixResponseType[],
     pointResults: pointResponseType[],
-    changeResultsHandler: (time: number, index: number) => void
+    changeResultsHandler: (time: number, index: number) => void,
+    deleteRoutesPoint: (point: number) => void
 }> = ({
     searchQuery,
     handleSearch,
@@ -27,7 +28,8 @@ const HomeGuestContent: React.VFC<{
     settingLocation,
     measureResults,
     pointResults,
-    changeResultsHandler
+    changeResultsHandler,
+    deleteRoutesPoint
 }) => {
 
     console.log("measures -> ", measureResults);
@@ -56,6 +58,7 @@ const HomeGuestContent: React.VFC<{
                         changeResultsHandler={changeResultsHandler}
                         routes={measureResults}
                         points={pointResults}
+                        deleteRoutesPoint={deleteRoutesPoint}
                         />
                     </HomePlanRouteComponent>
                 </Box>

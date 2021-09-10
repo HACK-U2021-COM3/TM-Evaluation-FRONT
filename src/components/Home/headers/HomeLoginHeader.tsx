@@ -63,8 +63,6 @@ const HomeLoginHeaderComponent: React.VFC<{
     }
   })
 
-  console.log(convertToWaypointsRequests)
-
   const editAndSaveHandler = async (): Promise<void> => {
     const requestsPayload: savePlanRequestType = {
       title: title,

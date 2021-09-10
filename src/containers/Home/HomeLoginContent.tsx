@@ -26,7 +26,8 @@ const HomeLoginContent: React.VFC<{
     measureResults: measureFixResponseType[],
     pointResults: pointResponseType[],
     changeResultsHandler: (time: number, index: number) => void,
-    initPlanDetailRequest: (form: measuseRequestType) => void
+    initPlanDetailRequest: (form: measuseRequestType) => void,
+    deleteRoutesPoint: (point: number)=> void
 }> = ({user,
     searchQuery,
     handleSearch,
@@ -36,7 +37,8 @@ const HomeLoginContent: React.VFC<{
     measureResults,
     pointResults,
     changeResultsHandler,
-    initPlanDetailRequest
+    initPlanDetailRequest,
+    deleteRoutesPoint
 }) => {
 
     const {plan_id} = useParams<{plan_id: string}>()
@@ -87,8 +89,6 @@ const HomeLoginContent: React.VFC<{
         setTitle(title)
     }
 
-    console.log("login measures -> ", measureResults);
-
     return (
         <>
             <HomeLoginHeaderComponent
@@ -123,6 +123,7 @@ const HomeLoginContent: React.VFC<{
                             changeResultsHandler={changeResultsHandler}
                             routes={measureResults}
                             points={pointResults}
+                            deleteRoutesPoint={deleteRoutesPoint}
                             />
                         </HomePlanRouteComponent>
                     </Box>
