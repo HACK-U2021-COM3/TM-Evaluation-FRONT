@@ -26,7 +26,9 @@ const HomeLoginContent: React.VFC<{
     measureResults: measureFixResponseType[],
     pointResults: pointResponseType[],
     changeResultsHandler: (time: number, index: number) => void,
-    initPlanDetailRequest: (form: measuseRequestType) => void
+    initPlanDetailRequest: (form: measuseRequestType) => void,
+    setKeywordHandler: (text: string) => void,
+    keyword: string
 }> = ({user,
     searchQuery,
     handleSearch,
@@ -36,7 +38,9 @@ const HomeLoginContent: React.VFC<{
     measureResults,
     pointResults,
     changeResultsHandler,
-    initPlanDetailRequest
+    initPlanDetailRequest,
+    setKeywordHandler,
+    keyword
 }) => {
 
     const {plan_id} = useParams<{plan_id: string}>()
@@ -99,6 +103,7 @@ const HomeLoginContent: React.VFC<{
             editTitleHandler={editTitleHandler}
             routes={measureResults}
             points={pointResults}
+            keyword={keyword}
             />
             <Box maxW="1920px" mx="auto" py="6" px="6">
                 <Flex>
@@ -115,6 +120,7 @@ const HomeLoginContent: React.VFC<{
                         routes={measureResults}
                         points={pointResults}
                         plan={plan}
+                        setKeywordHandler={setKeywordHandler}
                         />
                     </Box>
                     <Box w="50%" px="6">
