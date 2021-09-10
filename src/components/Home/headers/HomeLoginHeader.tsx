@@ -12,7 +12,6 @@ import SearchInputComponent from 'components/commons/forms/SearchInput';
 import TitleInputComponent from 'components/commons/forms/TitleInput';
 import NavMenuComponent from 'components/commons/objects/NavMenu';
 import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer';
-import { measureResponseType } from 'lib/models/measure';
 import { savePlanRequestType } from 'lib/models/plan';
 import { PlansService } from 'lib/services/PlansService';
 import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
@@ -95,7 +94,7 @@ const HomeLoginHeaderComponent: React.VFC<{
             </HStack>
             <Flex alignItems={'center'}>
                 <Button
-                leftIcon={<CheckIcon />} 
+                leftIcon={<CheckIcon />}
                 variant="outline"
                 colorScheme="blue"
                 mx="5"
