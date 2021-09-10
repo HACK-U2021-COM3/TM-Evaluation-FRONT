@@ -3,10 +3,10 @@ import { GoogleMap, LoadScript, InfoWindow, Marker, Polyline} from "@react-googl
 import { Button, Text, Stack, Checkbox, Box } from "@chakra-ui/react";
 // import japan from "lib/data/ja.json"
 import { searchResponseType } from "lib/models/search";
-import { measureResponseType } from "lib/models/measure";
 import { decordMap } from "lib/util/map-decode";
 import { useEffect } from "react";
 import { planDetailResponseType } from "lib/models/plan";
+import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
 
 
 
@@ -15,9 +15,11 @@ const HomeMapContentComponent: React.VFC<{
     addRoutesPoint: (point: searchResponseType)=> void,
     settingLocation: (e: any, point: searchResponseType | null) => void,
     resultLocations: searchResponseType[],
-    routes: measureResponseType[],
+    // routes: measureResponseType[],
+    routes: measureFixResponseType[],
+    points: pointResponseType[],
     plan?:  planDetailResponseType[]
-}> = ({addRoutesPoint, settingLocation, resultLocations, routes, plan}) => {
+}> = ({addRoutesPoint, settingLocation, resultLocations, routes, points, plan}) => {
     let center = {lat: 35.02664,lng: 136.622259}
     let zoom = 8
 
@@ -90,20 +92,24 @@ const HomeMapContentComponent: React.VFC<{
                 onClick={() => setSelectedPoint(marker)}
                 />
             ))}
-            {routes.map((marker: measureResponseType, i: number) => (
+            {points.map((marker: pointResponseType, i: number) => (
                 <Fragment key={i}>
                 <Marker 
-                    position={marker.start_location}
-                />
-                <Polyline
-                options={{
-                    strokeColor: "#FF0000",
-                    strokeOpacity: 0.8,
-                }}
-                path={decordMap(marker.routes_points, 5)}
+                    position={marker.location}
                 />
                 </Fragment>
              ))}
+            {routes.map((measure: measureFixResponseType, i: number) => (
+                <Fragment key={i}>
+                    <Polyline
+                        options={{
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 0.8,
+                        }}
+                        path={decordMap(measure.routes_points, 5)}
+                    />
+                </Fragment>
+            ))}
             {resultLocations.map((location: searchResponseType, i: number) => (
                 <Fragment key={i}>
                     {selectedPoint?.address === location.address && (

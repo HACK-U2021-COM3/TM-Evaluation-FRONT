@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { MeasureService } from "lib/services/MeasureService"
-import { measureResponseType, measuseRequestType} from "lib/models/measure"
+import { measuseRequestType} from "lib/models/measure"
 import { pointResponseType, measureFixResponseType } from "../models/measure_point";
 
 const useMeasure = (form: measuseRequestType) => {
@@ -94,15 +94,8 @@ const useMeasure = (form: measuseRequestType) => {
                             }
                         }
                     }
-                    console.log("###########################");
-                    console.log(point_list, "point");
-                    console.log(measure_list, "measure");
-                    console.log("###########################");
-
-
                     setPointResults(point_list)
                     setMeasureResults(measure_list)
-                    // setMeasureResults(res)
                     setError(null)
                 } catch(e) {
                     setError(e as Error)
@@ -110,10 +103,12 @@ const useMeasure = (form: measuseRequestType) => {
                 setMeasureLoading(false)
             } else {
                 setMeasureResults([])
+                setPointResults([])
             }
         }
         void load()
     }, [form])
+
     // return { measureResults, measureLoading, error }
     return {measureResults, pointResults, measureLoading, error }
 }

@@ -9,9 +9,10 @@ import HomeMapContentComponent from "components/Home/map/HomeMapContent";
 
 import usePlan from "lib/hooks/usePlan";
 import { searchResponseType } from "lib/models/search";
-import { measureResponseType, measuseRequestType } from "lib/models/measure";
+import { measuseRequestType } from "lib/models/measure";
 import { useEffect } from "react";
 import usePlans from "lib/hooks/usePlans";
+import {measureFixResponseType, pointResponseType} from "../../lib/models/measure_point";
 
 
 const HomeLoginContent: React.VFC<{
@@ -21,7 +22,8 @@ const HomeLoginContent: React.VFC<{
     resultLocations: searchResponseType[],
     addRoutesPoint: (point: searchResponseType)=> void,
     settingLocation: (e: any, point: searchResponseType | null) => void,
-    measureResults: measureResponseType[],
+    measureResults: measureFixResponseType[],
+    pointResults: pointResponseType[],
     changeResultsHandler: (time: number, index: number) => void,
     initPlanDetailRequest: (form: measuseRequestType) => void
 }> = ({user,
@@ -31,6 +33,7 @@ const HomeLoginContent: React.VFC<{
     addRoutesPoint,
     settingLocation,
     measureResults,
+    pointResults,
     changeResultsHandler,
     initPlanDetailRequest
 }) => {
@@ -38,14 +41,13 @@ const HomeLoginContent: React.VFC<{
     const {plan_id} = useParams<{plan_id: string}>()
     const {plan} = usePlan(plan_id)
 
-
     
     useEffect(() => {
         const firstOrder = Math.min(...plan.map((p) => p.order_number))
         const lastOrder = Math.max(...plan.map((p) => p.order_number))
         const startPoint = plan.find(p => p.order_number === firstOrder)
         const endPoint = plan.find(p => p.order_number === lastOrder)
-        const waypoints = plan.filter(p => p.order_number !== firstOrder || p.order_number !== lastOrder)
+        const waypoints = plan.filter(p => p.order_number !== firstOrder && p.order_number !== lastOrder)
     
         const convertLocationObjectToString = (location: {lat: number, lng: number} | undefined): string => {
             if(!location) return ""
@@ -89,6 +91,8 @@ const HomeLoginContent: React.VFC<{
         setTitle(title)
     }
 
+    console.log("login measures -> ", measureResults);
+
     return (
         <>
             <HomeLoginHeaderComponent
@@ -98,18 +102,22 @@ const HomeLoginContent: React.VFC<{
             title={title}
             editTitleHandler={editTitleHandler}
             routes={measureResults}
+            points={pointResults}
             />
             <Box maxW="1920px" mx="auto" py="6" px="6">
                 <Flex>
                     <Box w="50%" px="6">
                         <HomeResultsCardsComponent
-                        results={measureResults}
+                        // results={measureResults}
+                        pointResults={pointResults}
+                        measureResults={measureResults}
                          />
                         <HomeMapContentComponent
                         addRoutesPoint={addRoutesPoint}
                         settingLocation={settingLocation}
                         resultLocations={resultLocations}
                         routes={measureResults}
+                        points={pointResults}
                         plan={plan}
                         />
                     </Box>
@@ -117,7 +125,8 @@ const HomeLoginContent: React.VFC<{
                         <HomePlanRouteComponent>
                             <HomeTimelineComponent 
                             changeResultsHandler={changeResultsHandler}
-                            routes={measureResults} 
+                            routes={measureResults}
+                            points={pointResults}
                             />
                         </HomePlanRouteComponent>
                     </Box>

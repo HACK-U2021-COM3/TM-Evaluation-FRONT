@@ -6,8 +6,8 @@ import HomePlanRouteComponent from "components/Home/plans/HomePlanRouteContent";
 import HomeTimelineComponent from "components/Home/plans/HomeTimeline";
 import HomeMapContentComponent from "components/Home/map/HomeMapContent";
 
-import { measureResponseType } from "lib/models/measure";
 import { searchResponseType } from "lib/models/search";
+import {measureFixResponseType, pointResponseType} from "../../lib/models/measure_point";
 
 
 const HomeGuestContent: React.VFC<{
@@ -16,7 +16,8 @@ const HomeGuestContent: React.VFC<{
     resultLocations: searchResponseType[],
     addRoutesPoint: (point: searchResponseType)=> void,
     settingLocation: (e: any, point: searchResponseType | null) => void,
-    measureResults: measureResponseType[],
+    measureResults: measureFixResponseType[],
+    pointResults: pointResponseType[],
     changeResultsHandler: (time: number, index: number) => void
 }> = ({
     searchQuery,
@@ -25,8 +26,11 @@ const HomeGuestContent: React.VFC<{
     addRoutesPoint,
     settingLocation,
     measureResults,
+    pointResults,
     changeResultsHandler
 }) => {
+
+    console.log("measures -> ", measureResults);
     return (
         <>
             <HomeGuestHeaderComponent searchQuery={searchQuery} handleSearch={handleSearch}  />
@@ -34,10 +38,13 @@ const HomeGuestContent: React.VFC<{
             <Flex>
                 <Box w="50%" px="6">
                     <HomeResultsCardsComponent
-                        results={measureResults}
+                        // results={measureResults}
+                        measureResults={measureResults}
+                        pointResults={pointResults}
                     />
                     <HomeMapContentComponent
                     routes={measureResults}
+                    points={pointResults}
                     addRoutesPoint={addRoutesPoint}
                     settingLocation={settingLocation}
                     resultLocations={resultLocations} 
@@ -47,7 +54,8 @@ const HomeGuestContent: React.VFC<{
                     <HomePlanRouteComponent>
                         <HomeTimelineComponent
                         changeResultsHandler={changeResultsHandler}
-                        routes={measureResults} 
+                        routes={measureResults}
+                        points={pointResults}
                         />
                     </HomePlanRouteComponent>
                 </Box>

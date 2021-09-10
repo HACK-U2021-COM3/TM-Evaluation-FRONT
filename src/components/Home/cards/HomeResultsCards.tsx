@@ -1,30 +1,32 @@
 import React from "react";
 import { Wrap } from "@chakra-ui/react";
 import HomeResultCardsComponent from "./HomeResultsCard";
-import { measureResponseType } from "lib/models/measure";
+import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
 
 
 const HomeResultsCardsCmponent: React.VFC<{
-    results: measureResponseType[],
-}> = ({results}) => {
+    pointResults: pointResponseType[],
+    measureResults: measureFixResponseType[],
+    // results: measureResponseType[],
+}> = ({pointResults, measureResults}) => {
     const sumDistance = () => {
         let res = 0
-        for (const {distance} of results) {
+        for (const {distance} of measureResults) {
             res+= Math.floor(distance / 1000)
         }
         return res
     }
     const sumRouteTime = () => {
         let res = 0
-        for (const {duration} of results) {
+        for (const {duration} of measureResults) {
             res+= Math.floor(duration / 60)
         }
         return res
     }
     const sumStayTime = () => {
         let res = 0
-        for (const {start_stay_time} of results) {
-            res+= start_stay_time
+        for (const {stay_time} of pointResults) {
+            res+= stay_time
         }
         return res
     }

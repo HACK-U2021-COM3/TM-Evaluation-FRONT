@@ -1,14 +1,16 @@
 
 import React from "react"
-import { Box, Flex, Text, Input } from "@chakra-ui/react"
+import { Box, Flex, Text, NumberInput, NumberInputField } from "@chakra-ui/react"
 import { EditIcon } from "@chakra-ui/icons"
-import { measureResponseType } from "lib/models/measure"
 import HomeTimelineCardComponent from "./HomeTimelineCard"
+import {pointResponseType} from "../../../lib/models/measure_point";
 
 const HomeTimelineBodyComponent: React.VFC<{
     index: number
-    item: measureResponseType,
-    route: measureResponseType,
+    // item: measureResponseType,
+    item: pointResponseType,
+    point: pointResponseType,
+    // route: measureResponseType,
     distance: number
     duration: number,
     address: string,
@@ -17,7 +19,7 @@ const HomeTimelineBodyComponent: React.VFC<{
     iconRef: any,
     unForcusInput: (time: number, index: number) => void,
     editHandler: (index: number) => void
-}> = ({ index, item, route, distance, duration, address, stayTime, inputRef, iconRef, unForcusInput, editHandler }) => {
+}> = ({ index, item, point,distance, duration,  address, stayTime, inputRef, iconRef, unForcusInput, editHandler }) => {
     const timelineContentStyle = {
         display: "block",
         px: "20px",
@@ -52,33 +54,35 @@ const HomeTimelineBodyComponent: React.VFC<{
     return(
         <Box position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
             <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
-            <Flex justify="space-between" alignItems="center" h="40px">
-                <Text overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" w="400px">
-                {address}
-                </Text>
-                <Flex alignItems="center">
-                    <Text mr="3">滞在時間:</Text>
-                        {item !== route ? (
-                    <Text as="span" >{stayTime}</Text>
-                    ) : (
-                            <Input
-                            ref={inputRef}
-                            type="number"
-                            defaultValue={stayTime}
-                            onBlur={(e) => unForcusInput(+e.target.value, index)}
-                            w="90px"
-                            textAlign="center"
-                            _focus={{
-                            border: "none"
-                            }}
-                            />
-                        )}
-                        分
-                        <EditIcon ref={iconRef} color="gray.300" ml="3" onClick={() => editHandler(index)} />
+                <Flex justify="space-between" alignItems="center" h="40px">
+                    <Text overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" w="400px">
+                    {address}
+                    </Text>
+                    <Flex alignItems="center">
+                        <Text mr="3">滞在時間:</Text>
+                            {item !== point ? (
+                        <Text as="span" >{stayTime}</Text>
+                        ) : (
+                                <NumberInput
+                                ref={inputRef}
+                                min={ 0 }
+                                defaultValue={stayTime}
+                                onBlur={(e) => unForcusInput(+e.target.value, index)}
+                                w="90px"
+                                textAlign="center"
+                                _focus={{
+                                border: "none"
+                                }}
+                                >
+                                    <NumberInputField />
+                                </NumberInput>
+                            )}
+                            分
+                            <EditIcon ref={iconRef} color="gray.300" ml="3" onClick={() => editHandler(index)} />
+                    </Flex>
                 </Flex>
-            </Flex>
+            </Box>
             <HomeTimelineCardComponent distance={distance} duration={duration} />
-        </Box>
         </Box>
         
     )
