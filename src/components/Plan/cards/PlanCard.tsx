@@ -5,12 +5,14 @@ import {
     Heading,
     Text,
     IconButton,
-    useDisclosure
+    useDisclosure,
+    Image
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { planResponseType } from 'lib/models/plan';
 import DeleteModalComponent from 'components/commons/objects/DeleteModal';
 import { dateConvert } from 'lib/util/data-convert';
+import {randomPick} from "../../../lib/util/rand-emoji";
 
 
 const PranCard: React.VFC<{plan: planResponseType}> = ({plan}) => {
@@ -22,11 +24,11 @@ return (
         isOpen={isOpen}
         onClose={onClose}
         >
-        <IconButton 
+        <IconButton
         position="absolute"
         zIndex="100"
         right="10px"
-        top="10px" 
+        top="10px"
         rounded="full"
         colorScheme="red"
         aria-label="delete past plan"
@@ -46,9 +48,8 @@ return (
             >
                 <Box position="relative" bgColor="gray.100" minH="120px" roundedTopLeft="lg" roundedTopRight="lg">
                     <Box position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
-                    {/* TODO ランダムでさす */}
-                    <Text fontSize="5xl">
-                        🎉
+                    <Text>
+                        <Image w={"50px"} h={"50px"} src={`https://twemoji.maxcdn.com/v/13.1.0/svg/${randomPick()}.svg`} />
                     </Text>
                     </Box>
                 </Box>
