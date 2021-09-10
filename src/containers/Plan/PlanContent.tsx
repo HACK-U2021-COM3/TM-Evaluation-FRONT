@@ -16,7 +16,7 @@ const PlanContent: React.VFC = () => {
             sum_time: 0,
             details: [
                 {
-                    place_location: {lat: 35.6797349,lng: 139.7370742},
+                    place_location: {lat: 36,lng: 138},
                     stay_time: 0,
                     order_number: 0
                 }

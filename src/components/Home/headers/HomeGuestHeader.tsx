@@ -1,5 +1,5 @@
 import React from 'react';
-import { HStack, Image } from '@chakra-ui/react';
+import {HStack, Image, Text, Flex, Box} from '@chakra-ui/react';
 import SearchInput from 'components/commons/forms/SearchInput';
 import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer';
 import { GoogleLogin } from 'react-google-login';
@@ -9,8 +9,9 @@ import { useHistory } from 'react-router-dom';
 
 const HomeGuestHeaderComponent: React.VFC<{
   searchQuery: string,
-  handleSearch: (e: any) => void
-}> = ({searchQuery, handleSearch}) =>  {
+  handleSearch: (e: any) => void,
+  keyword: string
+}> = ({searchQuery, handleSearch, keyword}) =>  {
   const history = useHistory()
   const handleLogin = async (res: any) => {
     await (new GoogleService()).loginWithGoogle(res)
@@ -19,10 +20,13 @@ const HomeGuestHeaderComponent: React.VFC<{
   return (
     <>
         <HeaderContainerComponent>
-            <HStack spacing={8} alignItems={'center'}>
+            <Flex alignItems={'center'}>
                 <Image src="/images/logo.png" w="50px" h="50px" />
-                <SearchInput searchQuery={searchQuery} handleSearch={handleSearch} />
-            </HStack>
+                <Box mx={"3"}>
+                    <SearchInput searchQuery={searchQuery} handleSearch={handleSearch} />
+                </Box>
+                <Text as={"span"} color="white">キーワード: {keyword}</Text>
+            </Flex>
             <HStack>
                 <GoogleLogin
                 clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}
