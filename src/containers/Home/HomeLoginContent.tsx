@@ -12,7 +12,8 @@ import { searchResponseType } from "lib/models/search";
 import { measuseRequestType } from "lib/models/measure";
 import { useEffect } from "react";
 import usePlans from "lib/hooks/usePlans";
-import {measureFixResponseType, pointResponseType} from "../../lib/models/measure_point";
+import {measureFixResponseType, pointResponseType} from "lib/models/measure_point";
+import {convertLocationObjectToString} from "lib/util/convert-location";
 
 
 const HomeLoginContent: React.VFC<{
@@ -41,19 +42,14 @@ const HomeLoginContent: React.VFC<{
     const {plan_id} = useParams<{plan_id: string}>()
     const {plan} = usePlan(plan_id)
 
-    
+
     useEffect(() => {
         const firstOrder = Math.min(...plan.map((p) => p.order_number))
         const lastOrder = Math.max(...plan.map((p) => p.order_number))
         const startPoint = plan.find(p => p.order_number === firstOrder)
         const endPoint = plan.find(p => p.order_number === lastOrder)
         const waypoints = plan.filter(p => p.order_number !== firstOrder && p.order_number !== lastOrder)
-    
-        const convertLocationObjectToString = (location: {lat: number, lng: number} | undefined): string => {
-            if(!location) return ""
-            return `${location.lat},${location.lng}`
-        }
-    
+
         const convertWaipointsToRequestWaipoint = waypoints.map(point => {
             return {
                 point: convertLocationObjectToString(point.place_location),
@@ -77,7 +73,7 @@ const HomeLoginContent: React.VFC<{
         console.log("init", initRequestForm)
         initPlanDetailRequest(initRequestForm)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [plan]) 
+    }, [plan])
 
 
     const {plans} = usePlans()
@@ -123,7 +119,7 @@ const HomeLoginContent: React.VFC<{
                     </Box>
                     <Box w="50%" px="6">
                         <HomePlanRouteComponent>
-                            <HomeTimelineComponent 
+                            <HomeTimelineComponent
                             changeResultsHandler={changeResultsHandler}
                             routes={measureResults}
                             points={pointResults}
