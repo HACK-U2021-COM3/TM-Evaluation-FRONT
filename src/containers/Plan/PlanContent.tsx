@@ -16,7 +16,7 @@ const PlanContent: React.VFC = () => {
             sum_time: 0,
             details: [
                 {
-                    place_location: {lat: 35.02664,lng: 136.622259},
+                    place_location: {lat: 35.6797349,lng: 139.7370742},
                     stay_time: 0,
                     order_number: 0
                 }
@@ -31,7 +31,7 @@ const PlanContent: React.VFC = () => {
                 {plans.map(plan => (
                     <WrapItem key={plan.id}>
                         <CardComponent plan={plan} />
-                    </WrapItem>            
+                    </WrapItem>
                 ))}
             </Wrap>
         </PlanContentComponent>
