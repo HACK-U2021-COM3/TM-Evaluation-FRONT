@@ -2,8 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "lib/contexts/AuthContext";
 import HomeGuestContent from "./HomeGuestContent";
 import HomeLoginContent from "./HomeLoginContent";
-import { measuseRequestType, measureResponseType } from "lib/models/measure";
+import { measuseRequestType } from "lib/models/measure";
 import { searchResponseType } from "lib/models/search";
+
+import { measureFixResponseType, pointResponseType} from "lib/models/measure_point";
 
 import useSearch from "lib/hooks/useSearch";
 import useMeasure from "lib/hooks/useMeasure";
@@ -40,7 +42,7 @@ const HomeContent: React.VFC = () => {
 
     // 出発地点と到着地点の設定
     const settingLocation = (e: any, point: searchResponseType | null) => {
-        console.log(point)
+        // onsole.log(point)
         if(!point) return
         if(e.target.value === "start") {
             setMeasureRequest({...measureRequest, from: {
@@ -86,15 +88,21 @@ const HomeContent: React.VFC = () => {
     }
 
     // 経路計算結果
-    const {measureResults} = useMeasure(measureRequest)
+    const {measureResults, pointResults} = useMeasure(measureRequest);
 
-    // 経路計算結果の管理
-    const [results, setResults] = useState<measureResponseType[]>([])
+    // 経路だけの管理
+    const [measures, setMeasures] = useState<measureFixResponseType[]>(measureResults);
+
+    // 地点だけの管理
+    const [points, setPoints] = useState<pointResponseType[]>(pointResults);
 
     // 滞在時間の編集
     const changeResultsHandler = (time: number, index: number) => {
-        results[index].start_stay_time = time
-        setResults([...results])
+        if(time < 0){
+            time = 0;
+        }
+        points[index].stay_time = time
+        setPoints([...points])
     }
 
     // 初回リクエスト時に過去予定を計算するため
@@ -104,39 +112,47 @@ const HomeContent: React.VFC = () => {
 
     // 経路計算のデータが変更されたら計算
     useEffect(() => {
-        setResults([...measureResults])
-    }, [measureResults])
+        setMeasures([...measureResults])
+        setPoints([...pointResults])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [measureResults]);
+
     return (
         <>
-            {!user ? (
-             <>
-               <HomeGuestContent
-               searchQuery={searchQuery}
-               handleSearch={handleSearch}
-               resultLocations={resultLocations}
-               addRoutesPoint={addRoutesPoint}
-               settingLocation={settingLocation}
-               measureResults={results}
-               changeResultsHandler={changeResultsHandler}
-                />
-             </>
-
-            ): (
                 <>
-                    <HomeLoginContent 
-                    user={user}
-                    searchQuery={searchQuery}
-                    handleSearch={handleSearch}
-                    resultLocations={resultLocations}
-                    addRoutesPoint={addRoutesPoint}
-                    settingLocation={settingLocation}
-                    measureResults={results}
-                    changeResultsHandler={changeResultsHandler}
-                    initPlanDetailRequest={initPlanDetailRequest}
-                     />
+                    {!user ? (
+                        <>
+                            <HomeGuestContent
+                                searchQuery={searchQuery}
+                                handleSearch={handleSearch}
+                                resultLocations={resultLocations}
+                                addRoutesPoint={addRoutesPoint}
+                                settingLocation={settingLocation}
+                                measureResults={measures}
+                                pointResults={points}
+                                changeResultsHandler={changeResultsHandler}
+                            />
+                        </>
+
+                    ): (
+                        <>
+                            <HomeLoginContent
+                                user={user}
+                                searchQuery={searchQuery}
+                                handleSearch={handleSearch}
+                                resultLocations={resultLocations}
+                                addRoutesPoint={addRoutesPoint}
+                                settingLocation={settingLocation}
+                                measureResults={measures}
+                                pointResults={points}
+                                changeResultsHandler={changeResultsHandler}
+                                initPlanDetailRequest={initPlanDetailRequest}
+                            />
+                        </>
+                    )}
                 </>
-                )}
-        </>
+                ): <div />
+            </>
     )
 }
 

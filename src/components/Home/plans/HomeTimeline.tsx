@@ -1,35 +1,14 @@
-import React, {useState, useRef, useEffect} from "react";
-import { Flex, Box, Text, Input, Image } from "@chakra-ui/react";
-import { EditIcon } from "@chakra-ui/icons";
-import { measureResponseType } from "lib/models/measure"
+import React, {useState, useRef, useEffect, Fragment} from "react";
+import { Box } from "@chakra-ui/react";
+import HomeTimelineBodyComponent from "./HomeTimelineBody";
+import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
 
 const HomeTimelineComponent: React.VFC<{
-    routes: measureResponseType[],
+    // routes: measureResponseType[],
+    routes: measureFixResponseType[],
+    points: pointResponseType[],
     changeResultsHandler: (time: number, index: number) => void
-}> = ({routes, changeResultsHandler}) => {
-    const timelineItemStyle = {
-        pl: "70px",
-        pr: "25px",
-        py: "25px",
-        bgColor: "inherit",
-        w: "100%",
-        left: "0"
-    }
-
-    const timelinBeforeItemStyle = {
-        content: "''",
-        position: "absolute",
-        width: "24px",
-        height: "24px",
-        left: "19px",
-        bgColor: "#3182ce",
-        border: "2px",
-        borderColor: "white",
-        top: "22px",
-        borderRadius: "50%",
-        zIndex: 1,
-    }
-    
+}> = ({routes, points, changeResultsHandler}) => {
     const timelineAfterStyle = {
         content: "''",
         position: "absolute",
@@ -41,13 +20,7 @@ const HomeTimelineComponent: React.VFC<{
         ml: "-2px"
     }
 
-    const timelineContentStyle = {
-        display: "block",
-        px: "20px",
-        py: "30px",
-        bgColor: "white",
-        borderRadius: "6px",
-    }
+    console.log("routes", routes);
 
     const [item, setItem] = useState<any>(null)
   
@@ -60,7 +33,7 @@ const HomeTimelineComponent: React.VFC<{
     const inputRefs = useRef<any>([])
     const iconsRef = useRef<any>([])
 
-    routes.forEach((_: any, i: number) => {
+    points.forEach((_: any, i: number) => {
         inputRefs.current[i] = React.createRef()
         iconsRef.current[i] = React.createRef()
     });
@@ -68,6 +41,7 @@ const HomeTimelineComponent: React.VFC<{
         bodyClick.current = (e: any) => {
             console.log('documentClickHandler')
             console.log('target', e.target)
+            console.log('icon ref', iconsRef.current)
             if (!!iconsRef.current?.find((item: any) => item.current?.contains(e.target))) return
             if (!!inputRefs.current?.find((item: any) => item.current?.contains(e.target))) return
             setItem(null)
@@ -81,56 +55,47 @@ const HomeTimelineComponent: React.VFC<{
     }
 
     const editHandler = (i: number) => {
-        setItem(routes[i])
+        setItem(points[i])
         console.log('handleToggleButtonClick')
         document.addEventListener('click', bodyClick.current)
     }
-
-
-
     return(
         <Box width="90%" mx="auto">
             <Box position="relative" _after={{...timelineAfterStyle}}>
-            {routes.map((route: measureResponseType, i: number) => (
-                <Box key={i} position="relative" {...timelineItemStyle} _before={{...timelinBeforeItemStyle}}>
-                    <Box shadow="sm" border="1px" borderColor="gray.200" position="relative" {...timelineContentStyle}>
-                        <Flex justify="space-between" alignItems="center" h="40px">
-                            <Text overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" w="400px">
-                            {route.start_address}
-                            </Text>
-                            <Flex alignItems="center">
-                                <Text mr="3">滞在時間:</Text>
-                                    {item !== routes[i] ? (
-                                <Text as="span" >{routes[i].start_stay_time}</Text>
-                                ) : (
-                                        <Input
-                                        ref={inputRefs.current[i]}
-                                        type="number"
-                                        defaultValue={routes[i].start_stay_time}
-                                        onBlur={(e) => unForcusInput(+e.target.value, i)}
-                                        w="90px"
-                                        textAlign="center"
-                                        _focus={{
-                                        border: "none"
-                                        }}
-                                        />
-                                    )}
-                                    分
-                                    <EditIcon ref={iconsRef.current[i]} color="gray.300" ml="3" onClick={() => editHandler(i)} />
-                            </Flex>
-                        </Flex>
-                    </Box>
-                    {route !== routes[routes.length - 1] && (
-                        <>
-                        <Flex alignItems="center" w="100px" justify="space-between" color="gray.500" position="absolute" right="72px" bottom="-10px">
-                            <Image mx="2" src="/images/icons/walking.svg"/>
-                            <Text as="span">{Math.floor(route.duration / 60)}分</Text>
-                        </Flex>
-                        <Text as="span" color="gray.500" position="absolute" left="-38px" top="64px">{Math.floor(route.distance / 1000)}km</Text>
-                        </>
+            {points.map((point: pointResponseType, i: number) => (
+                <Fragment key={i}>
+                    {i !== routes.length ? (
+                        <HomeTimelineBodyComponent
+                            index={i}
+                            item={item}
+                            point={points[i]}
+                            // route={routes[i]}
+                            distance={routes[i].distance}
+                            duration={routes[i].duration}
+                            address={points[i].address}
+                            stayTime={points[i].stay_time}
+                            inputRef={inputRefs.current[i]}
+                            iconRef={iconsRef.current[i]}
+                            unForcusInput={unForcusInput}
+                            editHandler={editHandler}
+                        />
+                    ) : (
+                        <HomeTimelineBodyComponent
+                            index={i}
+                            item={item}
+                            point={points[i]}
+                            // route={routes[i]}
+                            distance={0}
+                            duration={0}
+                            address={points[i].address}
+                            stayTime={points[i].stay_time}
+                            inputRef={inputRefs.current[i]}
+                            iconRef={iconsRef.current[i]}
+                            unForcusInput={unForcusInput}
+                            editHandler={editHandler}
+                        />
                     )}
-
-                </Box>            
+                </Fragment>
             ))}
         </Box>
         </Box>

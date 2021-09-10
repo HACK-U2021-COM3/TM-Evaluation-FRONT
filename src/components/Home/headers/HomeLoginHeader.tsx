@@ -15,6 +15,7 @@ import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer
 import { measureResponseType } from 'lib/models/measure';
 import { savePlanRequestType } from 'lib/models/plan';
 import { PlansService } from 'lib/services/PlansService';
+import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
 
 
 
@@ -24,14 +25,17 @@ const HomeLoginHeaderComponent: React.VFC<{
   handleSearch: (e: any) => void,
   title: string,
   editTitleHandler: (title: string) => void,
-  routes: measureResponseType[]
+  // routes: measureResponseType[]
+  routes: measureFixResponseType[],
+  points: pointResponseType[]
 }> = ({
   user,
   searchQuery,
   handleSearch,
   title,
   editTitleHandler,
-  routes
+  routes,
+  points
 }) =>  {
   const toast = useToast()
   const {plan_id} = useParams<{plan_id: string}>()
@@ -44,18 +48,18 @@ const HomeLoginHeaderComponent: React.VFC<{
   }
   const sumStayTime = () => {
     let res = 0
-    for (const {start_stay_time} of routes) {
-        res+= start_stay_time
+    for (const {stay_time} of points) {
+        res+= stay_time
     }
     return res
   }
 
   const sumTime: number = sumRouteTime() + sumStayTime()
 
-  const convertToWaypointsRequests = routes.map((route: measureResponseType, i: number) => {
+  const convertToWaypointsRequests = points.map((point:pointResponseType, i: number) => {
     return {
-      place_location: route.start_location,
-      stay_time: route.start_stay_time,
+      place_location: point.location,
+      stay_time: point.stay_time,
       order_number: i
     }
   })
