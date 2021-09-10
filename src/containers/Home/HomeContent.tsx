@@ -9,6 +9,7 @@ import { measureFixResponseType, pointResponseType} from "lib/models/measure_poi
 
 import useSearch from "lib/hooks/useSearch";
 import useMeasure from "lib/hooks/useMeasure";
+import {convertLocationObjectToString} from "../../lib/util/convert-location";
 
 
 const HomeContent: React.VFC = () => {
@@ -46,13 +47,13 @@ const HomeContent: React.VFC = () => {
         if(!point) return
         if(e.target.value === "start") {
             setMeasureRequest({...measureRequest, from: {
-                from_name: point.address,
+                from_name: convertLocationObjectToString(point.location),
                 from_stay_time: 0
             }
             })
         }else if(e.target.value === "end") {
             setMeasureRequest({...measureRequest, to: {
-                to_name: point.address, 
+                to_name: convertLocationObjectToString(point.location),
                 to_stay_time: 0
             }
             })
@@ -61,11 +62,12 @@ const HomeContent: React.VFC = () => {
 
     // 経路の追加
     const addRoutesPoint = (point: searchResponseType) => {
-        if(measureRequest.to.to_name === point.address) {
+        const address = convertLocationObjectToString(point.location)
+        if(measureRequest.to.to_name === address) {
             window.alert("すでに到着地点として登録されています")
             return
         }
-        if(measureRequest.from.from_name === point.address) {
+        if(measureRequest.from.from_name === address) {
             window.alert("すでに出発地点として登録されています")
             return
         }
@@ -74,8 +76,8 @@ const HomeContent: React.VFC = () => {
         const isSamePoint = !!waypoints.find(p => p.point === point.address)
         if(isSamePoint) {
             window.alert("重複する経路は追加できません")
-            return 
-        } 
+            return
+        }
 
         const orders: Array<number> = waypoints.map(routePoint => routePoint.order)
         const newOrder: number = orders.length === 0 ? 0 : Math.max(...orders) + 1
@@ -89,7 +91,7 @@ const HomeContent: React.VFC = () => {
 
     // 経路計算結果
     const {measureResults, pointResults} = useMeasure(measureRequest);
-
+    console.log(measureRequest)
     // 経路だけの管理
     const [measures, setMeasures] = useState<measureFixResponseType[]>(measureResults);
 
