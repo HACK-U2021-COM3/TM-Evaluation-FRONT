@@ -1,14 +1,12 @@
-import axios from "axios";
-import { ApiHeader } from "./api/ApiHeader";
+import instance,  { config } from "./api/ApiHeader";
 import { measureResponseType, measuseRequestType } from "lib/models/measure";
-
-export class MeasureService extends ApiHeader {
+export class MeasureService {
     async getMeasureLocations(form: measuseRequestType): Promise<measureResponseType[]> {
         try {
-            const {data} = await axios.post(`${this.url}/measure`, form, this.config)
+            const {data} = await instance.post(`/measure`, form, config)
             return data.results
         } catch(e) {
-            throw e;  
+            throw e;
         }
     }
 }
