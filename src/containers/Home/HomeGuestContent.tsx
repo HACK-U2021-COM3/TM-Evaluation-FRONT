@@ -19,7 +19,7 @@ const HomeGuestContent: React.VFC<{
     measureResults: measureFixResponseType[],
     pointResults: pointResponseType[],
     changeResultsHandler: (time: number, index: number) => void,
-    deleteRoutesPoint: (point: number) => void
+    deleteRoutesPoint: (point: number) => void,
     setKeywordHandler: (text: string) => void,
     keyword: string
 }> = ({
