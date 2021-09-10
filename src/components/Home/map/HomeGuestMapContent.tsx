@@ -84,14 +84,14 @@ const HomeMapGuestContentComponent: React.VFC<{
             zoom={zoom}
             >
             {resultLocations.map((marker: searchResponseType, i: number) => (
-                <Marker 
+                <Marker
                 key={i} position={marker.location}
                 onClick={() => setSelectedPoint(marker)}
                 />
             ))}
             {routes.map((marker: measureResponseType, i: number) => (
                 <Fragment key={i}>
-                <Marker 
+                <Marker
                     position={marker.start_location}
                 />
                 <Polyline
@@ -105,7 +105,7 @@ const HomeMapGuestContentComponent: React.VFC<{
              ))}
             {resultLocations.map((location: searchResponseType, i: number) => (
                 <Fragment key={i}>
-                    {selectedPoint?.address === location.address && (
+                    {(selectedPoint?.location.lat === location.location.lat && selectedPoint?.location.lng === location.location.lng) && (
                         <InfoWindow
                         position={location.location}
                         onCloseClick={() => setSelectedPoint(null)}
