@@ -7,8 +7,10 @@ const HomeTimelineComponent: React.VFC<{
     // routes: measureResponseType[],
     routes: measureFixResponseType[],
     points: pointResponseType[],
-    changeResultsHandler: (time: number, index: number) => void
-}> = ({routes, points, changeResultsHandler}) => {
+    changeResultsHandler: (time: number, index: number) => void,
+    deleteRoutesPoint: (point: number )=> void
+
+}> = ({routes, points, changeResultsHandler, deleteRoutesPoint}) => {
     const timelineAfterStyle = {
         content: "''",
         position: "absolute",
@@ -19,8 +21,6 @@ const HomeTimelineComponent: React.VFC<{
         left: "31px",
         ml: "-2px"
     }
-
-    console.log("routes", routes);
 
     const [item, setItem] = useState<any>(null)
   
@@ -78,6 +78,7 @@ const HomeTimelineComponent: React.VFC<{
                             iconRef={iconsRef.current[i]}
                             unForcusInput={unForcusInput}
                             editHandler={editHandler}
+                            deleteRoutesPoint={deleteRoutesPoint}
                         />
                     ) : (
                         <HomeTimelineBodyComponent
@@ -93,6 +94,7 @@ const HomeTimelineComponent: React.VFC<{
                             iconRef={iconsRef.current[i]}
                             unForcusInput={unForcusInput}
                             editHandler={editHandler}
+                            deleteRoutesPoint={deleteRoutesPoint}
                         />
                     )}
                 </Fragment>

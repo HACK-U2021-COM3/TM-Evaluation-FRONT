@@ -66,7 +66,6 @@ const HomeLoginHeaderComponent: React.VFC<{
     }
   })
 
-
   const editAndSaveHandler = async (): Promise<void> => {
     const requestsPayload: savePlanRequestType = {
       title: title,

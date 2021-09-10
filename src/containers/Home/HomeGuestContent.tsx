@@ -19,6 +19,7 @@ const HomeGuestContent: React.VFC<{
     measureResults: measureFixResponseType[],
     pointResults: pointResponseType[],
     changeResultsHandler: (time: number, index: number) => void,
+    deleteRoutesPoint: (point: number) => void,
     setKeywordHandler: (text: string) => void,
     keyword: string
 }> = ({
@@ -30,6 +31,7 @@ const HomeGuestContent: React.VFC<{
     measureResults,
     pointResults,
     changeResultsHandler,
+    deleteRoutesPoint,
     setKeywordHandler,
     keyword
 }) => {
@@ -61,6 +63,7 @@ const HomeGuestContent: React.VFC<{
                         changeResultsHandler={changeResultsHandler}
                         routes={measureResults}
                         points={pointResults}
+                        deleteRoutesPoint={deleteRoutesPoint}
                         />
                     </HomePlanRouteComponent>
                 </Box>
