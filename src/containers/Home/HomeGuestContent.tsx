@@ -18,7 +18,10 @@ const HomeGuestContent: React.VFC<{
     settingLocation: (e: any, point: searchResponseType | null) => void,
     measureResults: measureFixResponseType[],
     pointResults: pointResponseType[],
-    changeResultsHandler: (time: number, index: number) => void
+    changeResultsHandler: (time: number, index: number) => void,
+    deleteRoutesPoint: (point: number) => void,
+    setKeywordHandler: (text: string) => void,
+    keyword: string
 }> = ({
     searchQuery,
     handleSearch,
@@ -27,13 +30,16 @@ const HomeGuestContent: React.VFC<{
     settingLocation,
     measureResults,
     pointResults,
-    changeResultsHandler
+    changeResultsHandler,
+    deleteRoutesPoint,
+    setKeywordHandler,
+    keyword
 }) => {
 
     console.log("measures -> ", measureResults);
     return (
         <>
-            <HomeGuestHeaderComponent searchQuery={searchQuery} handleSearch={handleSearch}  />
+            <HomeGuestHeaderComponent keyword={keyword} searchQuery={searchQuery} handleSearch={handleSearch}  />
             <Box maxW="1920px" mx="auto" py="6" px="6">
             <Flex>
                 <Box w="50%" px="6">
@@ -47,7 +53,8 @@ const HomeGuestContent: React.VFC<{
                     points={pointResults}
                     addRoutesPoint={addRoutesPoint}
                     settingLocation={settingLocation}
-                    resultLocations={resultLocations} 
+                    resultLocations={resultLocations}
+                    setKeywordHandler={setKeywordHandler}
                     />
                 </Box>
                 <Box w="50%" px="6">
@@ -56,6 +63,7 @@ const HomeGuestContent: React.VFC<{
                         changeResultsHandler={changeResultsHandler}
                         routes={measureResults}
                         points={pointResults}
+                        deleteRoutesPoint={deleteRoutesPoint}
                         />
                     </HomePlanRouteComponent>
                 </Box>

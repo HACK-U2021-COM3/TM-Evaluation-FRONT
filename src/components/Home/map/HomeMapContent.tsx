@@ -1,14 +1,11 @@
 import React, {useState, Fragment} from "react";
 import { GoogleMap, LoadScript, InfoWindow, Marker, Polyline} from "@react-google-maps/api";
 import { Button, Text, Stack, Checkbox, Box } from "@chakra-ui/react";
-// import japan from "lib/data/ja.json"
 import { searchResponseType } from "lib/models/search";
 import { decordMap } from "lib/util/map-decode";
 import { useEffect } from "react";
 import { planDetailResponseType } from "lib/models/plan";
 import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
-
-
 
 
 const HomeMapContentComponent: React.VFC<{
@@ -18,15 +15,26 @@ const HomeMapContentComponent: React.VFC<{
     // routes: measureResponseType[],
     routes: measureFixResponseType[],
     points: pointResponseType[],
-    plan?:  planDetailResponseType[]
-}> = ({addRoutesPoint, settingLocation, resultLocations, routes, points, plan}) => {
-    let center = {lat: 35.02664,lng: 136.622259}
-    let zoom = 8
+    plan?:  planDetailResponseType[],
+    setKeywordHandler: (text: string) => void
+}> = ({
+    addRoutesPoint,
+    settingLocation,
+    resultLocations,
+    routes,
+    points,
+    plan,
+    setKeywordHandler
+}) => {
+    let center = {lat: 36,lng: 138}
+    let zoom = 6
 
-    if(plan?.length !== 0) {
-        center = plan?.find(_ => _)?.place_location ?? {lat: 35.02664,lng: 136.622259}
+    if(!!plan && plan.length !== 0) {
+        center = plan?.find(_ => _)?.place_location ?? {lat: 36,lng: 138}
         zoom = 13
     }
+
+    console.log(plan)
 
     const [selectedPoint, setSelectedPoint] = useState<searchResponseType | null>(null)
     const [fromTo, setFromto] = useState<[boolean, boolean][]>([[false, false]])
@@ -85,6 +93,33 @@ const HomeMapContentComponent: React.VFC<{
             mapContainerStyle={{ height: "calc(100% - 112px)", borderRadius: "10px"}}
             center={center}
             zoom={zoom}
+            onLoad={async (map) => {
+                await map.data.loadGeoJson(`${process.env.REACT_APP_APP_URL}/mocks/japan.json`)
+                await map.data.setStyle({
+                    strokeWeight: 0.3,
+                    opacity: 0.7
+                })
+                map.data.addListener("mouseover", (e: any) => {
+                    map.data.revertStyle()
+                    map.data.overrideStyle(e.feature, {fillColor: "#aaf"})
+                })
+                map.data.addListener("mouseout", (e: any) => {
+                    map.data.revertStyle()
+                })
+                map.data.addListener("click", (e: any) => {
+                    map.data.revertStyle()
+                    map.data.overrideStyle(e.feature, {strokeWeight: 2, fillColor: "#faa"})
+                    console.log(e.feature.i)
+                    setKeywordHandler(`${e.feature.i.N03_001 ?? ""} ${e.feature.i.N03_002 ?? ""} ${e.feature.i.N03_003 ?? ""} ${e.feature.i.N03_004 ?? ""}`)
+                   // let geoArray = e.feature.getGeometry().getArray()
+                   //  const latLng = geoArray.map((obj: any) => {
+                   //      return obj.g.map((item: any) => {
+                   //          return {lat: item.lat(), lng: item.lng()}
+                   //      })
+                   //  }).find((_: any)=>_)
+                })
+
+            }}
             >
             {resultLocations.map((marker: searchResponseType, i: number) => (
                 <Marker

@@ -1,11 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import {
-  Flex,
-  HStack,
-  Button,
-  useToast,
-  Image
+    Flex,
+    Button,
+    useToast,
+    Image,
+    Text,
+    Box
 } from '@chakra-ui/react';
 import { CheckIcon } from '@chakra-ui/icons';
 import SearchInputComponent from 'components/commons/forms/SearchInput';
@@ -26,7 +27,8 @@ const HomeLoginHeaderComponent: React.VFC<{
   editTitleHandler: (title: string) => void,
   // routes: measureResponseType[]
   routes: measureFixResponseType[],
-  points: pointResponseType[]
+  points: pointResponseType[],
+  keyword: string
 }> = ({
   user,
   searchQuery,
@@ -34,7 +36,8 @@ const HomeLoginHeaderComponent: React.VFC<{
   title,
   editTitleHandler,
   routes,
-  points
+  points,
+  keyword
 }) =>  {
   const toast = useToast()
   const {plan_id} = useParams<{plan_id: string}>()
@@ -63,8 +66,6 @@ const HomeLoginHeaderComponent: React.VFC<{
     }
   })
 
-  console.log(convertToWaypointsRequests)
-
   const editAndSaveHandler = async (): Promise<void> => {
     const requestsPayload: savePlanRequestType = {
       title: title,
@@ -84,14 +85,19 @@ const HomeLoginHeaderComponent: React.VFC<{
   return (
     <>
         <HeaderContainerComponent>
-            <HStack spacing={12} alignItems={'center'}>
+            <Flex alignItems={'center'}>
                 <Image src="/images/logo.png" w="50px" h="50px" />
-                <TitleInputComponent
-                title={title}
-                editTitleHandler={editTitleHandler}
-                />
-                <SearchInputComponent searchQuery={searchQuery} handleSearch={handleSearch} />
-            </HStack>
+                <Box mx={"3"}>
+                    <TitleInputComponent
+                        title={title}
+                        editTitleHandler={editTitleHandler}
+                    />
+                </Box>
+                <Box mx={"3"}>
+                    <SearchInputComponent searchQuery={searchQuery} handleSearch={handleSearch} />
+                </Box>
+                <Text as={"span"} color="white">キーワード: {keyword}</Text>
+            </Flex>
             <Flex alignItems={'center'}>
                 <Button
                 leftIcon={<CheckIcon />}
