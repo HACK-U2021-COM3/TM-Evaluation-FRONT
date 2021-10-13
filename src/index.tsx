@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/compat/app';
 import firebaseConfig from './firebase-config';
 import { ChakraProvider } from "@chakra-ui/react"
-import { AuthContext } from "lib/contexts/AuthContext";
+import { AuthProvider } from "lib/contexts/AuthContext";
 
 import {BrowserRouter} from 'react-router-dom';
 
@@ -15,9 +15,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider>
-        <AuthContext>
+        <AuthProvider>
           <App />
-        </AuthContext>
+        </AuthProvider>
       </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>,

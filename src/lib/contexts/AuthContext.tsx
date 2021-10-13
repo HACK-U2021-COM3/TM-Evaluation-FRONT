@@ -9,7 +9,7 @@ export const UserContext = createContext<userContextValue>({
     user: JSON.parse(`${localStorage.getItem("current_user")}`),
 })
 
-export const AuthContext: React.FC = ({children}) => {
+export const AuthProvider: React.FC = ({children}) => {
     const user = useContext(UserContext)
     return (
         <UserContext.Provider value={user}>

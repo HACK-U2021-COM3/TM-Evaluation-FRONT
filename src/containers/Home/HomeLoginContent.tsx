@@ -18,9 +18,6 @@ import {convertLocationObjectToString} from "lib/util/convert-location";
 
 const HomeLoginContent: React.VFC<{
     user: {name:  string, imageUrl: string},
-    searchQuery: string,
-    handleSearch: (e: any) => void,
-    resultLocations: searchResponseType[],
     addRoutesPoint: (point: searchResponseType)=> void,
     settingLocation: (e: any, point: searchResponseType | null) => void,
     measureResults: measureFixResponseType[],
@@ -28,12 +25,7 @@ const HomeLoginContent: React.VFC<{
     changeResultsHandler: (time: number, index: number) => void,
     initPlanDetailRequest: (form: measuseRequestType) => void,
     deleteRoutesPoint: (point: number)=> void,
-    setKeywordHandler: (text: string) => void,
-    keyword: string
 }> = ({user,
-    searchQuery,
-    handleSearch,
-    resultLocations,
     addRoutesPoint,
     settingLocation,
     measureResults,
@@ -41,8 +33,6 @@ const HomeLoginContent: React.VFC<{
     changeResultsHandler,
     initPlanDetailRequest,
     deleteRoutesPoint,
-    setKeywordHandler,
-    keyword
 }) => {
 
     const {plan_id} = useParams<{plan_id: string}>()
@@ -97,13 +87,10 @@ const HomeLoginContent: React.VFC<{
         <>
             <HomeLoginHeaderComponent
             user={user}
-            searchQuery={searchQuery}
-            handleSearch={handleSearch}
             title={title}
             editTitleHandler={editTitleHandler}
             routes={measureResults}
             points={pointResults}
-            keyword={keyword}
             />
             <Box maxW="1920px" mx="auto" py="6" px="6">
                 <Flex>
@@ -116,11 +103,9 @@ const HomeLoginContent: React.VFC<{
                         <HomeMapContentComponent
                         addRoutesPoint={addRoutesPoint}
                         settingLocation={settingLocation}
-                        resultLocations={resultLocations}
                         routes={measureResults}
                         points={pointResults}
                         plan={plan}
-                        setKeywordHandler={setKeywordHandler}
                         />
                     </Box>
                     <Box w="50%" px="6">

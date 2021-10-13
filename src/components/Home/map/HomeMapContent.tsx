@@ -6,26 +6,24 @@ import { decordMap } from "lib/util/map-decode";
 import { useEffect } from "react";
 import { planDetailResponseType } from "lib/models/plan";
 import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
+import {SearchContextValue} from 'lib/contexts/SearchContext'
 
 
 const HomeMapContentComponent: React.VFC<{
     addRoutesPoint: (point: searchResponseType)=> void,
     settingLocation: (e: any, point: searchResponseType | null) => void,
-    resultLocations: searchResponseType[],
     // routes: measureResponseType[],
     routes: measureFixResponseType[],
     points: pointResponseType[],
     plan?:  planDetailResponseType[],
-    setKeywordHandler: (text: string) => void
 }> = ({
     addRoutesPoint,
     settingLocation,
-    resultLocations,
     routes,
     points,
     plan,
-    setKeywordHandler
 }) => {
+    const {resultLocations, setKeywordHandler} = SearchContextValue()
     let center = {lat: 36,lng: 138}
     let zoom = 6
 

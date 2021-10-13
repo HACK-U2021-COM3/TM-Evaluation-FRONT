@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "lib/contexts/AuthContext";
+import { SearchProvider } from "lib/contexts/SearchContext";
 import HomeGuestContent from "./HomeGuestContent";
 import HomeLoginContent from "./HomeLoginContent";
 import { measuseRequestType } from "lib/models/measure";
@@ -7,7 +8,6 @@ import { searchResponseType } from "lib/models/search";
 
 import { measureFixResponseType, pointResponseType} from "lib/models/measure_point";
 
-import useSearch from "lib/hooks/useSearch";
 import useMeasure from "lib/hooks/useMeasure";
 import {convertLocationObjectToString} from "../../lib/util/convert-location";
 
@@ -16,19 +16,6 @@ const HomeContent: React.VFC = () => {
     const {user} = useContext(UserContext)
 
     // 経路検索
-    const [searchQuery, setSearchQuery] = useState<string>("")
-    const {resultLocations} = useSearch(searchQuery)
-    const [keyword, setKeyword] = useState<string>("")
-    const setKeywordHandler = (text: string) => {
-        setKeyword(text)
-    }
-    const handleSearch = (e: any) :void => {
-        if(e.key === "Enter") {
-            e.preventDefault()
-            console.log(e.target.value)
-            setSearchQuery(`${keyword} ${e.target.value}`)
-          }
-    }
 
     // 経路計算リクエスト
     const [measureRequest, setMeasureRequest] = useState<measuseRequestType>(
@@ -153,29 +140,22 @@ const HomeContent: React.VFC = () => {
                 <>
                     {!user ? (
                         <>
-                            <HomeGuestContent
-                                keyword={keyword}
-                                searchQuery={searchQuery}
-                                handleSearch={handleSearch}
-                                resultLocations={resultLocations}
+                        <SearchProvider>
+                        <HomeGuestContent
                                 addRoutesPoint={addRoutesPoint}
                                 settingLocation={settingLocation}
                                 measureResults={measures}
                                 pointResults={points}
                                 changeResultsHandler={changeResultsHandler}
                                 deleteRoutesPoint={deleteRoutesPoint}
-                                setKeywordHandler={setKeywordHandler}
                             />
+                        </SearchProvider>
                         </>
 
                     ): (
                         <>
                             <HomeLoginContent
                                 user={user}
-                                keyword={keyword}
-                                searchQuery={searchQuery}
-                                handleSearch={handleSearch}
-                                resultLocations={resultLocations}
                                 addRoutesPoint={addRoutesPoint}
                                 settingLocation={settingLocation}
                                 measureResults={measures}
@@ -183,7 +163,6 @@ const HomeContent: React.VFC = () => {
                                 changeResultsHandler={changeResultsHandler}
                                 initPlanDetailRequest={initPlanDetailRequest}
                                 deleteRoutesPoint={deleteRoutesPoint}
-                                setKeywordHandler={setKeywordHandler}
                             />
                         </>
                     )}

@@ -11,35 +11,25 @@ import {measureFixResponseType, pointResponseType} from "../../lib/models/measur
 
 
 const HomeGuestContent: React.VFC<{
-    searchQuery: string,
-    handleSearch: (e: any) => void,
-    resultLocations: searchResponseType[],
     addRoutesPoint: (point: searchResponseType)=> void,
     settingLocation: (e: any, point: searchResponseType | null) => void,
     measureResults: measureFixResponseType[],
     pointResults: pointResponseType[],
     changeResultsHandler: (time: number, index: number) => void,
     deleteRoutesPoint: (point: number) => void,
-    setKeywordHandler: (text: string) => void,
-    keyword: string
 }> = ({
-    searchQuery,
-    handleSearch,
-    resultLocations,
     addRoutesPoint,
     settingLocation,
     measureResults,
     pointResults,
     changeResultsHandler,
     deleteRoutesPoint,
-    setKeywordHandler,
-    keyword
 }) => {
 
     console.log("measures -> ", measureResults);
     return (
         <>
-            <HomeGuestHeaderComponent keyword={keyword} searchQuery={searchQuery} handleSearch={handleSearch}  />
+            <HomeGuestHeaderComponent />
             <Box maxW="1920px" mx="auto" py="6" px="6">
             <Flex>
                 <Box w="50%" px="6">
@@ -53,8 +43,6 @@ const HomeGuestContent: React.VFC<{
                     points={pointResults}
                     addRoutesPoint={addRoutesPoint}
                     settingLocation={settingLocation}
-                    resultLocations={resultLocations}
-                    setKeywordHandler={setKeywordHandler}
                     />
                 </Box>
                 <Box w="50%" px="6">

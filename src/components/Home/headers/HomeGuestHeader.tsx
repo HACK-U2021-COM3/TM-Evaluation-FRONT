@@ -5,14 +5,13 @@ import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer
 import { GoogleLogin } from 'react-google-login';
 import { GoogleService } from 'lib/services/google/GoogleService';
 import { useHistory } from 'react-router-dom';
+import {SearchContextValue} from 'lib/contexts/SearchContext'
 
 
 const HomeGuestHeaderComponent: React.VFC<{
-  searchQuery: string,
-  handleSearch: (e: any) => void,
-  keyword: string
-}> = ({searchQuery, handleSearch, keyword}) =>  {
+}> = () =>  {
   const history = useHistory()
+  const {keyword, searchQuery, handleSearch} = SearchContextValue()
   const handleLogin = async (res: any) => {
     await (new GoogleService()).loginWithGoogle(res)
     history.go(0)

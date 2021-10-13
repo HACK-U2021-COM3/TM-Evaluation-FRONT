@@ -16,30 +16,26 @@ import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer
 import { savePlanRequestType } from 'lib/models/plan';
 import { PlansService } from 'lib/services/PlansService';
 import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
+import {SearchContextValue} from 'lib/contexts/SearchContext'
 
 
 
 const HomeLoginHeaderComponent: React.VFC<{
   user: {name:  string, imageUrl: string},
-  searchQuery: string,
-  handleSearch: (e: any) => void,
   title: string,
   editTitleHandler: (title: string) => void,
   // routes: measureResponseType[]
   routes: measureFixResponseType[],
   points: pointResponseType[],
-  keyword: string
 }> = ({
   user,
-  searchQuery,
-  handleSearch,
   title,
   editTitleHandler,
   routes,
   points,
-  keyword
 }) =>  {
   const toast = useToast()
+  const {keyword, searchQuery, handleSearch} = SearchContextValue()
   const {plan_id} = useParams<{plan_id: string}>()
   const sumRouteTime = () => {
     let res = 0
