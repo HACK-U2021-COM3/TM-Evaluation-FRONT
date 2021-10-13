@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useParams } from 'react-router';
 import {
     Flex,
@@ -17,23 +17,24 @@ import { savePlanRequestType } from 'lib/models/plan';
 import { PlansService } from 'lib/services/PlansService';
 import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
 import {SearchContextValue} from 'lib/contexts/SearchContext'
+import { UserContext } from "lib/contexts/AuthContext";
+
 
 
 
 const HomeLoginHeaderComponent: React.VFC<{
-  user: {name:  string, imageUrl: string},
   title: string,
   editTitleHandler: (title: string) => void,
   // routes: measureResponseType[]
   routes: measureFixResponseType[],
   points: pointResponseType[],
 }> = ({
-  user,
   title,
   editTitleHandler,
   routes,
   points,
 }) =>  {
+  const {user} = useContext(UserContext)
   const toast = useToast()
   const {keyword, searchQuery, handleSearch} = SearchContextValue()
   const {plan_id} = useParams<{plan_id: string}>()

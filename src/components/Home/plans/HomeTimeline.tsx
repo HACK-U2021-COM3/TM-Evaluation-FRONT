@@ -1,16 +1,16 @@
 import React, {useState, useRef, useEffect, Fragment} from "react";
 import { Box } from "@chakra-ui/react";
 import HomeTimelineBodyComponent from "./HomeTimelineBody";
-import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
+import {measureFixResponseType, pointResponseType} from "lib/models/measure_point";
+import { RouteContextValue } from "lib/contexts/RouteContext";
+
 
 const HomeTimelineComponent: React.VFC<{
-    // routes: measureResponseType[],
     routes: measureFixResponseType[],
     points: pointResponseType[],
-    changeResultsHandler: (time: number, index: number) => void,
-    deleteRoutesPoint: (point: number )=> void
-
-}> = ({routes, points, changeResultsHandler, deleteRoutesPoint}) => {
+}> = ({routes, points}) => {
+    console.log(routes)
+    console.log(points)
     const timelineAfterStyle = {
         content: "''",
         position: "absolute",
@@ -22,6 +22,7 @@ const HomeTimelineComponent: React.VFC<{
         ml: "-2px"
     }
 
+    const {changeResultsHandler} = RouteContextValue()
     const [item, setItem] = useState<any>(null)
   
     const unForcusInput = (time: number, index: number) => {
@@ -62,14 +63,13 @@ const HomeTimelineComponent: React.VFC<{
     return(
         <Box width="90%" mx="auto">
             <Box position="relative" _after={{...timelineAfterStyle}}>
-            {points.map((point: pointResponseType, i: number) => (
+            {routes.length !==0 && points.map((point: pointResponseType, i: number) => (
                 <Fragment key={i}>
                     {i !== routes.length ? (
                         <HomeTimelineBodyComponent
                             index={i}
                             item={item}
                             point={points[i]}
-                            // route={routes[i]}
                             distance={routes[i].distance}
                             duration={routes[i].duration}
                             address={points[i].address}
@@ -78,14 +78,12 @@ const HomeTimelineComponent: React.VFC<{
                             iconRef={iconsRef.current[i]}
                             unForcusInput={unForcusInput}
                             editHandler={editHandler}
-                            deleteRoutesPoint={deleteRoutesPoint}
                         />
                     ) : (
                         <HomeTimelineBodyComponent
                             index={i}
                             item={item}
                             point={points[i]}
-                            // route={routes[i]}
                             distance={0}
                             duration={0}
                             address={points[i].address}
@@ -94,7 +92,6 @@ const HomeTimelineComponent: React.VFC<{
                             iconRef={iconsRef.current[i]}
                             unForcusInput={unForcusInput}
                             editHandler={editHandler}
-                            deleteRoutesPoint={deleteRoutesPoint}
                         />
                     )}
                 </Fragment>

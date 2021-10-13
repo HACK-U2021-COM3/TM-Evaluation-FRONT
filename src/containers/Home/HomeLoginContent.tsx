@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { Box, Flex} from "@chakra-ui/react";
 import HomeResultsCardsComponent from "components/Home/cards/HomeResultsCards";
@@ -6,35 +6,15 @@ import HomeLoginHeaderComponent from "components/Home/headers/HomeLoginHeader";
 import HomePlanRouteComponent from "components/Home/plans/HomePlanRouteContent";
 import HomeTimelineComponent from "components/Home/plans/HomeTimeline";
 import HomeMapContentComponent from "components/Home/map/HomeMapContent";
-
 import usePlan from "lib/hooks/usePlan";
-import { searchResponseType } from "lib/models/search";
-import { measuseRequestType } from "lib/models/measure";
-import { useEffect } from "react";
 import usePlans from "lib/hooks/usePlans";
-import {measureFixResponseType, pointResponseType} from "lib/models/measure_point";
 import {convertLocationObjectToString} from "lib/util/convert-location";
+import { RouteContextValue } from "lib/contexts/RouteContext";
 
 
-const HomeLoginContent: React.VFC<{
-    user: {name:  string, imageUrl: string},
-    addRoutesPoint: (point: searchResponseType)=> void,
-    settingLocation: (e: any, point: searchResponseType | null) => void,
-    measureResults: measureFixResponseType[],
-    pointResults: pointResponseType[],
-    changeResultsHandler: (time: number, index: number) => void,
-    initPlanDetailRequest: (form: measuseRequestType) => void,
-    deleteRoutesPoint: (point: number)=> void,
-}> = ({user,
-    addRoutesPoint,
-    settingLocation,
-    measureResults,
-    pointResults,
-    changeResultsHandler,
-    initPlanDetailRequest,
-    deleteRoutesPoint,
-}) => {
 
+const HomeLoginContent: React.VFC = () => {
+    const {measureResults, pointResults, initPlanDetailRequest} = RouteContextValue()
     const {plan_id} = useParams<{plan_id: string}>()
     const {plan} = usePlan(plan_id)
 
@@ -86,7 +66,6 @@ const HomeLoginContent: React.VFC<{
     return (
         <>
             <HomeLoginHeaderComponent
-            user={user}
             title={title}
             editTitleHandler={editTitleHandler}
             routes={measureResults}
@@ -96,13 +75,10 @@ const HomeLoginContent: React.VFC<{
                 <Flex>
                     <Box w="50%" px="6">
                         <HomeResultsCardsComponent
-                        // results={measureResults}
-                        pointResults={pointResults}
-                        measureResults={measureResults}
+                        routes={measureResults}
+                        points={pointResults}
                          />
                         <HomeMapContentComponent
-                        addRoutesPoint={addRoutesPoint}
-                        settingLocation={settingLocation}
                         routes={measureResults}
                         points={pointResults}
                         plan={plan}
@@ -111,10 +87,8 @@ const HomeLoginContent: React.VFC<{
                     <Box w="50%" px="6">
                         <HomePlanRouteComponent>
                             <HomeTimelineComponent
-                            changeResultsHandler={changeResultsHandler}
                             routes={measureResults}
                             points={pointResults}
-                            deleteRoutesPoint={deleteRoutesPoint}
                             />
                         </HomePlanRouteComponent>
                     </Box>

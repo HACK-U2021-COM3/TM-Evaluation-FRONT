@@ -7,23 +7,20 @@ import { useEffect } from "react";
 import { planDetailResponseType } from "lib/models/plan";
 import {measureFixResponseType, pointResponseType} from "../../../lib/models/measure_point";
 import {SearchContextValue} from 'lib/contexts/SearchContext'
+import { RouteContextValue } from "lib/contexts/RouteContext";
 
 
 const HomeMapContentComponent: React.VFC<{
-    addRoutesPoint: (point: searchResponseType)=> void,
-    settingLocation: (e: any, point: searchResponseType | null) => void,
-    // routes: measureResponseType[],
     routes: measureFixResponseType[],
     points: pointResponseType[],
     plan?:  planDetailResponseType[],
 }> = ({
-    addRoutesPoint,
-    settingLocation,
     routes,
     points,
     plan,
 }) => {
     const {resultLocations, setKeywordHandler} = SearchContextValue()
+    const {settingLocation, addRoutesPoint} = RouteContextValue()
     let center = {lat: 36,lng: 138}
     let zoom = 6
 
@@ -31,8 +28,6 @@ const HomeMapContentComponent: React.VFC<{
         center = plan?.find(_ => _)?.place_location ?? {lat: 36,lng: 138}
         zoom = 13
     }
-
-    console.log(plan)
 
     const [selectedPoint, setSelectedPoint] = useState<searchResponseType | null>(null)
     const [fromTo, setFromto] = useState<[boolean, boolean][]>([[false, false]])
@@ -107,14 +102,7 @@ const HomeMapContentComponent: React.VFC<{
                 map.data.addListener("click", (e: any) => {
                     map.data.revertStyle()
                     map.data.overrideStyle(e.feature, {strokeWeight: 2, fillColor: "#faa"})
-                    console.log(e.feature.i)
                     setKeywordHandler(`${e.feature.i.N03_001 ?? ""} ${e.feature.i.N03_002 ?? ""} ${e.feature.i.N03_003 ?? ""} ${e.feature.i.N03_004 ?? ""}`)
-                   // let geoArray = e.feature.getGeometry().getArray()
-                   //  const latLng = geoArray.map((obj: any) => {
-                   //      return obj.g.map((item: any) => {
-                   //          return {lat: item.lat(), lng: item.lng()}
-                   //      })
-                   //  }).find((_: any)=>_)
                 })
 
             }}

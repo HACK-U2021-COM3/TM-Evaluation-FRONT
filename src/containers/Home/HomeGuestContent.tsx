@@ -5,28 +5,10 @@ import HomeGuestHeaderComponent from "components/Home/headers/HomeGuestHeader";
 import HomePlanRouteComponent from "components/Home/plans/HomePlanRouteContent";
 import HomeTimelineComponent from "components/Home/plans/HomeTimeline";
 import HomeMapContentComponent from "components/Home/map/HomeMapContent";
+import { RouteContextValue } from "lib/contexts/RouteContext";
 
-import { searchResponseType } from "lib/models/search";
-import {measureFixResponseType, pointResponseType} from "../../lib/models/measure_point";
-
-
-const HomeGuestContent: React.VFC<{
-    addRoutesPoint: (point: searchResponseType)=> void,
-    settingLocation: (e: any, point: searchResponseType | null) => void,
-    measureResults: measureFixResponseType[],
-    pointResults: pointResponseType[],
-    changeResultsHandler: (time: number, index: number) => void,
-    deleteRoutesPoint: (point: number) => void,
-}> = ({
-    addRoutesPoint,
-    settingLocation,
-    measureResults,
-    pointResults,
-    changeResultsHandler,
-    deleteRoutesPoint,
-}) => {
-
-    console.log("measures -> ", measureResults);
+const HomeGuestContent: React.VFC = () => {
+    const {measureResults, pointResults} = RouteContextValue()
     return (
         <>
             <HomeGuestHeaderComponent />
@@ -34,24 +16,19 @@ const HomeGuestContent: React.VFC<{
             <Flex>
                 <Box w="50%" px="6">
                     <HomeResultsCardsComponent
-                        // results={measureResults}
-                        measureResults={measureResults}
-                        pointResults={pointResults}
+                        routes={measureResults}
+                        points={pointResults}
                     />
                     <HomeMapContentComponent
                     routes={measureResults}
                     points={pointResults}
-                    addRoutesPoint={addRoutesPoint}
-                    settingLocation={settingLocation}
                     />
                 </Box>
                 <Box w="50%" px="6">
                     <HomePlanRouteComponent>
                         <HomeTimelineComponent
-                        changeResultsHandler={changeResultsHandler}
                         routes={measureResults}
                         points={pointResults}
-                        deleteRoutesPoint={deleteRoutesPoint}
                         />
                     </HomePlanRouteComponent>
                 </Box>

@@ -3,14 +3,14 @@ import React from "react"
 import { Box, Flex, Text, NumberInput, NumberInputField } from "@chakra-ui/react"
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons"
 import HomeTimelineCardComponent from "./HomeTimelineCard"
-import {pointResponseType} from "../../../lib/models/measure_point";
+import {pointResponseType} from "lib/models/measure_point";
+import { RouteContextValue } from "lib/contexts/RouteContext";
+
 
 const HomeTimelineBodyComponent: React.VFC<{
     index: number
-    // item: measureResponseType,
     item: pointResponseType,
     point: pointResponseType,
-    // route: measureResponseType,
     distance: number
     duration: number,
     address: string,
@@ -19,8 +19,8 @@ const HomeTimelineBodyComponent: React.VFC<{
     iconRef: any,
     unForcusInput: (time: number, index: number) => void,
     editHandler: (index: number) => void,
-    deleteRoutesPoint: (point: number)=> void
-}> = ({ index, item, point,distance, duration,  address, stayTime, inputRef, iconRef, unForcusInput, editHandler, deleteRoutesPoint }) => {
+}> = ({ index, item, point,distance, duration,  address, stayTime, inputRef, iconRef, unForcusInput, editHandler }) => {
+    const {deleteRoutesPoint} = RouteContextValue()
     const timelineContentStyle = {
         display: "block",
         px: "20px",

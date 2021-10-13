@@ -5,27 +5,26 @@ import {measureFixResponseType, pointResponseType} from "../../../lib/models/mea
 
 
 const HomeResultsCardsCmponent: React.VFC<{
-    pointResults: pointResponseType[],
-    measureResults: measureFixResponseType[],
-    // results: measureResponseType[],
-}> = ({pointResults, measureResults}) => {
+    routes: measureFixResponseType[],
+    points: pointResponseType[],
+}> = ({points, routes}) => {
     const sumDistance = () => {
         let res = 0
-        for (const {distance} of measureResults) {
+        for (const {distance} of routes) {
             res+= Math.floor(distance / 1000)
         }
         return res
     }
     const sumRouteTime = () => {
         let res = 0
-        for (const {duration} of measureResults) {
+        for (const {duration} of routes) {
             res+= Math.floor(duration / 60)
         }
         return res
     }
     const sumStayTime = () => {
         let res = 0
-        for (const {stay_time} of pointResults) {
+        for (const {stay_time} of points) {
             res+= stay_time
         }
         return res
