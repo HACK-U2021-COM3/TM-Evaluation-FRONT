@@ -1,15 +1,15 @@
 import React from "react";
-import {useHistory} from "react-router-dom"
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import PlanContentComponent from "components/Plan/PlanContent";
 import usePlans from "lib/hooks/usePlans";
 import Loader from "components/commons/objects/Loader";
 import CardComponent from 'components/Plan/cards/PlanCard';
 import { PlansService } from "lib/services/PlansService";
+import { useHistory } from "react-router";
 
 const PlanContent: React.VFC = () => {
-    const history = useHistory()
     const {plans, loading} = usePlans()
+    const history = useHistory()
     const createAndSavePlan = async () => {
         await (new PlansService()).createAndSavePlans({
             title: "untitled",

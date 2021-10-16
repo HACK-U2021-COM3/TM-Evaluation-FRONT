@@ -1,20 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {HStack, Image, Text, Flex, Box} from '@chakra-ui/react';
 import SearchInput from 'components/commons/forms/SearchInput';
 import HeaderContainerComponent from 'components/commons/layouts/HeaderContainer';
 import { GoogleLogin } from 'react-google-login';
 import { GoogleService } from 'lib/services/google/GoogleService';
-import { useHistory } from 'react-router-dom';
 import {SearchContextValue} from 'lib/contexts/SearchContext'
+import { UserContext } from 'lib/contexts/AuthContext';
 
 
 const HomeGuestHeaderComponent: React.VFC<{
 }> = () =>  {
-  const history = useHistory()
   const {keyword, searchQuery, handleSearch} = SearchContextValue()
+  const {handleSetUser} = useContext(UserContext)
   const handleLogin = async (res: any) => {
-    await (new GoogleService()).loginWithGoogle(res)
-    history.go(0)
+    const user = await (new GoogleService()).loginWithGoogle(res)
+    await handleSetUser(user)
   }
   return (
     <>

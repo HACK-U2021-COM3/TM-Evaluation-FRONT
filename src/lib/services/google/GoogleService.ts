@@ -8,7 +8,7 @@ export class GoogleService {
             }
             localStorage.setItem("token", tokenId)
             localStorage.setItem("current_user", JSON.stringify(user))      
-            return {tokenId, profileObj}    
+            return user   
         } catch(e) {
             console.error(e)
             localStorage.clear()

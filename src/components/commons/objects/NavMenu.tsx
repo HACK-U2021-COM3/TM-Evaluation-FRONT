@@ -1,4 +1,5 @@
-import {Link, useHistory} from "react-router-dom";
+import React, {useContext} from "react";
+import {Link} from "react-router-dom";
 import {
     Avatar,
     Button,
@@ -9,12 +10,14 @@ import {
     Divider,
 } from '@chakra-ui/react';
 import { GoogleService } from "lib/services/google/GoogleService";
+import { User } from "lib/models/user";
+import { UserContext } from "lib/contexts/AuthContext";
 
-const NavMenu: React.VFC<{user: {name:  string, imageUrl: string}}> = ({user}) => {
-  const history = useHistory()
+const NavMenu: React.VFC<{user: User}> = ({user}) => {
+    const {handleSetUser} = useContext(UserContext)
     const handleLogout = async () => {
       await (new GoogleService()).logoutWithGoogle()
-      history.go(0)
+      await handleSetUser(null)
     }
     return(
         <Menu>
@@ -26,7 +29,7 @@ const NavMenu: React.VFC<{user: {name:  string, imageUrl: string}}> = ({user}) =
           minW={0}>
           <Avatar
             size={'sm'}
-            src={user.imageUrl}
+            src={user?.imageUrl}
           />
         </MenuButton>
         <MenuList>

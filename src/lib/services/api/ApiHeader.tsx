@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useContext } from "react";
+import { UserContext } from "lib/contexts/AuthContext";
 export const config = {
     headers: {
         Authorization: `Bearer ${localStorage.getItem("token")?? ""}`
@@ -14,10 +16,11 @@ instance.interceptors.response.use((response) => {
 }, (error) => {
     switch (error.response.status) {
         case 401:
+            const {handleSetUser} = useContext(UserContext)
             window.alert("再度ログインしてください")
             localStorage.clear()
             // eslint-disable-next-line no-restricted-globals
-            location.reload()
+            handleSetUser(null)
             break
         case 404:
             break

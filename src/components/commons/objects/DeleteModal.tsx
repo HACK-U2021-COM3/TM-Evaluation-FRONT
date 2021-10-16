@@ -1,5 +1,4 @@
 import React from "react"
-import { useHistory } from "react-router";
 import {
     Modal,
     ModalOverlay,
@@ -11,6 +10,8 @@ import {
     Button,
   } from "@chakra-ui/react";
 import { PlansService } from "lib/services/PlansService";
+import { useHistory } from "react-router";
+
 
 type Props = {
   planId: string,
@@ -24,11 +25,11 @@ const DeleteModalComponent: React.FC<Props> = ({
   isOpen,
   onClose,
 }) => {
-    const history = useHistory()
+    const history = useHistory() 
     const deletePlanHandler = async () => {
       await (new PlansService()).deletePlan(planId)
-      history.go(0)
       onClose()
+      history.go(0)
     }
     return (
       <>
