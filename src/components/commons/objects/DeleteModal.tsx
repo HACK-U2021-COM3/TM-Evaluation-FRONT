@@ -10,8 +10,6 @@ import {
     Button,
   } from "@chakra-ui/react";
 import { PlansService } from "lib/services/PlansService";
-import { useHistory } from "react-router";
-
 
 type Props = {
   planId: string,
