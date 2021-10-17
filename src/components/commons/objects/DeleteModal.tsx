@@ -27,7 +27,6 @@ const DeleteModalComponent: React.FC<Props> = ({
   onClose,
   deletePlan,
 }) => {
-    const history = useHistory() 
     const deletePlanHandler = async () => {
       await (new PlansService()).deletePlan(planId)
       deletePlan(planId)
