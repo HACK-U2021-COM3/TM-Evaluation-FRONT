@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { PlansService } from "lib/services/PlansService"
 import { planResponseType } from "lib/models/plan"
 
-const usePlans = () => {
+const usePlans = (planId: string = "") => {
     const [plans, setPlans] = useState<planResponseType[] | []>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<Error | null>(null)
@@ -21,6 +21,15 @@ const usePlans = () => {
         }
         void load()
     }, [])
+    useEffect(() => {
+        if(planId.length !== 0) {
+            setLoading(true)
+            setPlans((planList: planResponseType[]) => {
+                return planList.filter(plan => plan.id !== +planId)
+            })
+            setLoading(false)
+        }
+    }, [planId])
     return { plans, loading, error }
 }
 

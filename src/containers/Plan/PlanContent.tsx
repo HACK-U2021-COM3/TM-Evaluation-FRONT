@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import PlanContentComponent from "components/Plan/PlanContent";
 import usePlans from "lib/hooks/usePlans";
@@ -8,8 +8,10 @@ import { PlansService } from "lib/services/PlansService";
 import { useHistory } from "react-router";
 
 const PlanContent: React.VFC = () => {
-    const {plans, loading} = usePlans()
+    const [planId, setPlanId] = useState<string>("")
+    const {plans, loading} = usePlans(planId)
     const history = useHistory()
+
     const createAndSavePlan = async () => {
         await (new PlansService()).createAndSavePlans({
             title: "untitled",
@@ -24,13 +26,16 @@ const PlanContent: React.VFC = () => {
         })
         history.go(0)
     }
+    const deletePlan = (planId: string): void => {
+        setPlanId(planId)
+    } 
     return(
         loading ? <Loader /> : (
         <PlanContentComponent createPlan={createAndSavePlan}>
             <Wrap spacing="20px">
                 {plans.map(plan => (
                     <WrapItem key={plan.id}>
-                        <CardComponent plan={plan} />
+                        <CardComponent deletePlan={deletePlan} plan={plan} />
                     </WrapItem>
                 ))}
             </Wrap>

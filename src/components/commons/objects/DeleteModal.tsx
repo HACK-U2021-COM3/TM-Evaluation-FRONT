@@ -16,7 +16,8 @@ import { useHistory } from "react-router";
 type Props = {
   planId: string,
   isOpen: boolean
-  onClose: () => void
+  onClose: () => void,
+  deletePlan: (planId: string) => void
 }
 
 const DeleteModalComponent: React.FC<Props> = ({
@@ -24,12 +25,13 @@ const DeleteModalComponent: React.FC<Props> = ({
   planId,
   isOpen,
   onClose,
+  deletePlan,
 }) => {
     const history = useHistory() 
     const deletePlanHandler = async () => {
       await (new PlansService()).deletePlan(planId)
+      deletePlan(planId)
       onClose()
-      history.go(0)
     }
     return (
       <>

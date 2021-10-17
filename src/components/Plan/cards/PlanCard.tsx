@@ -15,7 +15,7 @@ import { dateConvert } from 'lib/util/data-convert';
 import {randomPick} from "../../../lib/util/rand-emoji";
 
 
-const PranCard: React.VFC<{plan: planResponseType}> = ({plan}) => {
+const PranCard: React.VFC<{plan: planResponseType, deletePlan: (planId: string) => void}> = ({plan, deletePlan}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 return (
     <Box mb="4" position="relative">
@@ -23,6 +23,7 @@ return (
         planId={plan.id.toString()}
         isOpen={isOpen}
         onClose={onClose}
+        deletePlan={deletePlan}
         >
         <IconButton
         position="absolute"
