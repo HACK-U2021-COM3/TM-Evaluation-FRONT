@@ -9,8 +9,6 @@ const HomeTimelineComponent: React.VFC<{
     routes: measureFixResponseType[],
     points: pointResponseType[],
 }> = ({routes, points}) => {
-    console.log(routes)
-    console.log(points)
     const timelineAfterStyle = {
         content: "''",
         position: "absolute",
@@ -41,8 +39,6 @@ const HomeTimelineComponent: React.VFC<{
     useEffect(() => {
         bodyClick.current = (e: any) => {
             console.log('documentClickHandler')
-            console.log('target', e.target)
-            console.log('icon ref', iconsRef.current)
             if (!!iconsRef.current?.find((item: any) => item.current?.contains(e.target))) return
             if (!!inputRefs.current?.find((item: any) => item.current?.contains(e.target))) return
             setItem(null)

@@ -46,7 +46,7 @@ const HomeLoginContent: React.VFC = () => {
                 ...convertWaipointsToRequestWaipoint
             ]
         }
-        console.log("init", initRequestForm)
+
         initPlanDetailRequest(initRequestForm)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [plan])

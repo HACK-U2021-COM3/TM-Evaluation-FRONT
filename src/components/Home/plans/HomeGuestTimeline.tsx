@@ -66,7 +66,6 @@ const HomeGuestTimelineComponent: React.VFC<{
     useEffect(() => {
         bodyClick.current = (e: any) => {
             console.log('documentClickHandler')
-            console.log('target', e.target)
             if (!!iconsRef.current?.find((item: any) => item.current?.contains(e.target))) return
             if (!!inputRefs.current?.find((item: any) => item.current?.contains(e.target))) return
             setItem(null)

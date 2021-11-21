@@ -27,7 +27,6 @@ export const SearchProvider: React.FC = ({children}) => {
     const handleSearch = (e: any) :void => {
         if(e.key === "Enter") {
             e.preventDefault()
-            console.log(e.target.value)
             setSearchQuery(`${keyword} ${e.target.value}`)
           }
     }

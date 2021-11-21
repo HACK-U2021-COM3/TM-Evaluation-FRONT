@@ -22,7 +22,6 @@ const TitleInput: React.VFC<{
     useEffect(() => {
         bodyClick.current = (e: any) => {
             console.log('documentClickHandler')
-            console.log('target', e.target)
             if (inputRef.current?.contains(e.target)) return
             if (iconRef.current?.contains(e.target)) return
             setIsEditMode(false)

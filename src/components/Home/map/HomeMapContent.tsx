@@ -102,7 +102,7 @@ const HomeMapContentComponent: React.VFC<{
                 map.data.addListener("click", (e: any) => {
                     map.data.revertStyle()
                     map.data.overrideStyle(e.feature, {strokeWeight: 2, fillColor: "#faa"})
-                    setKeywordHandler(`${e.feature.i.N03_001 ?? ""} ${e.feature.i.N03_002 ?? ""} ${e.feature.i.N03_003 ?? ""} ${e.feature.i.N03_004 ?? ""}`)
+                    setKeywordHandler(`${e.feature.h?.N03_001 ?? ""} ${e.feature.h?.N03_002 ?? ""} ${e.feature.h?.N03_003 ?? ""} ${e.feature.h?.N03_004 ?? ""}`)
                 })
 
             }}
